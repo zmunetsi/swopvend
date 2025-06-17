@@ -1,0 +1,25 @@
+
+:root {
+  --primary-color: #0E1A35;
+  --primary-color-hover: #008CA3; /* darker accent of cyan */
+  --text-color: #0E1A35; /* charcoal from brand guidelines */
+  --font-family: 'Inter Tight', sans-serif;
+  --p-surface-0 : #ffffff !important;/* white */
+  --p-surface-900: #000000; /* light gray */
+  --p-surface-primary: #0E1A35; /* charcoal */
+  --p-surface-secondary: #008CA3; /* cyan */
+  --p-primary-color: #0E1A35; /* charcoal */
+}
+
+/* Apply font if not handled elsewhere */
+body {
+  font-family: 'Inter Tight', sans-serif;
+  color: var(--text-color);
+  background-color: #ffffff;
+}
+
+.p-dataview .p-dataview-content {
+  color: var(--text-color);
+}
+
+
