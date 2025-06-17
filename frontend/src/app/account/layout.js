@@ -1,20 +1,19 @@
 'use client';
 
-import Link from 'next/link';
+import { useRef, useState, useEffect, useContext } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { StyleClass } from 'primereact/styleclass';
 import { Ripple } from 'primereact/ripple';
-import { useRef, useState, useEffect, useContext } from 'react';
-import { classNames } from 'primereact/utils';
 import { logout } from '@/services/authService';
 import { AuthContext } from '@/context/authContext';
 import { redirect } from 'next/navigation'
 
 export default function AccountLayout({ children }) {
-  const pathname = usePathname();
+
   const router = useRouter();
+   const { user } = useContext(AuthContext);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [form, setForm] = useState({ searchQuery: '' });
   const [error, setError] = useState('');
@@ -24,15 +23,8 @@ export default function AccountLayout({ children }) {
   const btnRef21 = useRef(null);
   const btnRef22 = useRef(null);
   const btnRef23 = useRef(null);
-  const { user } = useContext(AuthContext);
+ 
 
-  
-  // redirect if no user
-  if (!user??id) {
-    redirect('/login');
-    return null;
-  }
- console.log( "outside",  user )
   useEffect(() => {
     console.log( "inside",  user )
     // // Only run on the client
@@ -52,6 +44,13 @@ export default function AccountLayout({ children }) {
   //   return null;
   // }
 
+    // redirect if no user
+  if (!user??id) {
+    redirect('/login');
+    return null;
+  }
+ console.log( "outside",  user )
+ 
   const handleChange = (e) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };

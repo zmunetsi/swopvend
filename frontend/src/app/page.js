@@ -69,23 +69,23 @@ export default function HomePage() {
           </div>
           <div className="flex-1">
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-              <img src="assets/images/home/avatar-f-1.png" className="w-5rem" />
+              <img src="assets/images/home/avatar-f-1.png" className="w-5rem" alt="Jane Cooper" />
               <div className="ml-4 mt-4 md:mt-0">
-                <p className="mt-0 mb-3 line-height-3">No matter where you go, Blocks is the coolest, most happening thing around! We can't understand how we've been living without Blocks.</p>
+                <p className="mt-0 mb-3 line-height-3">No matter where you go, Blocks is the coolest, most happening thing around! We can&apos;t understand how we&apos;ve been living without Blocks.</p>
                 <div className="text-primary font-medium mb-1 text-right">Jane Cooper</div>
                 <div className="text-600 text-sm text-right">Belton, Inc</div>
               </div>
             </div>
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-              <img src="assets/images/home/avatar-m-5.png" className="w-5rem" />
+              <img src="assets/images/home/avatar-m-5.png" className="w-5rem" alt="Floyd Miles" />
               <div className="ml-4 mt-4 md:mt-0">
-                <p className="mt-0 mb-3 line-height-3">We can't understand how we've been living without Blocks. Blocks impressed me on multiple levels. It's really wonderful.</p>
+                <p className="mt-0 mb-3 line-height-3">We can&apos;t understand how we&apos;ve been living without Blocks. Blocks impressed me on multiple levels. It&apos;s really wonderful.</p>
                 <div className="text-primary font-medium mb-1 text-right">Floyd Miles</div>
                 <div className="text-600 text-sm text-right">Belton, Inc</div>
               </div>
             </div>
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start" style={{ borderRadius: '10px' }}>
-              <img src="assets/images/home/avatar-f-2.png" className="w-5rem" />
+              <img src="assets/images/home/avatar-f-2.png" className="w-5rem" alt="Leslie Alexander" />
               <div className="ml-4 mt-4 md:mt-0">
                 <p className="mt-0 mb-3 line-height-3">Just what I was looking for. I would like to personally thank you for your outstanding product.</p>
                 <div className="text-primary font-medium mb-1 text-right">Leslie Alexander</div>

@@ -1,17 +1,17 @@
+import { useState } from "react";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { Dropdown } from "primereact/dropdown";
-import { useState } from "react";
 import { classNames } from 'primereact/utils';
 import { useRouter } from "next/navigation";
 import { CldImage } from 'next-cloudinary';
 
 export default function ItemDetail({ item, showSwapButton = true }) {
-  if (!item) return null;
-  const router = useRouter();
 
+  const router = useRouter();
   const [selectedImageIndex1, setSelectedImageIndex1] = useState(0);
+  if (!item) return null;
   const images1 = item.extra_images || [
     'assets/images/blocks/ecommerce/productoverview1.jpg',
     'assets/images/blocks/ecommerce/productoverview2.jpg',
@@ -32,19 +32,26 @@ export default function ItemDetail({ item, showSwapButton = true }) {
             className="object-cover mb-5"
           />
           <div className="grid">
-            {
-              images1.map((image, i) => {
-                return <div className='col-3' >
+            {images1.map((image, i) => {
+              const src = image.image_public_id || image;
+              const alt = image.image_public_id || `extra-image-${i}`;
+              return (
+                <div className='col-3' key={src}>
                   <CldImage
                     width={150}
                     height={150}
                     crop="fit"
-                    src={image.image_public_id}
-                    alt={image.image_public_id}
-                    className={classNames('object-cover cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150', { 'border-primary': selectedImageIndex1 === i })}
-                    onClick={() => setSelectedImageIndex1(i)} /> </div>
-              })
-            }
+                    src={src}
+                    alt={alt}
+                    className={classNames(
+                      'object-cover cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150',
+                      { 'border-primary': selectedImageIndex1 === i }
+                    )}
+                    onClick={() => setSelectedImageIndex1(i)}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="col-12 lg:col-6 py-3 lg:pl-6">
