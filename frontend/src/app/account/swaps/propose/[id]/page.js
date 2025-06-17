@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import ItemService from '@/services/items';
-import TraderService from '@/services/trader';
+import { fetchUserItems, fetchItemDetail } from '@/services/itemService';
 import SwapForm from '@/components/swap/SwapForm';
 
 export default function ProposeSwapPage() {
@@ -16,8 +15,8 @@ export default function ProposeSwapPage() {
     const fetchData = async () => {
       try {
         const [itemRes, userItemsRes] = await Promise.all([
-          ItemService.getItemById(itemId),
-          TraderService.getMyItems(),
+          fetchItemDetail(itemId),
+          fetchUserItems(),
         ]);
         setTargetItem(itemRes);
         setUserItems(userItemsRes);
