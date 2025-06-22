@@ -155,7 +155,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),  '/app/static']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
@@ -169,7 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'trader.Trader'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
-    "https://your-production-domain.com",
+    "https://swopvend.vercel.app",
 ]
 # If you use environment variables, e.g.:
 # CORS_ALLOWED_ORIGINS = [ os.environ['NEXT_PUBLIC_FRONTEND_URL'] ]
