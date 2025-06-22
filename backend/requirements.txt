@@ -5,3 +5,13 @@ dj-database-url
 psycopg2-binary
 whitenoise
 python-dotenv
+celery
+redis
+django-environ
+cloudinary
+django-cloudinary-storage
+anymail
+drf-spectacular
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
