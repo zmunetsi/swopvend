@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 import environ  # new
+import dj_database_url
 
 env = environ.Env(
     DEBUG=(bool, False) # you can set defaults
@@ -96,21 +97,28 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-        "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "swopvend",
-        "USER": "postgres",
-        "PASSWORD": "Akanakashe@1",
-        "HOST": "localhost",
-        "PORT": "5433",
-    }
-}
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # # }
+#     #     "default": {
+#     #     "ENGINE": "django.db.backends.postgresql",
+#     #     "NAME": "swopvend",
+#     #     "USER": "postgres",
+#     #     "PASSWORD": "Akanakashe@1",
+#     #     "HOST": "localhost",
+#     #     "PORT": "5433",
+#     # }
+# }
 
+DATABASES = {
+    "default": dj_database_url.config(
+        default=env("DATABASE_URL", default="sqlite:///db.sqlite3"),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
