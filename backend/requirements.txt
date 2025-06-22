@@ -10,7 +10,7 @@ redis
 django-environ
 cloudinary
 django-cloudinary-storage
-anymail
+django-anymail
 drf-spectacular
 django-cors-headers
 djangorestframework
