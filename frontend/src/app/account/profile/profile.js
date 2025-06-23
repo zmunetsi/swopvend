@@ -1,61 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
 import { InputSwitch } from 'primereact/inputswitch';
 import countryList from 'country-list';
-import { fetchCurrentUser, updateProfile } from '@/services/authService';
+import { updateProfile } from '@/services/authService';
+import { ServerAuthContext } from '@/context/ServerAuthContext';
 
 export default function ProfilePage() {
+  const user = useContext(ServerAuthContext);
 
   const [form, setForm] = useState({
-    username: '', // fetched from API
-    first_name: '',
-    last_name: '',
-    email: '', // fetched from API
-    city: '',
-    postcode: '',
-    country: '', // should be a string, not an object, for Dropdown value
-    phone: '',
-    profile_image: ''
+    username: user?.username || '',
+    first_name: user?.first_name || '',
+    last_name: user?.last_name || '',
+    email: user?.email || '',
+    city: user?.city || '',
+    postcode: user?.postcode || '',
+    country: user?.country || '',
+    phone: user?.phone || '',
+    profile_image: user?.profile_image || ''
   });
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
-  const [country, setCountry] = useState(null);
-  const [ display_name, setDisplayName ] = useState('');
+  const [display_name, setDisplayName] = useState(user?.first_name || user?.username || '');
   const [value, setValue] = useState(false);
-  const countries = countryList.getNames();
 
-  // 1) Fetch current trader on mount
+  const countries = countryList.getNames().map(name => ({ name, code: name }));
+
   useEffect(() => {
-    let isMounted = true;
-    const loadProfile = async () => {
-      try {
-        const user = await fetchCurrentUser();
-        if (isMounted) {
-          setForm(user);
-          setDisplayName(user.first_name || user.username);
-          setLoading(false);
-        }
-      } catch (err) {
-        console.error('Failed to fetch profile:', err);
-        if (isMounted) {
-          setError('Failed to load profile.');
-          setLoading(false);
-        }
-      }
-    };
-    loadProfile();
-    return () => {
-      isMounted = false; // Cleanup to avoid setting state on unmounted component
-    };
-  }, []);
-
+    setDisplayName(form.first_name || form.username);
+  }, [form.first_name, form.username]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,11 +59,9 @@ export default function ProfilePage() {
       if (form.profile_image) {
         payload.append('profile_image', form.profile_image);
       }
-
-      // Tell axios this is multipart/form-data
       const updatedUser = await updateProfile(payload);
       setForm(updatedUser);
-      // Optionally show a “Saved!” message or refetch
+      setDisplayName(updatedUser.first_name || updatedUser.username);
     } catch (err) {
       console.error(err);
       setError('Failed to save profile.');
@@ -94,7 +70,7 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading) {
+  if (!user) {
     return <div className="text-center p-8">Loading profile…</div>;
   }
 
@@ -104,7 +80,7 @@ export default function ProfilePage() {
         <div>
           <div className="text-900 font-medium text-xl mb-3">Profile</div>
           <div className="font-medium mb-4">
-            Welcome back, <span className="font-bold">{ display_name }!</span> 👋
+            Welcome back, <span className="font-bold">{display_name}!</span> 👋
           </div>
 
           <div className="surface-card p-4 shadow-2 border-round">
@@ -152,7 +128,7 @@ export default function ProfilePage() {
               <div className="field mb-4 col-12 md:col-6">
                 <label htmlFor="avatar" className="font-medium">Avatar</label>
                 <div className="flex align-items-center">
-                  <img src="/assets/images/avatars/swopvend_placeholder_avatar.png" alt="avatar-f-4" className="mr-4" />
+                  <img src={form.profile_image || '/assets/images/avatars/swopvend_placeholder_avatar.png'} alt="avatar-f-4" className="mr-4" />
                   <FileUpload
                     mode="basic"
                     name="avatar"
@@ -195,8 +171,10 @@ export default function ProfilePage() {
                   name="country"
                   onChange={handleCountry}
                   optionLabel="name"
-                  filter filterBy="name" showClear placeholder="Select a Country" itemTemplate={(country) => <div className="flex align-items-center">
-                    <div>{country}</div>
+                  optionValue="name"
+                  filter filterBy="name" showClear placeholder="Select a Country"
+                  itemTemplate={(country) => <div className="flex align-items-center">
+                    <div>{country.name}</div>
                   </div>} />
               </div>
               <div className="surface-100 mb-3 col-12" style={{ height: '2px' }}></div>
@@ -210,9 +188,10 @@ export default function ProfilePage() {
               <div className="surface-100 mb-3 col-12" style={{ height: '2px' }}></div>
               <div className="col-12">
                 <Button
-                  label="Save Changes"
+                  label={saving ? "Saving..." : "Save Changes"}
                   className="w-auto mt-3"
                   onClick={handleSave}
+                  disabled={saving}
                 />
               </div>
             </div>

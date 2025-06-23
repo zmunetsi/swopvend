@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import TraderViewSet, SignUpView, TokenObtainView
+from .views import TraderViewSet, SignUpView, LogoutView, TokenObtainView
 from django.urls import path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -15,5 +15,5 @@ urlpatterns += [
     path('auth/signup/', SignUpView.as_view(), name='auth-signup'),
     path('auth/token/',    TokenObtainView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('auth/logout/',      TokenBlacklistView.as_view(), name='token_blacklist'),
+    path('auth/logout/', LogoutView.as_view(), name='auth_logout'),
 ]

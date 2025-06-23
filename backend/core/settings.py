@@ -46,9 +46,10 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'trader.authentication.CookieJWTAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
@@ -114,11 +115,19 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # }
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=env("DATABASE_URL", default="sqlite:///db.sqlite3"),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    # "default": dj_database_url.config(
+    #     default=env("DATABASE_URL", default="sqlite:///db.sqlite3"),
+    #     conn_max_age=600,
+    #     ssl_require=True
+    # )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "swopvend",
+        "USER": "postgres",
+        "PASSWORD": "Akanakashe@1",
+        "HOST": "localhost",
+        "PORT": "5433",
+    }
 }
 
 # Password validation
@@ -169,6 +178,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'trader.Trader'
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "https://swopvend.vercel.app",

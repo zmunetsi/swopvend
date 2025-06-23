@@ -5,27 +5,22 @@ import { Button } from 'primereact/button';
 import Logo from './Logo';
 import { Ripple } from 'primereact/ripple';
 import { StyleClass } from 'primereact/styleclass';
-import { useRef, useContext } from 'react';
-import { AuthContext } from '@/context/authContext';
+import { useRef } from 'react';
 import { InputText } from 'primereact/inputtext';
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
+import { useRouter } from 'next/navigation';
+import { logout } from '@/services/authService';
 
-import { Badge } from 'primereact/badge';
-
-export default function Navbar() {
-    // Define the missing refs
-
-    const rootBtnRef1 = useRef(null);
-    const btnRef3 = useRef(null);
+export default function Navbar({ user, setUser, loading }) {
+    // Only keep refs that are actually used
     const btnRef1 = useRef(null);
-    const btnRef2 = useRef(null);
     const btnRef4 = useRef(null);
-    const btnRef5 = useRef(null);
-    const btnRef6 = useRef(null);
-    const btnRef7 = useRef(null);
-    const { user, loading } = useContext(AuthContext);
+    const router = useRouter();
 
+    const handleLogout = async () => {
+        await logout();
+        if (setUser) setUser(null);
+        router.push('/login');
+    };
 
     return (
         <div className="p-4">
@@ -90,70 +85,59 @@ export default function Navbar() {
                             </StyleClass>
 
                             <div className="hidden border-round surface-overlay p-3 shadow-2 absolute right-0 top-100 z-1 w-15rem origin-top">
-                                {
-                                    user && !user.username && (
-                                        <ul className="list-none p-0 m-0">
-                                            <li>
-                                                <Link
-                                                    href="/login"
-                                                    className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                                    <span>Login</span>
-                                                    <Ripple />
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link
-                                                    href="/signup"
-                                                    className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                                    <span>Signup</span>
-                                                    <Ripple />
-                                                </Link>
-                                            </li>
-                                            <li>
-                                            </li>
-                                        </ul>
-                                    )
-                                }
-                                {
-                                    user && user.username && (
-                                        <ul className="list-none p-0 m-0">
-                                            <li>
-                                                <Link
-                                                    href="/account/"
-                                                    className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                                    <span>Account</span>
-                                                    <Ripple />
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link
-                                                    href="/account/profile"
-                                                    className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                                    <span>Profile</span>
-                                                    <Ripple />
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link
-                                                    href="/account/swaps"
-                                                    className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                                    <span>Manage listings</span>
-                                                    <Ripple />
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link
-                                                    href="/signup"
-                                                    className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                                    <span>Logout</span>
-                                                    <Ripple />
-                                                </Link>
-                                            </li>
-                                            <li>
-                                            </li>
-                                        </ul>
-                                    )
-                                }
+                                {loading ? (
+                                    <div className="p-3 text-center text-gray-500">Loading...</div>
+                                ) : user && user.username ? (
+                                    <ul className="list-none p-0 m-0">
+                                        {/* Authenticated menu */}
+                                        <li>
+                                            <Link href="/account/" className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                                <span>Account</span>
+                                                <Ripple />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                href="/account/profile"
+                                                className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                                <span>Profile</span>
+                                                <Ripple />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                href="/account/swaps"
+                                                className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                                <span>Manage listings</span>
+                                                <Ripple />
+                                            </Link>
+                                        </li>
+                                        <a
+                                            onClick={handleLogout}
+                                            className="p-ripple p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline"
+                                            style={{ cursor: 'pointer' }}
+                                        >
+                                            <span>Logout</span>
+                                            <Ripple />
+                                        </a>
+                                    </ul>
+                                ) : (
+                                    <ul className="list-none p-0 m-0">
+                                        {/* Unauthenticated menu */}
+                                        <li>
+                                            <Link href="/login" className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                                <span>Login</span>
+                                                <Ripple />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/signup" className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                                <span>Signup</span>
+                                                <Ripple />
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                )}
                             </div>
                         </li>
                     </ul>

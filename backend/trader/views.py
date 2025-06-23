@@ -13,6 +13,20 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class TokenObtainView(TokenObtainPairView):
     serializer_class = EmailOrUsernameTokenObtainPairSerializer
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == 200 and 'access' in response.data:
+            access = response.data['access']
+            # Set the access token as an HTTP-only cookie
+            response.set_cookie(
+                key='access_token',
+                value=access,
+                httponly=True,
+                secure=False,  # Set to True in production!
+                samesite='Lax',  # Or 'Strict' if you prefer
+                path='/'
+            )
+        return response
 
 class TraderViewSet(viewsets.ModelViewSet):
     """
@@ -65,3 +79,18 @@ class SignUpView(CreateAPIView):
             'access': str(refresh.access_token),
             'user': serializer.data
         }, status=status.HTTP_201_CREATED)
+
+class LogoutView(APIView):
+    def post(self, request):
+        refresh_token = request.COOKIES.get('refresh_token')
+        if refresh_token:
+            try:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+            except Exception:
+                pass  # Ignore if token is invalid or already blacklisted
+
+        response = Response({"detail": "Logged out"}, status=status.HTTP_200_OK)
+        response.delete_cookie('access_token')
+        response.delete_cookie('refresh_token')
+        return response

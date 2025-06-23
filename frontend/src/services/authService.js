@@ -4,29 +4,30 @@ import { setTokens, clearTokens } from "@/utils/auth";
 
 export const signup = async (payload) => {
   const response = await api.post("/auth/signup/", payload);
-  // Automatically log in after successful signup
   setTokens(response.data);
   return response.data;
 };
 
 export const login = async (credentials) => {
-  const response = await api.post("/auth/token/", credentials);
-  setTokens(response.data);
+  const response = await api.post("/auth/token/", credentials, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
+// Improved logout: always call backend logout endpoint, clear tokens, and ignore localStorage
 export const logout = async () => {
-  const refresh = localStorage.getItem("refresh_token");
   try {
-    await api.post("/auth/logout/", { refresh });
+    await api.post("/auth/logout/", {}, { withCredentials: true });
   } catch (error) {
     console.warn("Logout error:", error.response?.data || error.message);
   }
   clearTokens();
 };
 
+// Improved fetchCurrentUser: always send credentials (cookie)
 export const fetchCurrentUser = async () => {
-  const response = await api.get("/traders/me/");
+  const response = await api.get("/traders/me/", { withCredentials: true });
   return response.data;
 };
 
@@ -35,7 +36,7 @@ export const updateProfile = async (data) => {
     headers: {
       "Content-Type": "multipart/form-data",
     },
-    
+    withCredentials: true,
   });
   return response.data;
-}
+};
