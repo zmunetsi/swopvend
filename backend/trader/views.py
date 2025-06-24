@@ -33,7 +33,7 @@ class TokenObtainView(TokenObtainPairView):
                     key='refresh_token',
                     value=refresh,
                     httponly=True,
-                    secure=False,
+                    secure=True,
                     samesite='None',
                     path='/'
                 )
