@@ -26,6 +26,17 @@ class TokenObtainView(TokenObtainPairView):
                 samesite='None',  # Or 'Strict' if you prefer
                 path='/'
             )
+            # Optionally set refresh token as cookie
+            if 'refresh' in response.data:
+                refresh = response.data['refresh']
+                response.set_cookie(
+                    key='refresh_token',
+                    value=refresh,
+                    httponly=True,
+                    secure=False,
+                    samesite='None',
+                    path='/'
+                )
         return response
 
 class TraderViewSet(viewsets.ModelViewSet):
@@ -91,6 +102,15 @@ class LogoutView(APIView):
                 pass  # Ignore if token is invalid or already blacklisted
 
         response = Response({"detail": "Logged out"}, status=status.HTTP_200_OK)
-        response.delete_cookie('access_token')
-        response.delete_cookie('refresh_token')
+        # Use the same attributes as set_cookie to ensure deletion works
+        response.delete_cookie(
+            key='access_token',
+            samesite='None',
+            path='/'
+        )
+        response.delete_cookie(
+            key='refresh_token',
+            samesite='None',
+            path='/'
+        )
         return response
