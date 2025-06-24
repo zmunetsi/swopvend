@@ -23,7 +23,7 @@ class TokenObtainView(TokenObtainPairView):
                 value=access,
                 httponly=True,
                 secure=True,  # Set to True in production!
-                samesite='Lax',  # Or 'Strict' if you prefer
+                samesite='None',  # Or 'Strict' if you prefer
                 path='/'
             )
         return response
