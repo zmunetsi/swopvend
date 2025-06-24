@@ -115,19 +115,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # }
 
 DATABASES = {
-    # "default": dj_database_url.config(
-    #     default=env("DATABASE_URL", default="sqlite:///db.sqlite3"),
-    #     conn_max_age=600,
-    #     ssl_require=True
-    # )
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "swopvend",
-        "USER": "postgres",
-        "PASSWORD": "Akanakashe@1",
-        "HOST": "localhost",
-        "PORT": "5433",
-    }
+    "default": dj_database_url.config(
+        default=env("DATABASE_URL", default="sqlite:///db.sqlite3"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 # Password validation

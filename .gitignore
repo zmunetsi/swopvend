@@ -3,3 +3,4 @@ myvenv
 designs/
 product development/
 .env
+backend/core/settings_local.py
