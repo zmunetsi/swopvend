@@ -22,7 +22,7 @@ class TokenObtainView(TokenObtainPairView):
                 key='access_token',
                 value=access,
                 httponly=True,
-                secure=False,  # Set to True in production!
+                secure=True,  # Set to True in production!
                 samesite='Lax',  # Or 'Strict' if you prefer
                 path='/'
             )
