@@ -24,7 +24,8 @@ class TokenObtainView(TokenObtainPairView):
                 httponly=True,
                 secure=True,  # Set to True in production!
                 samesite='None',  # Or 'Strict' if you prefer
-                path='/'
+                path='/',
+                domain='.swopvend.com', 
             )
             # Optionally set refresh token as cookie
             if 'refresh' in response.data:
@@ -35,7 +36,8 @@ class TokenObtainView(TokenObtainPairView):
                     httponly=True,
                     secure=True,
                     samesite='None',
-                    path='/'
+                    path='/',
+                    domain='.swopvend.com', 
                 )
         return response
 

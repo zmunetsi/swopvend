@@ -24,7 +24,7 @@ export default async function AccountLayout({ children }) {
   } catch (e) {
     // Optionally log or handle error
   }
-
+console.log( "myuser", user)
   if (!user || !user.id) {
     redirect('/login');
   }

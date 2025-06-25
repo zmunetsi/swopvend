@@ -174,9 +174,11 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "https://swopvend.vercel.app",
+    "https://swopvend.com",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://swopvend.vercel.app",
+    "https://swopvend.com",
 ]
 # If you use environment variables, e.g.:
 # CORS_ALLOWED_ORIGINS = [ os.environ['NEXT_PUBLIC_FRONTEND_URL'] ]
