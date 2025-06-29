@@ -25,7 +25,7 @@ class TokenObtainView(TokenObtainPairView):
                 secure=True,  # Set to True in production!
                 samesite='None',  # Or 'Strict' if you prefer
                 path='/',
-                domain='.swopvend.com', 
+                domain='swopvend.com', 
             )
             # Optionally set refresh token as cookie
             if 'refresh' in response.data:
@@ -37,7 +37,7 @@ class TokenObtainView(TokenObtainPairView):
                     secure=True,
                     samesite='None',
                     path='/',
-                    domain='.swopvend.com', 
+                    domain='swopvend.com', 
                 )
         return response
 
@@ -108,11 +108,13 @@ class LogoutView(APIView):
         response.delete_cookie(
             key='access_token',
             samesite='None',
-            path='/'
+            path='/',
+            domain='swopvend.com', 
         )
         response.delete_cookie(
             key='refresh_token',
             samesite='None',
-            path='/'
+            path='/',
+            domain='swopvend.com', 
         )
         return response
