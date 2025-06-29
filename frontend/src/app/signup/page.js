@@ -7,11 +7,14 @@ import { Checkbox } from 'primereact/checkbox';
 import { Divider } from 'primereact/divider';
 import { Ripple } from 'primereact/ripple';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signup } from '@/services/authService';
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get('next') || '/account/profile'; // fallback if no referrer
+
   const [form, setForm] = useState({
     username: '',
     email: '',
@@ -40,12 +43,12 @@ export default function SignupPage() {
     try {
       const response = await signup(form);
       if (response) {
-        router.push('/account/profile');
+        window.location.href = next; // full reload for fresh cookies/user state
       }
     } catch (err) {
       setError(
-        err.response?.data?.confirm_password ||
-        err.response?.data?.detail ||
+        err?.response?.data?.confirm_password ||
+        err?.response?.data?.detail ||
         'Signup failed. Please try again.'
       );
     }
@@ -130,6 +133,7 @@ export default function SignupPage() {
               type="submit"
               className="w-full py-3 font-medium" />
           </form>
+          {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
       </div>
     </div>

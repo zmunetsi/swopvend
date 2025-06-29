@@ -5,14 +5,16 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { Divider } from 'primereact/divider';
-import { Carousel } from 'primereact/carousel';
 import { Ripple } from 'primereact/ripple';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { login } from '@/services/authService';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get('next') || '/account/profile'; // fallback if no referrer
+
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,11 +32,9 @@ export default function LoginPage() {
     try {
       const response = await login(form);
       setMessage('Login successful!');
-      console.log('Login response:', response);
-      // Redirect to the home page or dashboard after successful login
-      router.push('/account/profile');
+      // Force full reload for fresh cookies/user state
+      window.location.href = next;
     } catch (err) {
-      console.error(err);
       setError('Invalid username or password');
     } finally {
       setLoading(false);
@@ -99,13 +99,12 @@ export default function LoginPage() {
               <a className="font-medium text-primary hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
             </div>
 
-            <Button type="submit" label="Sign In" className="w-full py-3 font-medium" />
+            <Button type="submit" label="Sign In" className="w-full py-3 font-medium" disabled={loading} />
           </form>
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {message && <p className="text-green-500 mt-4">{message}</p>}
         </div>
       </div>
     </div >
-
   );
 }
