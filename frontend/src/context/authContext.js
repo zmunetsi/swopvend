@@ -1,7 +1,7 @@
 // app/contexts/AuthContext.js
 'use client';
 
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { fetchCurrentUser } from '@/services/authService';
 import { usePathname } from 'next/navigation';
 
@@ -38,4 +38,8 @@ export function AuthProvider({ children, initialUser = null }) {
       {children}
     </AuthContext.Provider>
   );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

@@ -9,6 +9,7 @@ import { InputSwitch } from 'primereact/inputswitch';
 import countryList from 'country-list';
 import { updateProfile } from '@/services/authService';
 import { ServerAuthContext } from '@/context/ServerAuthContext';
+import UserGreeting from '@/components/trader/UserGreeting';
 
 export default function ProfilePage() {
   const user = useContext(ServerAuthContext);
@@ -79,10 +80,7 @@ export default function ProfilePage() {
       <div className="flex flex-column flex-auto">
         <div>
           <div className="text-900 font-medium text-xl mb-3">Profile</div>
-          <div className="font-medium mb-4">
-            Welcome back, <span className="font-bold">{display_name}!</span> 👋
-          </div>
-
+          <UserGreeting user={user} />
           <div className="surface-card p-4 shadow-2 border-round">
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <div className="grid formgrid p-fluid">
