@@ -1,10 +1,8 @@
 // src/services/authService.js
 import api from "@/utils/api";
-import { setTokens, clearTokens } from "@/utils/auth";
 
 export const signup = async (payload) => {
   const response = await api.post("/auth/signup/", payload);
-  setTokens(response.data);
   return response.data;
 };
 
@@ -22,7 +20,6 @@ export const logout = async () => {
   } catch (error) {
     console.warn("Logout error:", error.response?.data || error.message);
   }
-  clearTokens();
 };
 
 // Improved fetchCurrentUser: always send credentials (cookie)
