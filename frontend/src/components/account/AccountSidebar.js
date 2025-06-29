@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { logout } from '@/services/authService';
 import { Ripple } from 'primereact/ripple';
 import { StyleClass } from 'primereact/styleclass';
@@ -10,10 +10,11 @@ import Link from 'next/link';
 export default function AccountSidebar() {
   const btnRef20 = useRef(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await logout();
-      window.location.href = `/login?next=${encodeURIComponent(pathname)}`;
+    window.location.href = `/login?next=${encodeURIComponent(pathname)}`;
   };
 
   return (
