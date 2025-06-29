@@ -88,7 +88,6 @@ class SignUpView(CreateAPIView):
     """
     serializer_class = SignUpSerializer
     permission_classes = []  # allow any
-    
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -97,12 +96,34 @@ class SignUpView(CreateAPIView):
         
         # Generate tokens
         refresh = RefreshToken.for_user(user)
-        
-        return Response({
+        access = refresh.access_token
+
+        response = Response({
             'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'access': str(access),
             'user': serializer.data
         }, status=status.HTTP_201_CREATED)
+
+        # Set cookies for access and refresh tokens (match your login view)
+        response.set_cookie(
+            key='access_token',
+            value=str(access),
+            httponly=True,
+            secure=True,
+            samesite='None',
+            path='/',
+            domain='swopvend.com',  # Remove or make conditional for local dev if needed
+        )
+        response.set_cookie(
+            key='refresh_token',
+            value=str(refresh),
+            httponly=True,
+            secure=True,
+            samesite='None',
+            path='/',
+            domain='swopvend.com',  # Remove or make conditional for local dev if needed
+        )
+        return response
 
 class LogoutView(APIView):
     def post(self, request):
