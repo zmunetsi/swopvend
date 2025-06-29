@@ -7,7 +7,7 @@ import { Ripple } from 'primereact/ripple';
 import { StyleClass } from 'primereact/styleclass';
 import { useRef } from 'react';
 import { InputText } from 'primereact/inputtext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { logout } from '@/services/authService';
 
 export default function Navbar({ user, setUser, loading }) {
@@ -15,6 +15,7 @@ export default function Navbar({ user, setUser, loading }) {
     const btnRef1 = useRef(null);
     const btnRef4 = useRef(null);
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleLogout = async () => {
         await logout();
@@ -125,13 +126,19 @@ export default function Navbar({ user, setUser, loading }) {
                                     <ul className="list-none p-0 m-0">
                                         {/* Unauthenticated menu */}
                                         <li>
-                                            <Link href="/login" className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                            <Link
+                                                href={`/login?next=${encodeURIComponent(pathname)}`}
+                                                className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline"
+                                            >
                                                 <span>Login</span>
                                                 <Ripple />
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/signup" className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
+                                            <Link
+                                                href={`/signup?next=${encodeURIComponent(pathname)}`}
+                                                className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-sm text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline"
+                                            >
                                                 <span>Signup</span>
                                                 <Ripple />
                                             </Link>
