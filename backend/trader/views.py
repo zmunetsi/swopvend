@@ -10,10 +10,21 @@ from rest_framework import viewsets, permissions
 from rest_framework.generics import CreateAPIView
 from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
 class TokenObtainView(TokenObtainPairView):
     serializer_class = EmailOrUsernameTokenObtainPairSerializer
+
     def post(self, request, *args, **kwargs):
+        # Blacklist all outstanding tokens for this user before issuing new ones
+        if request.user.is_authenticated:
+            tokens = OutstandingToken.objects.filter(user=request.user)
+            for token in tokens:
+                try:
+                    BlacklistedToken.objects.get_or_create(token=token)
+                except Exception:
+                    pass  # Already blacklisted or error
+
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200 and 'access' in response.data:
             access = response.data['access']
