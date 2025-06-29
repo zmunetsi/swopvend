@@ -20,7 +20,7 @@ export default function Navbar({ user, setUser, loading }) {
     const handleLogout = async () => {
         await logout();
         if (setUser) setUser(null);
-        window.location.href = '/login';
+        window.location.href = `/login?next=${encodeURIComponent(pathname)}`;
     };
 
     return (

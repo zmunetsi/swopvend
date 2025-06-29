@@ -13,7 +13,7 @@ export default function AccountSidebar() {
 
   const handleLogout = async () => {
     await logout();
-     window.location.href = '/login';
+      window.location.href = `/login?next=${encodeURIComponent(pathname)}`;
   };
 
   return (
