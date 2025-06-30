@@ -32,9 +32,9 @@ console.log( "myuser", user)
   return (
     <ServerAuthProvider user={user}>
       <div className="min-h-screen flex relative lg:static surface-ground">
-        <AccountSidebar />
+        <AccountSidebar  user={user}/>
         <div className="min-h-screen flex flex-column relative flex-auto">
-          <AccountNavbar />
+          <AccountNavbar  user={user} />
           <div className="p-5 flex flex-column flex-auto">
             {children}
           </div>

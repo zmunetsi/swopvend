@@ -7,7 +7,7 @@ import { StyleClass } from 'primereact/styleclass';
 import { useRef } from 'react';
 import Link from 'next/link';
 
-export default function AccountSidebar() {
+export default function AccountSidebar({ user }) {
   const btnRef20 = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -16,6 +16,12 @@ export default function AccountSidebar() {
     await logout();
     window.location.href = `/login?next=${encodeURIComponent(pathname)}`;
   };
+
+  // Use user profile image or fallback
+  const profileImage =
+    user?.profile_image ||
+    '/assets/images/avatars/swopvend_placeholder_avatar.png';
+  const displayName = user?.first_name || user?.username || 'User';
 
   return (
     <div id="app-sidebar-5" className="bg-primary hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 border-gray-800 w-18rem lg:w-7rem select-none">
@@ -47,11 +53,15 @@ export default function AccountSidebar() {
             </li>
             <li className="relative">
               <StyleClass nodeRef={btnRef20} selector="@next" enterClassName="hidden" leaveToClassName="hidden" hideOnOutsideClick>
-                <a ref={btnRef20} className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full">
+                <button
+                  ref={btnRef20}
+                  type="button"
+                  className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full bg-transparent border-none"
+                >
                   <span className="font-medium inline text-base lg:text-xs lg:block">Listings</span>
                   <i className="pi pi-chevron-down ml-auto lg:hidden"></i>
                   <Ripple />
-                </a>
+                </button>
               </StyleClass>
               <ul className="list-none pl-3 pr-0 py-0 lg:p-3 m-0 lg:ml-3 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out static lg:absolute left-100 top-0 z-1 bg-primary shadow-none lg:shadow-2 w-full lg:w-15rem">
                 <li>
@@ -97,23 +107,33 @@ export default function AccountSidebar() {
               </Link>
             </li>
             <li>
-              <a
+              <button
                 onClick={handleLogout}
-                className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full">
+                type="button"
+                className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full bg-transparent border-none"
+              >
                 <i className="pi pi-sign-out mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block">Logout</span>
                 <Ripple />
-              </a>
+              </button>
             </li>
           </ul>
         </div>
         <div className="mt-auto mx-3">
-          <hr className="mb-3  border-top-1 border-gray-800" />
-          <a className="p-ripple my-3 flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full">
-            <img src="/assets/images/avatars/swopvend_placeholder_avatar.png" alt="swopvend_placeholder_avatar" className="mr-2 lg:mr-0" style={{ width: '32px', height: '32px' }} />
-            <span className="font-medium inline lg:hidden">Amy Elsner</span>
+          <hr className="mb-3 border-top-1 border-gray-800" />
+          <Link
+            href="/account/profile"
+            className="p-ripple my-3 flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+          >
+            <img
+              src={profileImage}
+              alt="profile-avatar"
+              className="mr-2 lg:mr-0"
+              style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+            />
+            <span className="font-medium inline lg:hidden">{displayName}</span>
             <Ripple />
-          </a>
+          </Link>
         </div>
       </div>
     </div>

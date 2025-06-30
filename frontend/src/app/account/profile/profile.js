@@ -5,6 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
 import { Dropdown } from 'primereact/dropdown';
+import { Message } from 'primereact/message';
 import countryList from 'country-list';
 import { updateProfile } from '@/services/authService';
 import { ServerAuthContext } from '@/context/ServerAuthContext';
@@ -26,6 +27,7 @@ export default function ProfilePage() {
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [display_name, setDisplayName] = useState(user?.first_name || user?.username || '');
   const [imagePreview, setImagePreview] = useState(
@@ -60,6 +62,14 @@ export default function ProfilePage() {
     };
   }, [objectUrl]);
 
+  // Auto-hide success message after 4 seconds
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(''), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(f => ({ ...f, [name]: value }));
@@ -85,6 +95,7 @@ export default function ProfilePage() {
     if (e) e.preventDefault();
     setSaving(true);
     setError('');
+    setSuccess('');
     setValidationErrors({});
 
     // Validation
@@ -116,6 +127,7 @@ export default function ProfilePage() {
       setDisplayName(updatedUser.first_name || updatedUser.username);
       setError('');
       setValidationErrors({});
+      setSuccess('Profile updated successfully!');
       // Update preview if backend returns a new image URL
       if (updatedUser.profile_image) {
         setImagePreview(updatedUser.profile_image);
@@ -143,7 +155,8 @@ export default function ProfilePage() {
           <div className="text-900 font-medium text-xl mb-3">Profile</div>
           <UserGreeting user={user} />
           <div className="surface-card p-4 shadow-2 border-round">
-            {error && <p className="text-red-500 mb-4">{error}</p>}
+            {error && <div className="mb-4"><Message severity="error" text={error} /></div>}
+            {success && <div className="mb-4"><Message severity="success" text={success} /></div>}
             <form onSubmit={handleSave}>
               <div className="grid formgrid p-fluid">
                 <div className="field mb-4 col-12 md:col-6">

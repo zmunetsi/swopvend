@@ -5,10 +5,36 @@ import { StyleClass } from 'primereact/styleclass';
 import { Ripple } from 'primereact/ripple';
 import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
+import { Menu } from 'primereact/menu';
 
-export default function AccountNavbar({ form, handleChange }) {
+export default function AccountNavbar({ form, handleChange, user, onLogout }) {
   const btnRef22 = useRef(null);
   const btnRef23 = useRef(null);
+  const menuRef = useRef(null);
+
+  // Use user.profile_image or fallback
+  const profileImage =
+    user?.profile_image ||
+    '/assets/images/avatars/swopvend_placeholder_avatar.png';
+
+  const menuItems = [
+    {
+      label: 'Profile',
+      icon: 'pi pi-user',
+      command: () => window.location.href = '/account/profile'
+    },
+    {
+      label: 'My Items',
+      icon: 'pi pi-box',
+      command: () => window.location.href = '/account/items'
+    },
+    { separator: true },
+    {
+      label: 'Logout',
+      icon: 'pi pi-sign-out',
+      command: onLogout
+    }
+  ];
 
   return (
     <div className="flex justify-content-between align-items-center px-5 surface-section relative lg:static border-bottom-1 border-primary" style={{ height: '100px' }}>
@@ -56,15 +82,26 @@ export default function AccountNavbar({ form, handleChange }) {
           </a>
         </li>
         <li className="border-top-1 surface-border lg:border-top-none">
-          <a className="p-ripple flex p-3 lg:px-3 lg:py-2 align-items-center hover:surface-100 font-medium border-round cursor-pointer
-            transition-duration-150 transition-colors">
-            <img src="/assets/images/avatars/swopvend_placeholder_avatar.png" alt="swopvend-placeholder-avatar" className="mr-3 lg:mr-0" style={{ width: '32px', height: '32px' }} />
-            <div className="block lg:hidden">
-              <div className="text-primary font-medium">Josephine Lillard</div>
-              <span className="text-primary font-medium text-sm">Marketing Specialist</span>
-            </div>
-            <Ripple />
-          </a>
+          <div className="relative">
+            <a
+              className="p-ripple flex p-3 lg:px-3 lg:py-2 align-items-center hover:surface-100 font-medium border-round cursor-pointer transition-duration-150 transition-colors"
+              onClick={e => menuRef.current.toggle(e)}
+              tabIndex={0}
+            >
+              <img
+                src={profileImage}
+                alt="profile-avatar"
+                className="mr-3 lg:mr-0"
+                style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+              />
+              <div className="block lg:hidden">
+                <div className="text-primary font-medium">{user?.first_name || user?.username || 'User'}</div>
+                <span className="text-primary font-medium text-sm">{user?.role || ''}</span>
+              </div>
+              <Ripple />
+            </a>
+            <Menu model={menuItems} popup ref={menuRef} id="profile_menu" />
+          </div>
         </li>
       </ul>
     </div>
