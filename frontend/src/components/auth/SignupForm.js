@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
@@ -9,11 +9,19 @@ import { Message } from 'primereact/message';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signup } from '@/services/authService';
+import { useAuth } from '@/context/authContext'; // or your user context/hook
 
 export default function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get('next') || '/account/profile';
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace('/account/profile');
+    }
+  }, [user, loading, router]);
 
   const [form, setForm] = useState({
     username: '',

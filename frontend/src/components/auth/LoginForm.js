@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
@@ -9,11 +9,13 @@ import { Message } from 'primereact/message';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { login } from '@/services/authService';
+import { useAuth } from '@/context/authContext'; // or your user context/hook
 
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get('next') || '/account/profile';
+  const { user, loading: authLoading } = useAuth();
 
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
@@ -22,6 +24,12 @@ export default function LoginForm() {
   const [checked4, setChecked4] = useState(false);
   const [touched, setTouched] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace('/account/profile');
+    }
+  }, [user, authLoading, router]);
 
   const handleChange = (e) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
