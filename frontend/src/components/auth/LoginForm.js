@@ -26,7 +26,11 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && user) {
+    if (
+      !authLoading &&
+      user &&
+      (user.id || user.username)
+    ) {
       router.replace('/account/profile');
     }
   }, [user, authLoading, router]);

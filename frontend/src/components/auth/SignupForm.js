@@ -18,7 +18,8 @@ export default function SignupForm() {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    if (!loading && user) {
+    // Only redirect if user exists and has a valid id or username
+    if (!loading && user && (user.id || user.username)) {
       router.replace('/account/profile');
     }
   }, [user, loading, router]);
