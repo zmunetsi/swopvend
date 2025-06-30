@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { Divider } from 'primereact/divider';
-import { Ripple } from 'primereact/ripple';
+import { Message } from 'primereact/message';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signup } from '@/services/authService';
@@ -24,24 +24,62 @@ export default function SignupForm() {
     last_name: '',
   });
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [checked4, setChecked4] = useState(false);
+  const [touched, setTouched] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setTouched((t) => ({ ...t, [e.target.name]: true }));
+  };
+
+  const handleBlur = (e) => {
+    setTouched((t) => ({ ...t, [e.target.name]: true }));
+  };
+
+  const validate = () => {
+    const missing = [];
+    if (!form.username) missing.push('username');
+    if (!form.email) missing.push('email');
+    if (!form.password) missing.push('password');
+    if (!form.confirm_password) missing.push('confirm_password');
+    return missing;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setMessage('');
+
+    const missing = validate();
+    if (missing.length > 0) {
+      setTouched((t) => ({
+        ...t,
+        username: true,
+        email: true,
+        password: true,
+        confirm_password: true,
+      }));
+      setError('Please fill in all required fields.');
+      return;
+    }
 
     if (form.password !== form.confirm_password) {
       setError("Passwords don’t match");
+      setTouched((t) => ({
+        ...t,
+        password: true,
+        confirm_password: true,
+      }));
       return;
     }
 
     try {
       const response = await signup(form);
       if (response) {
+        setMessage('Signup successful! Redirecting...');
         window.location.href = next;
       }
     } catch (err) {
@@ -68,21 +106,7 @@ export default function SignupForm() {
               <Button label="Already have an account. Login" icon="pi pi-chevron-right" iconPos="right" className='font-light text-sm text-primary' text />
             </Link>
           </div>
-          <div className="flex justify-content-between">
-            <button className="p-ripple mr-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center">
-              <i className="pi pi-facebook text-primary mr-2"></i>
-              <span>Sign in With Facebook</span>
-              <Ripple />
-            </button>
-            <button className="p-ripple ml-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center">
-              <i className="pi pi-google text-pink-400 mr-2"></i>
-              <span>Sign in With Google</span>
-              <Ripple />
-            </button>
-          </div>
-          <Divider align="center" className="my-4">
-            <span className="text-600 font-normal text-sm">OR</span>
-          </Divider>
+          <Divider align="center" className="my-4" />
           <form onSubmit={handleSubmit} className="w-full">
             <label htmlFor="username" className="block text-primary font-medium mb-2"> Username</label>
             <InputText
@@ -90,8 +114,9 @@ export default function SignupForm() {
               name="username"
               value={form.username}
               onChange={handleChange}
+              onBlur={handleBlur}
               type="text"
-              className="w-full mb-3 p-3"
+              className={`w-full mb-3 p-3${touched.username && !form.username ? ' p-invalid' : ''}`}
             />
             <label htmlFor="email" className="block text-primary font-medium mb-2">Email</label>
             <InputText
@@ -99,25 +124,48 @@ export default function SignupForm() {
               name="email"
               value={form.email}
               onChange={handleChange}
+              onBlur={handleBlur}
               type="text"
-              className="w-full mb-3 p-3"
+              className={`w-full mb-3 p-3${touched.email && !form.email ? ' p-invalid' : ''}`}
             />
             <label htmlFor="password" className="block text-primary font-medium mb-2">Password</label>
-            <InputText
-              id="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              type="password"
-              className="w-full mb-3 p-3" />
+            <div className="p-inputgroup w-full mb-3">
+              <InputText
+                id="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                type={showPassword ? "text" : "password"}
+                className={`w-full p-3${touched.password && !form.password ? ' p-invalid' : ''}`}
+              />
+              <Button
+                type="button"
+                icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
+                className="p-button-primary"
+                onClick={() => setShowPassword((v) => !v)}
+                tabIndex={-1}
+              />
+            </div>
             <label htmlFor="confirmPassword" className="block text-primary font-medium mb-2">Confirm Password</label>
-            <InputText
-              id="confirmPassword"
-              name="confirm_password"
-              value={form.confirm_password}
-              onChange={handleChange}
-              type="password"
-              className="w-full mb-3 p-3" />
+            <div className="p-inputgroup w-full mb-3">
+              <InputText
+                id="confirmPassword"
+                name="confirm_password"
+                value={form.confirm_password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                type={showConfirmPassword ? "text" : "password"}
+                className={`w-full p-3${touched.confirm_password && !form.confirm_password ? ' p-invalid' : ''}`}
+              />
+              <Button
+                type="button"
+                icon={showConfirmPassword ? "pi pi-eye-slash" : "pi pi-eye"}
+                className="p-button-primary"
+                onClick={() => setShowConfirmPassword((v) => !v)}
+                tabIndex={-1}
+              />
+            </div>
 
             <div className="flex align-items-center justify-content-between mb-6">
               <div className="flex align-items-center">
@@ -127,11 +175,12 @@ export default function SignupForm() {
               <a className="font-medium text-primary hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
             </div>
 
-            <Button label="Sign In"
+            <Button label="Create account"
               type="submit"
               className="w-full py-3 font-medium" />
           </form>
-          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {error && <Message severity="error" text={error} className="mt-4" />}
+          {message && <Message severity="success" text={message} className="mt-4" />}
         </div>
       </div>
     </div>

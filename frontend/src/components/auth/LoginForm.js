@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { Divider } from 'primereact/divider';
-import { Ripple } from 'primereact/ripple';
+import { Message } from 'primereact/message';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { login } from '@/services/authService';
@@ -20,21 +20,54 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [checked4, setChecked4] = useState(false);
+  const [touched, setTouched] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setTouched((t) => ({ ...t, [e.target.name]: true }));
+  };
+
+  const handleBlur = (e) => {
+    setTouched((t) => ({ ...t, [e.target.name]: true }));
+  };
+
+  const validate = () => {
+    const missing = [];
+    if (!form.username) missing.push('username');
+    if (!form.password) missing.push('password');
+    return missing;
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setMessage('');
+
+    const missing = validate();
+    if (missing.length > 0) {
+      setTouched((t) => ({
+        ...t,
+        username: true,
+        password: true,
+      }));
+      setError('Please fill in all required fields.');
+      return;
+    }
+
     setLoading(true);
     try {
       await login(form);
       setMessage('Login successful!');
       window.location.href = next;
     } catch (err) {
-      setError('Invalid username or password');
+      if (err?.response?.data?.detail) {
+        setError(err.response.data.detail);
+      } else if (err?.message) {
+        setError(err.message);
+      } else {
+        setError('Invalid username or password');
+      }
     } finally {
       setLoading(false);
     }
@@ -55,21 +88,7 @@ export default function LoginForm() {
               <Button label="Don't have an account. Sign up" icon="pi pi-chevron-right" iconPos="right" className='font-light text-sm text-primary' text />
             </Link>
           </div>
-          <div className="flex justify-content-between">
-            <button className="p-ripple mr-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-700 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center">
-              <i className="pi pi-facebook text-primary mr-2"></i>
-              <span>Sign in With Facebook</span>
-              <Ripple />
-            </button>
-            <button className="p-ripple ml-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-700 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center">
-              <i className="pi pi-google text-pink-400 mr-2"></i>
-              <span>Sign in With Google</span>
-              <Ripple />
-            </button>
-          </div>
-          <Divider align="center" className="my-4">
-            <span className="text-600 font-normal text-sm">OR</span>
-          </Divider>
+          <Divider align="center" className="my-4" />
           <form onSubmit={handleLogin}>
             <label htmlFor="username" className="block text-primary font-medium mb-2">Username or Email</label>
             <InputText
@@ -78,21 +97,35 @@ export default function LoginForm() {
               name="username"
               value={form.username}
               onChange={handleChange}
-              className="w-full mb-3 p-3"
+              onBlur={handleBlur}
+              className={`w-full mb-3 p-3${touched.username && !form.username ? ' p-invalid' : ''}`}
+              disabled={loading}
             />
 
             <label htmlFor="password4" className="block text-primary font-medium mb-2">Password</label>
-            <InputText
-              id="password4"
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full mb-3 p-3" />
+            <div className="p-inputgroup w-full mb-3">
+              <InputText
+                id="password4"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`w-full p-3${touched.password && !form.password ? ' p-invalid' : ''}`}
+                disabled={loading}
+              />
+              <Button
+                type="button"
+                icon={showPassword ? "pi pi-eye-slash" : "pi pi-eye"}
+                className="p-button-primary"
+                onClick={() => setShowPassword((v) => !v)}
+                tabIndex={-1}
+              />
+            </div>
 
             <div className="flex align-items-center justify-content-between mb-6">
               <div className="flex align-items-center">
-                <Checkbox id="rememberme" className="mr-2" checked={checked4} onChange={(e) => setChecked4(e.checked)} />
+                <Checkbox id="rememberme" className="mr-2" checked={checked4} onChange={(e) => setChecked4(e.checked)} disabled={loading} />
                 <label htmlFor="rememberme">Remember me</label>
               </div>
               <a className="font-medium text-primary hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
@@ -100,8 +133,8 @@ export default function LoginForm() {
 
             <Button type="submit" label="Sign In" className="w-full py-3 font-medium" disabled={loading} />
           </form>
-          {error && <p className="text-red-500 mt-4">{error}</p>}
-          {message && <p className="text-green-500 mt-4">{message}</p>}
+          {error && <Message severity="error" text={error} className="mt-4" />}
+          {message && <Message severity="success" text={message} className="mt-4" />}
         </div>
       </div>
     </div >
