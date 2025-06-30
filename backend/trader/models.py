@@ -9,7 +9,7 @@ class Trader(AbstractUser):
     city              = models.CharField(max_length=100, blank=True, null=True)
     postcode          = models.CharField(max_length=20,  blank=True, null=True)
     country           = models.CharField(max_length=100, blank=True, null=True)
-    profile_image     = models.URLField(blank=True, null=True)
+    profile_image     = models.ImageField(upload_to='avatars/', blank=True, null=True)
     is_email_verified = models.BooleanField(default=False)
     date_signed_up    = models.DateTimeField(auto_now_add=True)
 
