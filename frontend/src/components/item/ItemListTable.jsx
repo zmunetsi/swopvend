@@ -7,6 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { getUserItems } from '@/services/itemService';
+import { CldImage } from 'next-cloudinary';
 
 const ItemListTable = () => {
   const [items, setItems] = useState([]);
@@ -24,13 +25,20 @@ const ItemListTable = () => {
     fetchItems();
   }, []);
 
-  const imageTemplate = (rowData) => (
-    <img
-      src={rowData.featured_image}
-      alt={rowData.title}
-      className="h-2rem object-cover border-round"
-    />
-  );
+  const imageTemplate = (rowData) => {
+    const publicId = rowData.featured_image_public_id || 'swopvend_placeholder_avatar';
+    return (
+      <CldImage
+        src={publicId}
+        alt={rowData.title}
+        width={64}
+        height={48}
+        crop="fill"
+        className="h-2rem object-cover border-round"
+        style={{ borderRadius: '0.5rem', objectFit: 'cover' }}
+      />
+    );
+  };
 
   const statusTemplate = (rowData) => {
     const severity = {

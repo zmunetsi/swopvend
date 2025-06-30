@@ -1,26 +1,30 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { logout } from '@/services/authService';
 import { Ripple } from 'primereact/ripple';
 import { StyleClass } from 'primereact/styleclass';
 import { useRef } from 'react';
 import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
 
 export default function AccountSidebar({ user }) {
+  const [currentPath, setCurrentPath] = useState('');
   const btnRef20 = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
 
+  useEffect(() => {
+    setCurrentPath(pathname);
+  }, [pathname]);
+
   const handleLogout = async () => {
     await logout();
-    window.location.href = `/login?next=${encodeURIComponent(pathname)}`;
+    window.location.href = `/login?next=${encodeURIComponent(currentPath)}`;
   };
 
-  // Use user profile image or fallback
-  const profileImage =
-    user?.profile_image ||
-    '/assets/images/avatars/swopvend_placeholder_avatar.png';
+  const profileImage = user?.profile_image_public_id || 'swopvend_placeholder_avatar';
   const displayName = user?.first_name || user?.username || 'User';
 
   return (
@@ -34,75 +38,70 @@ export default function AccountSidebar({ user }) {
             <li>
               <Link
                 href="/"
-                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-home mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
-                <span className="font-medium inline text-base lg:text-xs lg:block">Home</span>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Home</span>
                 <Ripple />
               </Link>
             </li>
             <li>
               <Link
                 href="/account/profile"
-                className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
-                <i className="pi pi-users mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
-                <span className="font-medium inline text-base lg:text-xs lg:block">Profile</span>
+                <i className="pi pi-user mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Profile</span>
                 <Ripple />
               </Link>
             </li>
-            <li className="relative">
-              <StyleClass nodeRef={btnRef20} selector="@next" enterClassName="hidden" leaveToClassName="hidden" hideOnOutsideClick>
-                <button
-                  ref={btnRef20}
-                  type="button"
-                  className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full bg-transparent border-none"
-                >
-                  <span className="font-medium inline text-base lg:text-xs lg:block">Listings</span>
-                  <i className="pi pi-chevron-down ml-auto lg:hidden"></i>
-                  <Ripple />
-                </button>
-              </StyleClass>
-              <ul className="list-none pl-3 pr-0 py-0 lg:p-3 m-0 lg:ml-3 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out static lg:absolute left-100 top-0 z-1 bg-primary shadow-none lg:shadow-2 w-full lg:w-15rem">
-                <li>
-                  <Link
-                    href="/account/swaps"
-                    className="p-ripple flex align-items-center cursor-pointer p-3 hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
-                  >
-                    <i className="pi pi-chart-line mr-2"></i>
-                    <span className="font-medium">My listings</span>
-                    <Ripple />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/items"
-                    className="p-ripple flex align-items-center cursor-pointer p-3 hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
-                  >
-                    <i className="pi pi-chart-line mr-2"></i>
-                    <span className="font-medium">Browse items</span>
-                    <Ripple />
-                  </Link>
-                </li>
-              </ul>
+            <li>
+              <Link
+                href="/account/items"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+              >
+                <i className="pi pi-list mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">My Listings</span>
+                <Ripple />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/account/swaps"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+              >
+                <i className="pi pi-refresh mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">My Swap Requests</span>
+                <Ripple />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/items"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+              >
+                <i className="pi pi-th-large mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Browse Items</span>
+                <Ripple />
+              </Link>
             </li>
             <li>
               <Link
                 href="/account/security"
-                className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
-                <i className="pi pi-cog mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
-                <span className="font-medium inline text-base lg:text-xs lg:block">Security</span>
+                <i className="pi pi-shield mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Security</span>
                 <Ripple />
               </Link>
             </li>
             <li>
               <Link
                 href="/support"
-                className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+                className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
-                <i className="pi pi-cog mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
-                <span className="font-medium inline text-base lg:text-xs lg:block">Support</span>
+                <i className="pi pi-question mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Support</span>
                 <Ripple />
               </Link>
             </li>
@@ -110,10 +109,10 @@ export default function AccountSidebar({ user }) {
               <button
                 onClick={handleLogout}
                 type="button"
-                className="p-ripple flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full bg-transparent border-none"
+                className="p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full bg-transparent border-none"
               >
                 <i className="pi pi-sign-out mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
-                <span className="font-medium inline text-base lg:text-xs lg:block">Logout</span>
+                <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Logout</span>
                 <Ripple />
               </button>
             </li>
@@ -123,15 +122,17 @@ export default function AccountSidebar({ user }) {
           <hr className="mb-3 border-top-1 border-gray-800" />
           <Link
             href="/account/profile"
-            className="p-ripple my-3 flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
+            className="no-underline p-ripple my-3 flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
           >
-            <img
+            <CldImage
               src={profileImage}
               alt="profile-avatar"
+              width={32}
+              height={32}
               className="mr-2 lg:mr-0"
-              style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+              style={{ borderRadius: '50%', objectFit: 'cover' }}
             />
-            <span className="font-medium inline lg:hidden">{displayName}</span>
+            <span className="font-medium inline lg:hidden text-center w-full">{displayName}</span>
             <Ripple />
           </Link>
         </div>

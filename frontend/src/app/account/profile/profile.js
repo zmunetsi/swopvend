@@ -10,6 +10,7 @@ import countryList from 'country-list';
 import { updateProfile } from '@/services/authService';
 import { ServerAuthContext } from '@/context/ServerAuthContext';
 import UserGreeting from '@/components/trader/UserGreeting';
+import { CldImage } from 'next-cloudinary';
 
 export default function ProfilePage() {
   const user = useContext(ServerAuthContext);
@@ -144,6 +145,8 @@ export default function ProfilePage() {
     }
   };
 
+  const profileImagePublicId = user?.profile_image_public_id || 'swopvend_placeholder_avatar';
+
   if (!user || (!user.id && !user.username)) {
     return <div className="text-center p-8">Loading profile…</div>;
   }
@@ -209,12 +212,23 @@ export default function ProfilePage() {
                 <div className="field mb-4 col-12 md:col-6">
                   <label htmlFor="avatar" className="font-medium">Avatar</label>
                   <div className="flex align-items-center">
-                    <img
-                      src={imagePreview}
-                      alt="avatar"
-                      className="mr-4"
-                      style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: '50%' }}
-                    />
+                    {typeof form.profile_image === 'string' && !form.profile_image.startsWith('blob:') ? (
+                      <CldImage
+                        src={profileImagePublicId}
+                        alt="avatar"
+                        width={64}
+                        height={64}
+                        className="mr-4"
+                        style={{ objectFit: 'cover', borderRadius: '50%' }}
+                      />
+                    ) : (
+                      <img
+                        src={imagePreview}
+                        alt="avatar"
+                        className="mr-4"
+                        style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: '50%' }}
+                      />
+                    )}
                     <FileUpload
                       mode="basic"
                       name="avatar"

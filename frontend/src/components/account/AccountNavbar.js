@@ -6,16 +6,14 @@ import { Ripple } from 'primereact/ripple';
 import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Menu } from 'primereact/menu';
+import { CldImage } from 'next-cloudinary';
 
 export default function AccountNavbar({ form, handleChange, user, onLogout }) {
   const btnRef22 = useRef(null);
   const btnRef23 = useRef(null);
   const menuRef = useRef(null);
 
-  // Use user.profile_image or fallback
-  const profileImage =
-    user?.profile_image ||
-    '/assets/images/avatars/swopvend_placeholder_avatar.png';
+  const profileImage = user?.profile_image_public_id || 'swopvend_placeholder_avatar';
 
   const menuItems = [
     {
@@ -88,11 +86,13 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
               onClick={e => menuRef.current.toggle(e)}
               tabIndex={0}
             >
-              <img
+              <CldImage
                 src={profileImage}
                 alt="profile-avatar"
+                width={32}
+                height={32}
                 className="mr-3 lg:mr-0"
-                style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+                style={{ borderRadius: '50%', objectFit: 'cover' }}
               />
               <div className="block lg:hidden">
                 <div className="text-primary font-medium">{user?.first_name || user?.username || 'User'}</div>
