@@ -28,6 +28,8 @@ class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
         }
 
 class TraderSerializer(serializers.ModelSerializer):
+    profile_image_public_id = serializers.SerializerMethodField()
+
     class Meta:
         model = Trader
         fields = [
@@ -41,10 +43,16 @@ class TraderSerializer(serializers.ModelSerializer):
             'postcode',
             'country',
             'profile_image',
+            'profile_image_public_id',  # <-- add this
             'is_email_verified',
             'date_signed_up',
         ]
         read_only_fields = ['id', 'is_email_verified', 'date_signed_up']
+
+    def get_profile_image_public_id(self, obj):
+        if obj.profile_image and hasattr(obj.profile_image, 'public_id'):
+            return obj.profile_image.public_id
+        return None
 
 class SignUpSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
