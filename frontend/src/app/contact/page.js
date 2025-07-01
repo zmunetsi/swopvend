@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Head from "next/head";
 import LayoutWithNav from "@/components/layoutWithNav";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useState } from "react";
+import { CldImage } from "next-cloudinary";
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -37,10 +38,13 @@ export default function ContactPage() {
             </p>
           </div>
           <div className="flex-1 flex justify-center">
-            <img
-              src="/assets/images/home/contact_us_illustration.png"
-              alt="Contact SwopVend"
-              className="w-96 max-w-full"
+            <CldImage
+              src="swopvend_about_hero_fndymf"
+              alt="People swapping items"
+              width={646}
+              height={500}
+              crop="fill"
+              className="border-round w-full"
             />
           </div>
         </section>
@@ -106,6 +110,81 @@ export default function ContactPage() {
           </div>
           <div className="text-gray-700">
             Facebook: <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="text-primary">facebook.com/yourpage</a>
+          </div>
+        </section>
+        {/* FAQS */}
+        <section className="flex flex-column lg:flex-row align-items-center">
+          <div className="flex-1">
+            <div className="mb-1 flex justify-content-between align-items-center">
+              <div>
+                <h2 className="mb-2 text-2xl font-bold">Frequently Asked Questions</h2>
+                <p className="mt-2 text-xl text-gray-600">Here are answers to some common questions about using SwopVend.</p>
+              </div>
+              <div>
+                <Button
+                  label="See more FAQs"
+                  icon="pi pi-chevron-right"
+                  iconPos="right"
+                  className="p-button-text font-light text-sm text-primary"
+                  onClick={() => window.location.href = "/faq"}
+                />
+              </div>
+            </div>
+
+            <div className="grid mt-6">
+              <div className="col-12 text-900 md:col-6 font-medium text-lg line-height-3">
+                Do I have to pay to swap items?
+              </div>
+              <div className="col-12 md:col-6 text-700 line-height-3">
+                No, SwopVend is completely free to use. You simply list your item and swap with others in the community—no money needed!
+              </div>
+            </div>
+            <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
+            <div className="grid">
+              <div className="col-12 text-900 md:col-6 font-medium text-lg line-height-3">
+                How do I know if an item is available for swap?
+              </div>
+              <div className="col-12 md:col-6 text-700 line-height-3">
+                Each listing shows its current status. If you see an item you like, you can message the owner to confirm availability and arrange a swap.
+              </div>
+            </div>
+            <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
+            <div className="grid">
+              <div className="col-12 text-900 md:col-6 font-medium text-lg line-height-3">
+                Is it safe to meet other users?
+              </div>
+              <div className="col-12 md:col-6 text-700 line-height-3">
+                We recommend meeting in public places and bringing a friend if possible. Always communicate through the platform for your safety.
+              </div>
+            </div>
+            <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
+            <div className="grid">
+              <div className="col-12 text-900 md:col-6 font-medium text-lg line-height-3">
+                What if I cant find a swap right away?
+              </div>
+              <div className="col-12 md:col-6 text-700 line-height-3">
+                New items are added all the time! Keep checking back, or try listing more items to increase your chances of finding a match.
+              </div>
+            </div>
+            <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
+            <div className="grid">
+              <div className="col-12 text-900 md:col-6 font-medium text-lg line-height-3">
+                Can I swap multiple items at once?
+              </div>
+              <div className="col-12 md:col-6 text-700 line-height-3">
+                Yes! You can arrange multi-item swaps by chatting with other users and agreeing on the details together.
+              </div>
+            </div>
+
+            <div className="flex justify-center mt-6">
+              <Button
+                label="See more FAQs"
+                icon="pi pi-chevron-right"
+                iconPos="right"
+                className="p-button-text font-light text-sm text-primary"
+                onClick={() => window.location.href = "/faq"}
+              />
+            </div>
           </div>
         </section>
       </div>
