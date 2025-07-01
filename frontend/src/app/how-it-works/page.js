@@ -106,7 +106,7 @@ export default function HowItWorksPage() {
             <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
             <div className="grid">
               <div className="col-12 text-900 md:col-6 font-medium text-lg line-height-3">
-                What if I can't find a swap right away?
+                What if I cant find a swap right away?
               </div>
               <div className="col-12 md:col-6 text-700 line-height-3">
                 New items are added all the time! Keep checking back, or try listing more items to increase your chances of finding a match.
