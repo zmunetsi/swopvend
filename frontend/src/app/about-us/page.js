@@ -20,7 +20,7 @@ export default function AboutUsPage() {
           <div className="flex-1 text-center lg:text-left">
             <h1 className="text-4xl font-bold mb-3">Built by SwopVend. For the Community.</h1>
             <p className="text-lg mb-4">
-              SwopVend isn't just an app — it's a mindset. We're here to make swapping the new normal — because the future doesn’t need more waste, it needs smarter choices.
+              SwopVend isnt just an app — its a mindset. We are here to make swapping the new normal — because the future doesn’t need more waste, it needs smarter choices.
             </p>
             <Button
               label="Start Swapping"
