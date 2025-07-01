@@ -15,7 +15,7 @@ export default function ItemCard({ item }) {
               <CldImage
                 width={400}
                 height={300}
-                crop="fit"          // Cloudinary will deliver a 400×300 image
+                crop="fill"
                 className="w-full h-full object-cover"
                 src={item.featured_image_public_id}
                 alt={item.title}

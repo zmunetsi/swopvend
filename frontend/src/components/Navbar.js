@@ -24,8 +24,8 @@ export default function Navbar({ user, setUser, loading }) {
     };
 
     return (
-        <div className="p-4">
-            <nav className="px-4 py- md:px-6 lg:px-8 flex align-items-center justify-content-between relative" style={{ minHeight: '84px' }}>
+        <div className="px-4 py-4 sm:px-6 lg:px-8">
+            <nav className="flex align-items-center justify-content-between relative" style={{ minHeight: '84px' }}>
                 <Logo />
                 <StyleClass nodeRef={btnRef4} selector="@next" enterClassName="hidden" leaveToClassName="hidden" hideOnOutsideClick>
                     <a ref={btnRef4} className="p-ripple cursor-pointer block lg:hidden text-gray-400">
@@ -37,7 +37,7 @@ export default function Navbar({ user, setUser, loading }) {
                     <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row">
                         <li>
                             <Link
-                                href="/items"
+                                href="/about-us"
                                 className="p-ripple p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
                                 <span>Who We Are</span>
                                 <Ripple />
@@ -45,7 +45,7 @@ export default function Navbar({ user, setUser, loading }) {
                         </li>
                         <li>
                             <Link
-                                href="/items"
+                                href="/how-it-works"
                                 className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
                                 <span>How It Works</span>
                                 <Ripple />
@@ -53,9 +53,9 @@ export default function Navbar({ user, setUser, loading }) {
                         </li>
                         <li>
                             <Link
-                                href="/items"
+                                href="/contact-us"
                                 className="p-ripple  p-button p-button-text font-bold flex px-0 lg:px-4 py-3 text-primary hover:text-blue-600 transition-colors transition-duration-150 no-underline">
-                                <span>Support</span>
+                                <span>Contact Us</span>
                                 <Ripple />
                             </Link>
                         </li>
