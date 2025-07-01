@@ -11,7 +11,7 @@ export default function AboutUsPage() {
     <LayoutWithNav>
       <Head>
         <title>About Us | SwopVend</title>
-        <meta name="description" content="Learn about SwopVend's mission, story, and values. Join our community and start swapping today!" />
+        <meta name="description" content="Learn about SwopVends mission, story, and values. Join our community and start swapping today!" />
       </Head>
       <div className="flex flex-column gap-6 px-4 py-6 lg:px-8">
 
@@ -100,7 +100,7 @@ export default function AboutUsPage() {
               <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
                 <img src="assets/images/home/avatar-f-1.png" className="w-5rem" alt="Jane Cooper" />
                 <div className="ml-4 mt-4 md:mt-0">
-                  <p className="mt-0 mb-3 line-height-3">No matter where you go, Blocks is the coolest, most happening thing around! We can't understand how we've been living without Blocks.</p>
+                  <p className="mt-0 mb-3 line-height-3">No matter where you go, Blocks is the coolest, most happening thing around! We cant understand how we have been living without Blocks.</p>
                   <div className="text-primary font-medium mb-1 text-right">Jane Cooper</div>
                   <div className="text-600 text-sm text-right">Belton, Inc</div>
                 </div>
@@ -108,7 +108,7 @@ export default function AboutUsPage() {
               <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
                 <img src="assets/images/home/avatar-m-5.png" className="w-5rem" alt="Floyd Miles" />
                 <div className="ml-4 mt-4 md:mt-0">
-                  <p className="mt-0 mb-3 line-height-3">We can't understand how we've been living without Blocks. Blocks impressed me on multiple levels. It's really wonderful.</p>
+                  <p className="mt-0 mb-3 line-height-3">We cant understand how we have been living without Blocks. Blocks impressed me on multiple levels. Its really wonderful.</p>
                   <div className="text-primary font-medium mb-1 text-right">Floyd Miles</div>
                   <div className="text-600 text-sm text-right">Belton, Inc</div>
                 </div>
