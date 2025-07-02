@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'item',
     'trader',
     'swap',
+    "contact_message",
 ]
 
 REST_FRAMEWORK = {

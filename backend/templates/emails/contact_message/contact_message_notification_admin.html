@@ -1,0 +1,23 @@
+<html>
+<body style="font-family: Arial, sans-serif; color: #222;">
+  <p>Hello Admin,</p>
+  <p>
+    You have received a new contact message on <strong>SwopVend</strong>:
+  </p>
+  <ul>
+    <li><strong>Name:</strong> {{ name }}</li>
+    <li><strong>Email:</strong> {{ email }}</li>
+    <li><strong>Reason:</strong> {{ reason }}</li>
+  </ul>
+  <p>
+    <strong>Message:</strong>
+  </p>
+  <blockquote style="border-left: 3px solid #4f46e5; margin: 1em 0; padding-left: 1em;">
+    {{ message }}
+  </blockquote>
+  <p>
+    <a href="{{ site_url }}" style="color: #4f46e5;">Go to SwopVend Admin</a>
+  </p>
+  <p>Thanks,<br/>The SwopVend Team</p>
+</body>
+</html>

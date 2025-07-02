@@ -8,10 +8,14 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { CldImage } from "next-cloudinary";
 import { Dropdown } from "primereact/dropdown";
+import { sendContactMessage } from "@/services/contactService";
+import { Message } from "primereact/message";
 
 export default function ContactUsPage() {
   const [form, setForm] = useState({ name: "", email: "", reason: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const reasons = [
     { label: "General Inquiry", value: "general" },
@@ -29,10 +33,18 @@ export default function ContactUsPage() {
     setForm({ ...form, reason: e.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would send the form data to your backend or email service
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+    try {
+      await sendContactMessage(form);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err?.response?.data?.message || err.message || "Failed to send message.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,7 +94,6 @@ export default function ContactUsPage() {
 
         {/* Contact Form Section */}
         <section className="flex flex-column lg:flex-row gap-6">
-
           <div className="flex-1">
             <h2 className="text-3xl font-semibold mb-2">Get in touch with us!</h2>
             <p className="text-lg mb-4">
@@ -91,55 +102,70 @@ export default function ContactUsPage() {
           </div>
           <div className="flex-1">
             <div className="p-fluid pr-0 md:pr-6">
-              <div className="field">
-                <label htmlFor="name" className="font-medium">Name</label>
-                <InputText
-                  id="name"
-                  name="name"
-                  className="py-3 px-2 text-lg"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="field">
-                <label htmlFor="email1" className="font-medium">Email</label>
-                <InputText
-                  id="email1"
-                  name="email"
-                  className="py-3 px-2 text-lg"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="field">
-                <label htmlFor="reason" className="font-medium">Reason for Contact</label>
-                <Dropdown
-                  id="reason"
-                  name="reason"
-                  value={form.reason}
-                  options={reasons}
-                  onChange={handleDropdownChange}
-                  placeholder="Select a reason"
-                  className="py-3 px-2 text-lg w-full"
-                  required
-                />
-              </div>
-              <div className="field">
-                <label htmlFor="message" className="font-medium">Message</label>
-                <InputTextarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  autoResize
-                  className="py-3 px-2 text-lg"
-                  value={form.message}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <Button label="Send Message" icon="pi pi-send" className="w-auto" />
+              {submitted ? (
+                <Message severity="success" text="Thank you for contacting us! We’ll get back to you soon." className="mb-4" />
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  {error && (
+                    <Message severity="error" text={error} className="mb-3" />
+                  )}
+                  <div className="field">
+                    <label htmlFor="name" className="font-medium">Name</label>
+                    <InputText
+                      id="name"
+                      name="name"
+                      className="py-3 px-2 text-lg"
+                      value={form.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="email1" className="font-medium">Email</label>
+                    <InputText
+                      id="email1"
+                      name="email"
+                      className="py-3 px-2 text-lg"
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="reason" className="font-medium">Reason for Contact</label>
+                    <Dropdown
+                      id="reason"
+                      name="reason"
+                      value={form.reason}
+                      options={reasons}
+                      onChange={handleDropdownChange}
+                      placeholder="Select a reason"
+                      className="py-3 px-2 text-lg w-full"
+                      required
+                    />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="message" className="font-medium">Message</label>
+                    <InputTextarea
+                      id="message"
+                      name="message"
+                      rows={6}
+                      autoResize
+                      className="py-3 px-2 text-lg"
+                      value={form.message}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <Button
+                    label={loading ? "Sending..." : "Send Message"}
+                    icon="pi pi-send"
+                    className="w-auto"
+                    type="submit"
+                    disabled={loading}
+                  />
+                </form>
+              )}
             </div>
           </div>
         </section>

@@ -15,6 +15,7 @@ urlpatterns = [
     path('api/', include('trader.urls')),
     path('api/', include('item.urls')),
     path('api/', include('swap.urls')),
+     path('api/', include('contact_message.urls')),
     path('auth/signup/', SignUpView.as_view(), name='auth-signup'),
         # OpenAPI schema
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
