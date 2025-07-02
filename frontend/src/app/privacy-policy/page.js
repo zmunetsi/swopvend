@@ -8,7 +8,7 @@ export default function PrivacyPolicyPage() {
     <LayoutWithNav>
       <Head>
         <title>Privacy Policy | SwopVend</title>
-        <meta name="description" content="Read SwopVend's privacy policy. Learn how we collect, use, and protect your personal information." />
+        <meta name="description" content="Read SwopVends privacy policy. Learn how we collect, use, and protect your personal information." />
       </Head>
       <div className="flex flex-column gap-6 px-4 py-6 lg:px-8 max-w-3xl mx-auto">
         <section className="mb-8">
@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
             <li>You can update or delete your account information at any time in your account settings.</li>
             <li>You may opt out of marketing emails by following the unsubscribe instructions in those emails.</li>
           </ul>
-          <h2 className="text-2xl font-semibold mt-6 mb-2">6. Children's Privacy</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-2">6. Childrens Privacy</h2>
           <p>
             SwopVend is not intended for children under 13. We do not knowingly collect personal information from children under 13.
           </p>

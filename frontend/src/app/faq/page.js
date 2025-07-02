@@ -18,7 +18,7 @@ const faqs = [
     answer: "We recommend meeting in public places and bringing a friend if possible. Always communicate through the platform for your safety.",
   },
   {
-    question: "What if I can't find a swap right away?",
+    question: "What if I cant find a swap right away?",
     answer: "New items are added all the time! Keep checking back, or try listing more items to increase your chances of finding a match.",
   },
   {
@@ -52,7 +52,7 @@ export default function FAQPage() {
         <section className="mb-8">
           <h1 className="text-4xl font-bold mb-3">Frequently Asked Questions</h1>
           <p className="text-lg text-gray-700 mb-6">
-            Find answers to the most common questions about SwopVend. If you can't find what you're looking for, please <a href="/contact-us" className="text-primary underline">contact us</a>.
+            Find answers to the most common questions about SwopVend. If you cant find what you are looking for, please <a href="/contact-us" className="text-primary underline">contact us</a>.
           </p>
           <div className="divide-y divide-gray-200 bg-white rounded-lg shadow">
             {faqs.map((faq, idx) => (
