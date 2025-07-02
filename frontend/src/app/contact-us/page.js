@@ -7,13 +7,26 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { CldImage } from "next-cloudinary";
+import { Dropdown } from "primereact/dropdown";
 
-export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+export default function ContactUsPage() {
+  const [form, setForm] = useState({ name: "", email: "", reason: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+
+  const reasons = [
+    { label: "General Inquiry", value: "general" },
+    { label: "Support", value: "support" },
+    { label: "Feedback", value: "feedback" },
+    { label: "Partnership", value: "partnership" },
+    { label: "Other", value: "other" },
+  ];
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleDropdownChange = (e) => {
+    setForm({ ...form, reason: e.value });
   };
 
   const handleSubmit = (e) => {
@@ -36,6 +49,24 @@ export default function ContactPage() {
             <p className="text-lg mb-4">
               Have a question, suggestion, or need help? Reach out to the SwopVend team and we’ll get back to you as soon as possible.
             </p>
+            <div className="mt-4 space-y-2">
+              <div className="text-gray-700">
+                <span className="font-semibold">Email:</span>{" "}
+                <a href="mailto:support@swopvend.com" className="text-primary underline">support@swopvend.com</a>
+              </div>
+              <div className="text-gray-700">
+                <span className="font-semibold">Facebook:</span>{" "}
+                <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="text-primary underline">facebook.com/yourpage</a>
+              </div>
+              <div className="text-gray-700">
+                <span className="font-semibold">Phone:</span>{" "}
+                <a href="tel:+1234567890" className="text-primary underline">+1 (234) 567-890</a>
+              </div>
+              <div className="text-gray-700">
+                <span className="font-semibold">Live Chat:</span>{" "}
+                Click the chat icon at the bottom right of your screen to talk to us instantly during business hours.
+              </div>
+            </div>
           </div>
           <div className="flex-1 flex justify-center">
             <CldImage
@@ -50,68 +81,69 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form Section */}
-        <section className="bg-white/80 rounded-lg shadow-md p-4 sm:p-8 mb-10 max-w-2xl mx-auto">
-          <h2 className="mb-4 text-2xl font-bold text-center">Send us a message</h2>
-          {submitted ? (
-            <div className="text-green-700 text-center text-lg font-medium py-8">
-              Thank you for contacting us! We’ll get back to you soon.
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <span className="p-float-label">
+        <section className="flex flex-column lg:flex-row gap-6">
+
+          <div className="flex-1">
+            <h2 className="text-3xl font-semibold mb-2">Get in touch with us!</h2>
+            <p className="text-lg mb-4">
+              Please use the form below to contact us. Select the reason for your message and provide as much detail as possible. Our team will respond as soon as possible.
+            </p>
+          </div>
+          <div className="flex-1">
+            <div className="p-fluid pr-0 md:pr-6">
+              <div className="field">
+                <label htmlFor="name" className="font-medium">Name</label>
                 <InputText
                   id="name"
                   name="name"
+                  className="py-3 px-2 text-lg"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full"
                   required
                 />
-                <label htmlFor="name">Your Name</label>
-              </span>
-              <span className="p-float-label">
+              </div>
+              <div className="field">
+                <label htmlFor="email1" className="font-medium">Email</label>
                 <InputText
-                  id="email"
+                  id="email1"
                   name="email"
-                  type="email"
+                  className="py-3 px-2 text-lg"
                   value={form.email}
                   onChange={handleChange}
-                  className="w-full"
                   required
                 />
-                <label htmlFor="email">Your Email</label>
-              </span>
-              <span className="p-float-label">
+              </div>
+              <div className="field">
+                <label htmlFor="reason" className="font-medium">Reason for Contact</label>
+                <Dropdown
+                  id="reason"
+                  name="reason"
+                  value={form.reason}
+                  options={reasons}
+                  onChange={handleDropdownChange}
+                  placeholder="Select a reason"
+                  className="py-3 px-2 text-lg w-full"
+                  required
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="message" className="font-medium">Message</label>
                 <InputTextarea
                   id="message"
                   name="message"
+                  rows={6}
+                  autoResize
+                  className="py-3 px-2 text-lg"
                   value={form.message}
                   onChange={handleChange}
-                  className="w-full"
-                  rows={5}
                   required
                 />
-                <label htmlFor="message">Message</label>
-              </span>
-              <Button
-                type="submit"
-                label="Send Message"
-                className="p-button-raised p-button-primary mt-2"
-              />
-            </form>
-          )}
+              </div>
+              <Button label="Send Message" icon="pi pi-send" className="w-auto" />
+            </div>
+          </div>
         </section>
 
-        {/* Additional Contact Info */}
-        <section className="flex flex-column items-center text-center gap-2">
-          <div className="text-xl font-semibold mb-1">Other ways to reach us</div>
-          <div className="text-gray-700">
-            Email: <a href="mailto:support@swopvend.com" className="text-primary">support@swopvend.com</a>
-          </div>
-          <div className="text-gray-700">
-            Facebook: <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="text-primary">facebook.com/yourpage</a>
-          </div>
-        </section>
         {/* FAQS */}
         <section className="flex flex-column lg:flex-row align-items-center">
           <div className="flex-1">

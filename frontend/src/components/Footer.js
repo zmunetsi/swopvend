@@ -25,7 +25,7 @@ export default function Footer() {
               </li>
               <li className="mb-2">
                 <Link
-                  href="/hw-it-works"
+                  href="/how-it-works"
                   className="no-underline text-700 cursor-pointer line-height-3">How it works</Link>
               </li>
               <li className="mb-2">
@@ -86,7 +86,7 @@ export default function Footer() {
             <ul className="list-none p-0 m-0">
               <li className="mb-2">
                 <Link
-                  href="/faqs"
+                  href="/faq"
                   className="no-underline text-700 cursor-pointer line-height-3">FAQs</Link>
               </li>
               <li className="mb-2">
@@ -101,10 +101,22 @@ export default function Footer() {
       <div className="flex justify-content-between align-items-center py-5">
         <span>&copy; 2025 SwopVend</span>
         <div className="flex align-items-center justify-content-between">
-          <a className="cursor-pointer text-500 md:ml-3 ml-2">
+          <a
+            href="https://facebook.com/yourpage"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+            className="cursor-pointer text-500 md:ml-3 ml-2"
+          >
             <i className="pi pi-facebook text-xl"></i>
           </a>
-          <a className="cursor-pointer text-500 md:ml-3 ml-2">
+          <a
+            href="https://twitter.com/yourpage"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Twitter"
+            className="cursor-pointer text-500 md:ml-3 ml-2"
+          >
             <i className="pi pi-twitter text-xl"></i>
           </a>        
         </div>
