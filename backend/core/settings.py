@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'swap',
     "contact_message",
 ]
-
+SITE_ID = 1
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'trader.authentication.CookieJWTAuthentication',
