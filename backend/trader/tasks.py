@@ -15,8 +15,8 @@ def send_welcome_email(user_id, email, name, date_joined):
         "name": name,
         "site_url": site_url,
     }
-    user_text = render_to_string("emails/welcome_email_user.txt", user_context)
-    user_html = render_to_string("emails/welcome_email_user.html", user_context)
+    user_text = render_to_string("emails/trader/welcome_email_user.txt", user_context)
+    user_html = render_to_string("emails/trader/welcome_email_user.html", user_context)
     user_email = EmailMultiAlternatives(
         subject=user_subject,
         body=user_text,
@@ -34,8 +34,8 @@ def send_welcome_email(user_id, email, name, date_joined):
         "date_joined": date_joined,
         "admin_url": admin_url,
     }
-    admin_text = render_to_string("emails/welcome_email_admin.txt", admin_context)
-    admin_html = render_to_string("emails/welcome_email_admin.html", admin_context)
+    admin_text = render_to_string("emails/trader/welcome_email_admin.txt", admin_context)
+    admin_html = render_to_string("emails/trader/welcome_email_admin.html", admin_context)
     admin_email = EmailMultiAlternatives(
         subject=admin_subject,
         body=admin_text,
