@@ -1,0 +1,12 @@
+New User Registered on SwopVend
+
+A new user has just joined SwopVend!
+
+Name: {{ name }}
+Email: {{ email }}
+Date Joined: {{ date_joined }}
+
+View in Admin: {{ admin_url }}
+
+Best regards,
+The SwopVend System

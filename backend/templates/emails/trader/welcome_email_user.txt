@@ -1,0 +1,14 @@
+Welcome to SwopVend!
+
+Hi {{ name }},
+
+Thank you for joining SwopVend. We’re excited to have you as part of our swapping community!
+
+You can now list your items, find great swaps, and connect with other users.
+
+Start Swapping Now: {{ site_url }}
+
+If you have any questions, just reply to this email or visit our Contact page: {{ site_url }}/contact-us
+
+Happy swapping!
+The SwopVend Team
