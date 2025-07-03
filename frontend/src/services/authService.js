@@ -37,3 +37,18 @@ export const updateProfile = async (data) => {
   });
   return response.data;
 };
+
+export const forgotPassword = async (email) => {
+  const response = await api.post("/auth/password/reset/", { email });
+  return response.data;
+};
+
+export const resetPassword = async ({ uid, token, new_password1, new_password2 }) => {
+  const response = await api.post("/auth/password/reset/confirm/", {
+    uid,
+    token,
+    new_password1,
+    new_password2,
+  });
+  return response.data;
+};

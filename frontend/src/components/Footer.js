@@ -15,7 +15,7 @@ export default function Footer() {
       </div>
       <div className="py-5 border-bottom-1 border-300">
         <div className="grid">
-          <div className="col-12 sm:col-6 md:col-3">
+          <div className="col-6 sm:col-6 md:col-3">
             <span className="text-900 block font-bold line-height-3 mb-3">Company</span>
             <ul className="list-none p-0 m-0">
               <li className="mb-2">
@@ -36,7 +36,7 @@ export default function Footer() {
 
             </ul>
           </div>
-          <div className="col-12 sm:col-6 md:col-3">
+          <div className="col-6 sm:col-6 md:col-3">
             <span className="text-900 block font-bold line-height-3 mb-3">Account</span>
             <ul className="list-none p-0 m-0">
               <li className="mb-2">
@@ -66,7 +66,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="col-12 sm:col-6 md:col-3">
+          <div className="col-6 sm:col-6 md:col-3">
             <span className="text-900 block font-bold line-height-3 mb-3">Legal</span>
             <ul className="list-none p-0 m-0">
               <li className="mb-2">
@@ -81,7 +81,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="col-12 sm:col-6 md:col-3">
+          <div className="col-6 sm:col-6 md:col-3">
             <span className="text-900 block font-bold line-height-3 mb-3">Support</span>
             <ul className="list-none p-0 m-0">
               <li className="mb-2">

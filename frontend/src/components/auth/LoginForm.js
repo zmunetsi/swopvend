@@ -140,7 +140,9 @@ export default function LoginForm() {
                 <Checkbox id="rememberme" className="mr-2" checked={checked4} onChange={(e) => setChecked4(e.checked)} disabled={loading} />
                 <label htmlFor="rememberme">Remember me</label>
               </div>
-              <a className="font-medium text-primary hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
+              <Link href="/forgot-password" className="font-medium text-primary hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">
+                Forgot password?
+              </Link>
             </div>
 
             <Button type="submit" label="Sign In" className="w-full py-3 font-medium" disabled={loading} />

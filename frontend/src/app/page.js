@@ -5,7 +5,7 @@ import HomeListings from '@/components/HomeListings';
 export default function HomePage() {
   return (
     <LayoutWithNav>
-      <section className="bg-gray-900 px-4 pt-8 md:px-6 lg:px-8">
+      <section className="bg-gray-900 p-2 md:py-8 md:pt-8 md:px-6 lg:px-8">
         <div className="flex flex-wrap">
           <div className="w-12 lg:w-6 p-4">
             <h1 className="text-6xl font-bold mt-0 mb-3">Swap and Save </h1>
@@ -17,7 +17,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section id="home-recent-listings" className="px-4 py-6 md:px-6 lg:px-8">
+      <section id="home-recent-listings" className="p-2 md:py-6 md:px-6 lg:px-8">
         <div className="mb-1 px-4 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">Recent Listings</h2>
@@ -29,7 +29,7 @@ export default function HomePage() {
         </div>
         <HomeListings />
       </section>
-      <section id="home-howit-works" className="px-4 py-2 md:px-6 lg:px-8">
+      <section id="home-howit-works" className="p-2 md:py-8 md:px-6 lg:px-8">
         <div className="mb-1 px-4 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">How it works</h2>
@@ -58,7 +58,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="px-4 py-8 md:px-6 lg:px-8">
+      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-2 md:py-8 md:px-6 lg:px-8">
         <div className="flex flex-column lg:flex-row">
           <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-4">
             <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>

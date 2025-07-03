@@ -16,9 +16,9 @@ export default function ItemCard({ image, title, location, description, onClick 
               <span className="font-medium">5.0</span>
             </span>
           </div>
-          <p className="mt-0 mb-3 text-600 line-height-3">
+          {/* <p className="mt-0 mb-3 text-600 line-height-3">
             Enim nec dui nunc mattis enim ut tellus. Tincidunt arcu.
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

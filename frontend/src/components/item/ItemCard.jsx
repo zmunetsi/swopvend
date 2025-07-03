@@ -22,15 +22,15 @@ export default function ItemCard({ item }) {
               />
             </div>
             <div className="flex justify-content-between align-items-center mb-3">
-              <span className="text-700 text-primary font-medium text-xl no-underline">{item.title || 'Item Title'}</span>
-              <span>
+              <span className="text-700 text-primary font-medium text-xl no-underline">{item.condition || 'Item Title'}</span>
+              {/* <span>
                 <i className="pi pi-star-fill text-yellow-500 mr-1"></i>
                 <span className="font-medium">5.0</span>
-              </span>
+              </span> */}
             </div>
-            <p className="mt-0 mb-3 text-primary line-height-3 no-underline">
-              {item.description || 'Enim nec dui nunc mattis enim ut tellus. Tincidunt arcu.'}
-            </p>
+            {/* <p className="mt-0 mb-3 text-primary line-height-3 no-underline">
+              {item.condition || 'New'}
+            </p> */}
           </div>
         </div>
       </Link>
