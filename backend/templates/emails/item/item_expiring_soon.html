@@ -1,0 +1,14 @@
+{% autoescape off %}
+<p>Hi {{ user.get_username }},</p>
+<p>
+  Your listing "<strong>{{ item.title }}</strong>" will expire on <strong>{{ item.expires_at|date:"Y-m-d" }}</strong>.<br>
+  Please renew it soon or it will be archived.
+</p>
+<p>
+  <a href="https://swopvend.com/account/items/">Renew your listing</a>
+</p>
+<p>
+  Thanks,<br>
+  The SwopVend Team
+</p>
+{% endautoescape %}

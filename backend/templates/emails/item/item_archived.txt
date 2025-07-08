@@ -1,0 +1,8 @@
+Hi {{ user.get_username }},
+
+Your listing "{{ item.title }}" has been archived because it expired.
+
+You can renew it from your dashboard.
+
+Thanks,
+The SwopVend Team

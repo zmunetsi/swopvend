@@ -1,0 +1,8 @@
+Hi {{ user.get_username }},
+
+Your listing "{{ item.title }}" will expire on {{ item.expires_at|date:"Y-m-d" }}.
+
+Please renew it soon or it will be archived.
+
+Thanks,
+The SwopVend Team

@@ -1,0 +1,14 @@
+{% autoescape off %}
+<p>Hi {{ user.get_username }},</p>
+<p>
+  Your listing "<strong>{{ item.title }}</strong>" has been archived because it expired.<br>
+  You can renew it from your dashboard if you wish.
+</p>
+<p>
+  <a href="https://swopvend.com/account/items/">Renew your listing</a>
+</p>
+<p>
+  Thanks,<br>
+  The SwopVend Team
+</p>
+{% endautoescape %}

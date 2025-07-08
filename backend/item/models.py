@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from cloudinary.models import CloudinaryField
+from datetime import timedelta
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -35,6 +37,21 @@ class Item(models.Model):
     preferred_item = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    expires_at = models.DateTimeField(null=True, blank=True)
+    is_archived = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        # Set expires_at if not set
+        if not self.expires_at:
+            self.expires_at = (self.created_at or timezone.now()) + timedelta(days=30)
+        super().save(*args, **kwargs)
+
+    def is_expired(self):
+        return self.expires_at and timezone.now() > self.expires_at
+
+    def archive(self):
+        self.is_archived = True
+        self.save()
 
     def __str__(self):
         return self.title
@@ -55,9 +72,9 @@ class ItemImage(models.Model):
 
     def __str__(self):
         return f"Additional image for {self.item.title}" if self.item else "Unlinked image"
-    
 
 
-    
+
+
 
 
