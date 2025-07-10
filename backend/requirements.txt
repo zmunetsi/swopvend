@@ -7,7 +7,7 @@ whitenoise
 python-dotenv
 celery
 redis
-celery[beat]
+django-celery-beat
 django-environ
 cloudinary
 django-cloudinary-storage
