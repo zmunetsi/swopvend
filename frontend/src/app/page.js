@@ -1,8 +1,12 @@
+"use client";
+
+import { useRouter } from 'next/navigation'; 
 import LayoutWithNav from '@/components/layoutWithNav';
 import { Button } from 'primereact/button';
 import HomeListings from '@/components/HomeListings';
 
 export default function HomePage() {
+  const router = useRouter();
   return (
     <LayoutWithNav>
       <section className="bg-gray-900 p-2 md:py-8 md:pt-8 md:px-6 lg:px-8">
@@ -10,7 +14,9 @@ export default function HomePage() {
           <div className="w-12 lg:w-6 p-4">
             <h1 className="text-6xl font-bold mt-0 mb-3">Swap and Save </h1>
             <p className="text-3xl text-gray-400 mt-0 mb-5">Exchange items you no longer need for something new.</p>
-            <Button label="Start swapping" className="font-bold" />
+            <Button label="Start swapping" className="font-bold"
+             onClick={() => router.push('/account/items/upload')} 
+             />
           </div>
           <div className="w-12 lg:w-6 text-center lg:text-right overflow-hidden">
             <img src="assets/images/home/swap-2.png" alt="swapping image" className="w-full" />
@@ -36,7 +42,9 @@ export default function HomePage() {
             <p className="mt-2 text-xl text-gray-600">A simple and secure way to swap items.</p>
           </div>
           <div>
-            <Button label="Start swapping" icon="pi pi-chevron-right" iconPos="right" className='font-light text-sm text-primary' text />
+            <Button label="Start swapping" icon="pi pi-chevron-right" iconPos="right" className='font-light text-sm text-primary' text 
+            onClick={() => router.push('/account/items/upload')} 
+            />
           </div>
         </div>
         <div className="flex flex-wrap px-3">

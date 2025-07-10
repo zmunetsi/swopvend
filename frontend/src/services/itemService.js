@@ -76,3 +76,21 @@ export const fetchItemById = async (id) => {
   return response.data;
 };
 
+export const renewItem = async (id) => {
+  try {
+    const response = await api.post(`/items/${id}/renew/`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const giveAwayItem = async (id) => {
+  try {
+    const response = await api.post(`/items/${id}/give_away/`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+

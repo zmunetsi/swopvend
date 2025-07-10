@@ -4,12 +4,13 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { Dropdown } from "primereact/dropdown";
 import { classNames } from 'primereact/utils';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { CldImage } from 'next-cloudinary';
+import Link from "next/link";
 
 export default function ItemDetail({ item, showSwapButton = true }) {
-
   const router = useRouter();
+  const pathname = usePathname();
   const [selectedImageIndex1, setSelectedImageIndex1] = useState(0);
   if (!item) return null;
   const images1 = item.extra_images || [
@@ -74,12 +75,18 @@ export default function ItemDetail({ item, showSwapButton = true }) {
             <p className="mt-2  text-gray-600">{item.description}</p>
           </div>
 
-          <Button
-            icon="pi pi-spinner"
-            className="w-full mb-5"
-            label="Propose a Swap" disabled={!showSwapButton}
-            onClick={() => router.push(`/swaps/propose/${item.id}`)}
-          />
+          <Link
+            href={`/account/swaps/propose/${item.id}?next=${encodeURIComponent(pathname)}`}
+            className="block"
+            tabIndex={-1}
+          >
+            <Button
+              icon="pi pi-spinner"
+              className="w-full mb-5"
+              label="Propose a Swap"
+              disabled={!showSwapButton}
+            />
+          </Link>
           <Divider />
           <div className="flex align-items-center justify-content-center text-900 mb-5">
             <i className="pi pi-users mr-3"></i>

@@ -6,7 +6,7 @@ import { fetchUserItems, fetchItemDetail } from '@/services/itemService';
 import SwapForm from '@/components/swap/SwapForm';
 
 export default function ProposeSwapPage() {
-  const { itemId } = useParams();
+  const { id } = useParams();
   const [targetItem, setTargetItem] = useState(null);
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,9 +15,10 @@ export default function ProposeSwapPage() {
     const fetchData = async () => {
       try {
         const [itemRes, userItemsRes] = await Promise.all([
-          fetchItemDetail(itemId),
+          fetchItemDetail(id),
           fetchUserItems(),
         ]);
+        console.log( "items", id)
         setTargetItem(itemRes);
         setUserItems(userItemsRes);
       } catch (err) {
@@ -27,15 +28,15 @@ export default function ProposeSwapPage() {
       }
     };
     fetchData();
-  }, [itemId]);
+  }, [id]);
 
   if (loading) return <p>Loading...</p>;
-  if (!targetItem) return <p>Item not found</p>;
+  if (!targetItem) return <p>Item hj not found</p>;
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container">
       <h1 className="text-2xl font-bold mb-4">Propose a Swap</h1>
-      <p className="mb-2">You are proposing a swap for: <strong>{targetItem.title}</strong></p>
+      <p className="mb-4">You are proposing a swap for: <strong>{targetItem.title}</strong></p>
       <SwapForm targetItem={targetItem} userItems={userItems} />
     </div>
   );
