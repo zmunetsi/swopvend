@@ -7,10 +7,15 @@ export const signup = async (payload) => {
 };
 
 export const login = async (credentials) => {
-  const response = await api.post("/auth/token/", credentials, {
-    withCredentials: true,
-  });
-  return response.data;
+  try {
+    const response = await api.post("/auth/token/", credentials, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    // You can customize this error handling as needed
+    throw error.response?.data || { detail: "Login failed. Please try again." };
+  }
 };
 
 // Improved logout: always call backend logout endpoint, clear tokens, and ignore localStorage
@@ -24,8 +29,15 @@ export const logout = async () => {
 
 // Improved fetchCurrentUser: always send credentials (cookie)
 export const fetchCurrentUser = async () => {
-  const response = await api.get("/traders/me/", { withCredentials: true });
-  return response.data;
+  try {
+    const response = await api.get("/traders/me/", { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    // Attempt to clear cookies on the client side (works only for non-HttpOnly cookies)
+    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    throw error.response?.data || { detail: "Could not fetch user. Please log in." };
+  }
 };
 
 export const updateProfile = async (data) => {
