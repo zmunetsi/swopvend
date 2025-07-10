@@ -43,7 +43,7 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         # Set expires_at if not set
         if not self.expires_at:
-            self.expires_at = (self.created_at or timezone.now()) + timedelta(days=30)
+            self.expires_at = (self.created_at or timezone.now()) + timedelta(days=1)
         super().save(*args, **kwargs)
 
     def is_expired(self):

@@ -50,6 +50,9 @@ class TraderSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'is_email_verified', 'date_signed_up']
 
     def get_profile_image_public_id(self, obj):
+        # Ensure obj is a Trader instance and not AnonymousUser
+        if not hasattr(obj, 'profile_image'):
+            return None
         if obj.profile_image and hasattr(obj.profile_image, 'public_id'):
             return obj.profile_image.public_id
         return None

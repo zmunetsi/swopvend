@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 @shared_task
 def autoarchive_expired_items():
     now = timezone.now()
-    soon = now + timezone.timedelta(days=3)
+    soon = now + timezone.timedelta(hours=5)
 
     # Notify users 3 days before expiry
     expiring_soon = Item.objects.filter(

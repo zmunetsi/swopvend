@@ -3,6 +3,7 @@ import os
 from datetime import timedelta
 import environ  # new
 import dj_database_url
+from celery.schedules import crontab
 
 env = environ.Env(
     DEBUG=(bool, False) # you can set defaults
@@ -36,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'cloudinary_storage',
-    'anymail',  
+    'anymail',
+    'django_celery_beat',  
     'drf_spectacular',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
@@ -247,4 +249,11 @@ CLOUDINARY = {
     'POPULATE_METADATA': True,
     'USE_FILENAME':     True,
     'UNIQUE_FILENAME':  False,
+}
+
+CELERY_BEAT_SCHEDULE = {
+    'autoarchive-expired-items-daily': {
+        'task': 'item.tasks.autoarchive_expired_items',
+        'schedule': crontab(hour=0, minute=0),  # every day at midnight
+    },
 }
