@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function ItemCard({ image, title, location, description, onClick }) {
   return (
-    <div className="col-12 md:col-6 lg:col-4 xl:col-3">
+    <div className="col-6 lg:col-4 xl:col-3">
       <div className="p-2">
         <div className="shadow-2 p-4 surface-card border-round">
           <div className="relative mb-3">

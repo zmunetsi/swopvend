@@ -9,9 +9,9 @@ export default function HomePage() {
   const router = useRouter();
   return (
     <LayoutWithNav>
-      <section className="bg-gray-900 p-2 md:py-8 md:pt-8 md:px-6 lg:px-8">
+      <section style={{ background: 'url("/assets/images/home/swopvend_hero_1920x600_more_left_space.webp") no-repeat', backgroundSize: 'cover' }} className="p-2 md:py-8 md:pt-8 md:px-6 lg:px-8">
         <div className="flex flex-wrap">
-          <div className="w-12 lg:w-6 p-4">
+          <div className="w-12 lg:w-6 py-6">
             <h1 className="text-6xl font-bold mt-0 mb-3">Swap and Save </h1>
             <p className="text-3xl text-gray-400 mt-0 mb-5">Exchange items you no longer need for something new.</p>
             <Button label="Start swapping" className="font-bold"
@@ -19,23 +19,28 @@ export default function HomePage() {
              />
           </div>
           <div className="w-12 lg:w-6 text-center lg:text-right overflow-hidden">
-            <img src="assets/images/home/swap-2.png" alt="swapping image" className="w-full" />
+            
           </div>
         </div>
       </section>
-      <section id="home-recent-listings" className="p-2 md:py-6 md:px-6 lg:px-8">
-        <div className="mb-1 px-4 flex  justify-content-between align-items-center">
+      <section id="home-recent-listings" className="md:py-6 md:px-6 lg:px-8">
+        <div className="mb-1 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">Recent Listings</h2>
             <p className="mt-2 text-xl text-gray-600">Discover the latest items available for swapping.</p>
           </div>
           <div>
-            <Button label="Browse more" icon="pi pi-chevron-right" iconPos="right" className='font-light text-sm text-primary' text />
+            <Button 
+            label="Browse more" icon="pi pi-chevron-right" 
+            iconPos="right"
+             className='font-light text-sm text-primary' text 
+             onClick={() => router.push('/items')}
+             />
           </div>
         </div>
         <HomeListings />
       </section>
-      <section id="home-howit-works" className="p-2 md:py-8 md:px-6 lg:px-8">
+      <section id="home-howit-works" className="md:py-6 md:px-6 lg:px-8">
         <div className="mb-1 px-4 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">How it works</h2>
@@ -66,7 +71,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-2 md:py-8 md:px-6 lg:px-8">
+      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-2 md:py-6 md:px-6 lg:px-8">
         <div className="flex flex-column lg:flex-row">
           <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-4">
             <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>

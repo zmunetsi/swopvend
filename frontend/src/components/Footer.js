@@ -5,7 +5,7 @@ import Logo from './Logo';
 export default function Footer() {
   return (
 
-    <div className="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <footer className="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div className="flex align-items-start lg:align-items-center lg:justify-content-between pb-5 border-bottom-1 border-300 flex-column lg:flex-row">
         <div className="pr-0 lg:pr-8">
           <Logo />
@@ -121,7 +121,7 @@ export default function Footer() {
           </a>        
         </div>
       </div>
-    </div>
+    </footer>
 
   );
 }

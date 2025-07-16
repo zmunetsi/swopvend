@@ -27,8 +27,7 @@ export default function HomeListings() {
         value={items}
         layout="grid"
         itemTemplate={itemTemplate}
-        rows={4}
-        className='px-3'
+        rows={5}
         loading={loading}
       />
     </div>
