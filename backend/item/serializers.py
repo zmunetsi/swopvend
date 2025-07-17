@@ -45,8 +45,9 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'preferred_item', 'description',
             'featured_image', 'featured_image_url',
-            'featured_image_public_id', 'category', 'condition', 'status', 'location', 'extra_images',
-            'uploaded_images', 'trader'
+            'featured_image_public_id', 'category', 'condition', 'status', 'location', 'is_archived', 'extra_images',
+            'uploaded_images', 'trader',
+            'created_at',
         ]
         read_only_fields = [
             'id',
@@ -54,6 +55,7 @@ class ItemSerializer(serializers.ModelSerializer):
             'featured_image_public_id',
             'featured_image_url',
             'extra_images',
+            'created_at',
         ]
         
 
