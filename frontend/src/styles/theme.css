@@ -1,4 +1,3 @@
-
 :root {
   --primary-color: #0E1A35;
   --primary-color-hover: #008CA3; /* darker accent of cyan */
@@ -9,17 +8,56 @@
   --p-surface-primary: #0E1A35; /* charcoal */
   --p-surface-secondary: #008CA3; /* cyan */
   --p-primary-color: #0E1A35; /* charcoal */
+
+  /* PrimeFlex/PrimeReact v4+ compatibility: alias --p-* to standard colors */
+  --p-blue-50: var(--blue-50);
+  --p-blue-100: var(--blue-100);
+  --p-blue-200: var(--blue-200);
+  --p-blue-300: var(--blue-300);
+  --p-blue-400: var(--blue-400);
+  --p-blue-500: var(--blue-500);
+  --p-blue-600: var(--blue-600);
+  --p-blue-700: var(--blue-700);
+  --p-blue-800: var(--blue-800);
+  --p-blue-900: var(--blue-900);
+
+  --p-green-50: var(--green-50);
+  --p-green-100: var(--green-100);
+  --p-green-200: var(--green-200);
+  --p-green-300: var(--green-300);
+  --p-green-400: var(--green-400);
+  --p-green-500: var(--green-500);
+  --p-green-600: var(--green-600);
+  --p-green-700: var(--green-700);
+  --p-green-800: var(--green-800);
+  --p-green-900: var(--green-900);
+
+  --p-yellow-50: var(--yellow-50);
+  --p-yellow-100: var(--yellow-100);
+  --p-yellow-200: var(--yellow-200);
+  --p-yellow-300: var(--yellow-300);
+  --p-yellow-400: var(--yellow-400);
+  --p-yellow-500: var(--yellow-500);
+  --p-yellow-600: var(--yellow-600);
+  --p-yellow-700: var(--yellow-700);
+  --p-yellow-800: var(--yellow-800);
+  --p-yellow-900: var(--yellow-900);
+
+  --p-red-50: var(--red-50);
+  --p-red-100: var(--red-100);
+  --p-red-200: var(--red-200);
+  --p-red-300: var(--red-300);
+  --p-red-400: var(--red-400);
+  --p-red-500: var(--red-500);
+  --p-red-600: var(--red-600);
+  --p-red-700: var(--red-700);
+  --p-red-800: var(--red-800);
+  --p-red-900: var(--red-900);
+
+  --p-gray-50: var(--gray-50);
+  --p-gray-100: var(--gray-100);
+  --p-gray-200: var(--gray-200);
+  --p-gray-300: var(--gray-300);
+  --p-gray-400: var(--gray-400);
+  --p-gray-500: var(--gray-500);
 }
-
-/* Apply font if not handled elsewhere */
-body {
-  font-family: 'Inter Tight', sans-serif;
-  color: var(--text-color);
-  background-color: #ffffff;
-}
-
-.p-dataview .p-dataview-content {
-  color: var(--text-color);
-}
-
-
