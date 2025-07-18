@@ -51,35 +51,62 @@ export default function SwapForm({ targetItem, userItems = [], onProposeSwap }) 
   return (
     <div className="card shadow-2 p-4 surface-card border-round">
       <div className="grid">
-        <ItemCard  item={targetItem}
-          showSwapButton={false} />
+        <ItemCard item={targetItem} showSwapButton={false} />
         <div className="col-12 md:col-6 lg:col-8">
-          <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} renderActiveOnly={false} >
-            <TabPanel header="Header I" headerTemplate={selectItemHeaderTemplate} disabled={userItems.length === 0}>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Dropdown
-                  value={selectedItemId}
-                  onChange={(e) => setSelectedItemId(e.value)}
-                  options={userItems.map(item => ({ label: item.title, value: item.id }))}
-                  placeholder="Choose one of your items"
-                  className="w-full"
+          {targetItem.status === 'given' ? (
+            <div className="p-4 surface-ground border-round flex flex-column align-items-center justify-content-center">
+              <i className="pi pi-gift text-4xl mb-3 text-primary" />
+              <div className="font-bold text-lg mb-2 text-primary">This item is being given away for free.</div>
+              <div className="text-600 mb-3">It is no longer available for swaps because the owner wants to give it to anyone for free.</div>
+              <Button
+                label="Show Interest"
+                icon="pi pi-user-plus"
+                className="p-button-success"
+                onClick={() => {/* call your notify logic here */}}
+              />
+              <div className="text-xs text-500 mt-2">We will notify the owner of your interest.</div>
+            </div>
+          ) : targetItem.status === 'processing' ? (
+            <div className="p-4 surface-ground border-round flex flex-column align-items-center justify-content-center">
+              <i className="pi pi-spin pi-cog text-4xl mb-3 text-primary" />
+              <div className="font-bold text-lg mb-2 text-primary">This item is currently involved in a swap.</div>
+              <div className="text-600 mb-3">If the swap fails, we will notify interested parties.</div>
+               <Button
+                label="Show Interest"
+                icon="pi pi-user-plus"
+                className="p-button-success"
+                onClick={() => {/* call your notify logic here */}}
+              />
+              <div className="text-xs text-500 mt-2">We will notify you when the item is available.</div>
+            </div>
+          ) : (
+            <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} renderActiveOnly={false}>
+              <TabPanel header="Header I" headerTemplate={selectItemHeaderTemplate} disabled={userItems.length === 0}>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <Dropdown
+                    value={selectedItemId}
+                    onChange={(e) => setSelectedItemId(e.value)}
+                    options={userItems.map(item => ({ label: item.title, value: item.id }))}
+                    placeholder="Choose one of your items"
+                    className="w-full"
+                  />
+                  <Button
+                    className="my-4" label="Propose Swap" icon="pi pi-exchange" type="submit"
+                    onClick={handleProposeSwap}
+                    disabled={!selectedItemId}
+                  />
+                </form>
+              </TabPanel>
+              <TabPanel headerTemplate={uploadHeaderTemplate} headerClassName="flex align-items-center">
+                <UploadItemForm context="swap"
+                  onClose={(item) => {
+                    // console.log('Item uploaded:', item);
+                  }}
+                  targetItemId={targetItem.id}
                 />
-                <Button
-                  className="my-4" label="Propose Swap" icon="pi pi-exchange" type="submit"
-                  onClick={handleProposeSwap}
-                  disabled={!selectedItemId}
-                />
-              </form>
-            </TabPanel>
-            <TabPanel headerTemplate={uploadHeaderTemplate} headerClassName="flex align-items-center">
-              <UploadItemForm context="swap" 
-                onClose={(item) => {
-                  // console.log('Item uploaded:', item);
-                }} 
-                targetItemId={targetItem.id}
-               />
-            </TabPanel>
-          </TabView>
+              </TabPanel>
+            </TabView>
+          )}
         </div>
       </div>
     </div>

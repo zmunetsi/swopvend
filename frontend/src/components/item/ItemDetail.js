@@ -42,9 +42,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
     ...(item.extra_images || [])
   ];
 
-  console.log('ItemDetail', item);
   return (
-
     <div className="surface-section">
       <div className="grid">
         {/* Desktop layout */}
@@ -87,7 +85,43 @@ export default function ItemDetail({ item, showSwapButton = true }) {
             >
               {item.condition}
             </span>
-            {item.is_giveaway && (
+            {item.status === 'given' && (
+              <span
+                className="absolute flex align-items-center gap-1 px-3 py-1"
+                style={{
+                  right: 0,
+                  bottom: 36,
+                  background: 'var(--primary-color, #4166A9)',
+                  color: '#fff',
+                  borderRadius: '1rem 0 0 0',
+                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                  zIndex: 2,
+                }}
+              >
+                <i className="pi pi-gift" style={{ color: '#fff', fontSize: '1rem' }} />
+                Given Away
+              </span>
+            )}
+            {item.status === 'processing' && (
+              <span
+                className="absolute flex align-items-center gap-1 px-3 py-1"
+                style={{
+                  right: 0,
+                  bottom: 36,
+                  background: 'var(--primary-color, #4166A9)',
+                  color: '#fff',
+                  borderRadius: '1rem 0 0 0',
+                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                  zIndex: 2,
+                }}
+              >
+                <i className="pi pi-spin pi-cog" style={{ color: '#fff', fontSize: '1rem' }} />
+                Processing
+              </span>
+            )}
+            {item.status === 'available' && item.is_giveaway && (
               <span
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
@@ -116,7 +150,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
           </div>
         </div>
         {/* Mobile layout */}
-        <div className="col-12 flex flex-column align-items-center surface-card p-3 border-round md:hidden">
+        <div className="col-12 flex flex-column align-items-center surface-card p-3 border-round flex md:hidden">
           {/* Main image */}
           <div className="relative w-full mb-3">
             <span
@@ -132,7 +166,43 @@ export default function ItemDetail({ item, showSwapButton = true }) {
             >
               {item.condition}
             </span>
-            {item.is_giveaway && (
+            {item.status === 'given' && (
+              <span
+                className="absolute flex align-items-center gap-1 px-3 py-1"
+                style={{
+                  right: 0,
+                  bottom: 36,
+                  background: 'var(--primary-color, #4166A9)',
+                  color: '#fff',
+                  borderRadius: '1rem 0 0 0',
+                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                  zIndex: 2,
+                }}
+              >
+                <i className="pi pi-gift" style={{ color: '#fff', fontSize: '1rem' }} />
+                Given Away
+              </span>
+            )}
+            {item.status === 'processing' && (
+              <span
+                className="absolute flex align-items-center gap-1 px-3 py-1"
+                style={{
+                  right: 0,
+                  bottom: 36,
+                  background: 'var(--primary-color, #4166A9)',
+                  color: '#fff',
+                  borderRadius: '1rem 0 0 0',
+                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                  zIndex: 2,
+                }}
+              >
+                <i className="pi pi-spin pi-cog" style={{ color: '#fff', fontSize: '1rem' }} />
+                Processing
+              </span>
+            )}
+            {item.status === 'available' && item.is_giveaway && (
               <span
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
@@ -227,7 +297,6 @@ export default function ItemDetail({ item, showSwapButton = true }) {
         </div>
       </div>
     </div>
-
   );
 }
 

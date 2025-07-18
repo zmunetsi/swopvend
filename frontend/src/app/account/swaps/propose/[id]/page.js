@@ -18,9 +18,10 @@ export default function ProposeSwapPage() {
           fetchItemDetail(id),
           fetchUserItems(),
         ]);
-        console.log( "items", id)
+        // Only show items with status 'available'
+        const availableItems = userItemsRes.filter(item => item.status === 'available');
         setTargetItem(itemRes);
-        setUserItems(userItemsRes);
+        setUserItems(availableItems);
       } catch (err) {
         console.error('Error fetching swap data:', err);
       } finally {

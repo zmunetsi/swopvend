@@ -49,18 +49,54 @@ export default function ItemCard({ item }) {
             </div>
             <div className="flex flex-row flex-wrap gap-2 mt-0 mb-3 relative">
               <Chip
-                className="text-primary text-xxs min-w-0 mx-3 mb-3"
+                className="text-primary text-xxs min-w-0 mx-3 mb-4"
                 label={item.created_at ? dayjs(item.created_at).fromNow() : ''}
                 icon="pi pi-fw pi-clock"
                 style={{ fontSize: '0.7rem' }}
               />
-              {item.is_giveaway && (
+              {item.status === 'given' && (
                 <span
                   className="absolute flex align-items-center gap-1 px-3 py-1"
                   style={{
                     right: 0,
                     bottom: 0,
-                    background: 'var(--primary-color, #4166A9)',
+                    background: 'var(--primary-color, #4166A9)', // use primary color
+                    color: '#fff',
+                    borderRadius: '1rem 0 0 0',
+                    fontWeight: 700,
+                    fontSize: '0.8rem',
+                    zIndex: 2,
+                  }}
+                >
+                  <i className="pi pi-gift" style={{ color: '#fff', fontSize: '1rem' }} />
+                  Given Away
+                </span>
+              )}
+              {item.status === 'processing' && (
+                <span
+                  className="absolute flex align-items-center gap-1 px-3 py-1"
+                  style={{
+                    right: 0,
+                    bottom: 0,
+                    background: 'var(--primary-color, #4166A9)', // use primary color
+                    color: '#fff',
+                    borderRadius: '1rem 0 0 0',
+                    fontWeight: 700,
+                    fontSize: '0.8rem',
+                    zIndex: 2,
+                  }}
+                >
+                  <i className="pi pi-spin pi-cog" style={{ color: '#fff', fontSize: '1rem' }} />
+                  Processing
+                </span>
+              )}
+              {item.status === 'available' && item.is_giveaway && (
+                <span
+                  className="absolute flex align-items-center gap-1 px-3 py-1"
+                  style={{
+                    right: 0,
+                    bottom: 0,
+                    background: 'var(--primary-color, #4166A9)', // use primary color
                     color: '#fff',
                     borderRadius: '1rem 0 0 0',
                     fontWeight: 700,
