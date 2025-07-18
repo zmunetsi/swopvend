@@ -5,13 +5,13 @@ import Logo from './Logo';
 export default function Footer() {
   return (
 
-    <footer className="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <footer className="surface-section px-4 md:py-2 md:px-6 lg:px-8">
       <div className="flex align-items-start lg:align-items-center lg:justify-content-between pb-5 border-bottom-1 border-300 flex-column lg:flex-row">
         <div className="pr-0 lg:pr-8">
           <Logo />
           <p className="text-600 line-height-3 text-xl mb-0 mt-5">Sign up today to start swapping, save and make mother nature happy by recycling.</p>
         </div>
-        <Button label="Get Started" className="mt-5 lg:mt-0 white-space-nowrap min-w-max" />
+        <Button label="Get Started" className="swop-button-primary mt-5 lg:mt-0 white-space-nowrap min-w-max" />
       </div>
       <div className="py-5 border-bottom-1 border-300">
         <div className="grid">
@@ -102,22 +102,13 @@ export default function Footer() {
         <span>&copy; 2025 SwopVend</span>
         <div className="flex align-items-center justify-content-between">
           <a
-            href="https://facebook.com/yourpage"
+            href="https://www.facebook.com/groups/694401706750766"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"
             className="cursor-pointer text-500 md:ml-3 ml-2"
           >
             <i className="pi pi-facebook text-xl"></i>
-          </a>
-          <a
-            href="https://twitter.com/yourpage"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitter"
-            className="cursor-pointer text-500 md:ml-3 ml-2"
-          >
-            <i className="pi pi-twitter text-xl"></i>
           </a>        
         </div>
       </div>

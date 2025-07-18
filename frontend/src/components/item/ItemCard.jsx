@@ -9,7 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 export default function ItemCard({ item }) {
-  // Use PrimeFlex color utility classes based on https://primeflex.org/theming
+  
   const conditionColors = {
     New: 'bg-green-100 text-green-900',
     Used: 'bg-blue-100 text-blue-900',
@@ -20,7 +20,7 @@ export default function ItemCard({ item }) {
   const conditionClass = conditionColors[condition] || 'bg-gray-100 text-gray-800';
 
   return (
-    <div className="col-6 md:col-3 lg:col-2">
+    <div className="col-12 md:col-3 lg:col-2">
       <Link href={`/items/${item.id}`} className="block no-underline text-decoration-none">
         <div className="p-2">
           <div className="shadow-2 surface-card border-round">
@@ -48,7 +48,13 @@ export default function ItemCard({ item }) {
               />
             </div>
             <div className="flex flex-row flex-wrap gap-2 mt-0 mb-3 relative">
-                {item.is_giveaway && (
+              <Chip
+                className="text-primary text-xxs min-w-0 mx-3 mb-3"
+                label={item.created_at ? dayjs(item.created_at).fromNow() : ''}
+                icon="pi pi-fw pi-clock"
+                style={{ fontSize: '0.7rem' }}
+              />
+              {item.is_giveaway && (
                 <span
                   className="absolute flex align-items-center gap-1 px-3 py-1"
                   style={{
@@ -66,13 +72,6 @@ export default function ItemCard({ item }) {
                   Free
                 </span>
               )}
-              <Chip
-                className="text-primary text-xxs min-w-0 mb-4 ml-3"
-                label={item.created_at ? dayjs(item.created_at).fromNow() : ''}
-                icon="pi pi-fw pi-clock"
-                style={{ fontSize: '0.7rem' }}
-              />
-            
             </div>
           </div>
         </div>

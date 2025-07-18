@@ -38,12 +38,12 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
     <div className="flex justify-content-between align-items-center px-5 surface-section relative lg:static border-bottom-1 border-primary" style={{ height: '100px' }}>
       <div className="flex">
         <StyleClass nodeRef={btnRef22} selector="#app-sidebar-5" enterClassName="hidden" enterActiveClassName="fadeinleft" leaveToClassName="hidden" leaveActiveClassName="fadeoutleft" hideOnOutsideClick>
-          <a ref={btnRef22} className="p-ripple cursor-pointer block lg:hidden text-700 mr-3">
-            <i className="pi pi-bars text-4xl"></i>
+          <a ref={btnRef22} className="p-ripple cursor-pointer block lg:hidden text-primary mr-3">
+            <i className="pi pi-bars text-5xl"></i>
             <Ripple />
           </a>
         </StyleClass>
-        <span className="p-input-icon-left">
+        {/* <span className="p-input-icon-left">
           <i className="pi pi-search"></i>
           <InputText
             type="search"
@@ -53,11 +53,11 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
             placeholder="Search"
             name="searchQuery"
           />
-        </span>
+        </span> */}
       </div>
       <StyleClass nodeRef={btnRef23} selector="@next" enterClassName="hidden" enterActiveClassName="fadein" leaveToClassName="hidden" leaveActiveClassName="fadeout" hideOnOutsideClick>
         <a ref={btnRef23} className="p-ripple cursor-pointer block lg:hidden text-700">
-          <i className="pi pi-ellipsis-v text-2xl"></i>
+          <i className="pi pi-ellipsis-v text-3xl"></i>
           <Ripple />
         </a>
       </StyleClass>

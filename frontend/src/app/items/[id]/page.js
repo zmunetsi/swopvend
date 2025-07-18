@@ -28,7 +28,7 @@ export default function ItemDetailPage() {
 
   return (
     <LayoutWithNav>
-      <section className="bg-gray-900 px-4 py-2 md:px-6 lg:px-8">
+      <section className="md:py-2 md:px-6 lg:px-8">
         {loading && <p>Loading item...</p>}
         {!loading && item && <ItemDetail item={item} />}
         {!loading && !item && <p>Item not found.</p>}

@@ -9,7 +9,7 @@ export default function HomePage() {
   const router = useRouter();
   return (
     <LayoutWithNav>
-      <section style={{ background: 'url("/assets/images/home/swopvend_hero_1920x600_more_left_space.webp") no-repeat', backgroundSize: 'cover' }} className="p-2 md:py-8 md:pt-8 md:px-6 lg:px-8">
+      <section style={{ background: 'url("/assets/images/home/swopvend_hero_1920x600_more_left_space.webp") no-repeat', backgroundSize: 'cover' }} className="px-4 md:py-8 md:pt-8 md:px-6 lg:px-8">
         <div className="flex flex-wrap">
           <div className="w-12 lg:w-6 py-6">
             <h1 className="text-6xl font-bold mt-0 mb-3 text-primary">Swap and Save </h1>
@@ -25,7 +25,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section id="home-recent-listings" className="md:py-6 md:px-6 lg:px-8">
+      <section id="home-recent-listings" className="px-3 md:py-6 md:px-6 lg:px-8">
         <div className="mb-1 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">Around your city</h2>
@@ -43,7 +43,7 @@ export default function HomePage() {
         </div>
         <HomeListings />
       </section>
-      <section id="home-howit-works" className="md:py-2 md:px-6 lg:px-8">
+      <section id="home-howit-works" className="px-3 md:py-2 md:px-6 lg:px-8">
         <div className="mb-1 px-1 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">How it works</h2>
@@ -78,7 +78,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-2 md:py-6 md:px-6 lg:px-8">
+      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-3 md:py-6 md:px-6 lg:px-8">
         <div className="flex flex-column lg:flex-row">
           <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-1">
             <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>
@@ -87,13 +87,12 @@ export default function HomePage() {
               <Button 
               label="Facebook" className="swop-button-primary font-bold" 
                onClick={() => window.open('https://www.facebook.com/groups/694401706750766', '_blank')}
-        
               />
             </div>
           </div>
           <div className="flex-1">
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-              <img src="assets/images/home/avatar-f-1.png" className="w-5rem" alt="Jane Cooper" />
+              <img src="assets/images/home/daniel_avatar_round.png" className="w-5rem" alt="Jane Cooper" />
               <div className="ml-4 mt-4 md:mt-0">
                 <p className="mt-0 mb-3 line-height-3">I got a laptop in exchange for my old monitor. Best decision ever!</p>
                 <div className="text-primary font-medium mb-1 text-right">Daniel</div>
@@ -101,7 +100,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-              <img src="assets/images/home/avatar-m-5.png" className="w-5rem" alt="Floyd Miles" />
+              <img src="assets/images/home/lisa_avatar.png" className="w-5rem" alt="Floyd Miles" />
               <div className="ml-4 mt-4 md:mt-0">
                 <p className="mt-0 mb-3 line-height-3">Swapping feels good. Less waste, more joy.</p>
                 <div className="text-primary font-medium mb-1 text-right">Lara</div>
@@ -109,7 +108,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-              <img src="assets/images/home/avatar-m-5.png" className="w-5rem" alt="Floyd Miles" />
+              <img src="assets/images/home/peter_avatar.png" className="w-5rem" alt="Peter" />
               <div className="ml-4 mt-4 md:mt-0">
                 <p className="mt-0 mb-3 line-height-3">Swapping feels good. Less waste, more joy.</p>
                 <div className="text-primary font-medium mb-1 text-right">Peter</div>

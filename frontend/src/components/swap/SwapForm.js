@@ -51,7 +51,7 @@ export default function SwapForm({ targetItem, userItems = [], onProposeSwap }) 
   return (
     <div className="card shadow-2 p-4 surface-card border-round">
       <div className="grid">
-        <ItemCard className="col-12 md:col-6 lg:col-4" item={targetItem}
+        <ItemCard  item={targetItem}
           showSwapButton={false} />
         <div className="col-12 md:col-6 lg:col-8">
           <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} renderActiveOnly={false} >

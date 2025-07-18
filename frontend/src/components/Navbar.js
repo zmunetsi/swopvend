@@ -24,12 +24,12 @@ export default function Navbar({ user, setUser, loading }) {
     };
 
     return (
-        <div className="px-4 py-4 sm:px-6 lg:px-8">
+        <div className="px-4 pt-4 md:py-2 md:px-6 lg:px-8">
             <nav className="flex align-items-center justify-content-between relative" style={{ minHeight: '84px' }}>
                 <Logo />
                 <StyleClass nodeRef={btnRef4} selector="@next" enterClassName="hidden" leaveToClassName="hidden" hideOnOutsideClick>
-                    <a ref={btnRef4} className="p-ripple cursor-pointer block lg:hidden text-gray-400">
-                        <i className="pi pi-bars text-4xl"></i>
+                    <a ref={btnRef4} className="p-ripple cursor-pointer block lg:hidden font-bold text-primary">
+                        <i className="pi pi-bars text-5xl"></i>
                         <Ripple />
                     </a>
                 </StyleClass>

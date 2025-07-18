@@ -143,7 +143,7 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
             rows={4}
           />
         </div>
-        <div className="col-6">
+        <div className="col-12">
           <Dropdown
             name="category"
             value={form.category}
@@ -152,7 +152,7 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
             placeholder="Select Category"
           />
         </div>
-        <div className="col-6">
+        <div className="col-12">
           <Dropdown
             name="condition"
             value={form.condition}

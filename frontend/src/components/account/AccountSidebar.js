@@ -28,7 +28,7 @@ export default function AccountSidebar({ user }) {
   const displayName = user?.first_name || user?.username || 'User';
 
   return (
-    <div id="app-sidebar-5" className="bg-primary hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 border-gray-800 w-18rem lg:w-7rem select-none">
+    <div id="app-sidebar-5" className="bg-primary hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 border-gray-800 w-18rem lg:w-7rem select-none h-full">
       <div className="flex flex-column h-full">
         <div className="flex align-items-center justify-content-center flex-shrink-0 bg-orange-500" style={{ height: '100px' }}>
           <img src="/swopvend_favicon.png" alt="hyper-light" height={60} />
