@@ -12,6 +12,7 @@ class Item(models.Model):
         ('available', 'Available'),
         ('swapped',   'Swapped'),
         ('given',     'Given Away'),
+        ('processing', 'Processing'),  # <-- Add this line
     ]
 
     trader = models.ForeignKey(
