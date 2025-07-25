@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { CldImage } from 'next-cloudinary';
-import { renewItem, giveAwayItem, deleteItem } from '@/services/itemService';
+import { renewItem, giveAwayItem, deleteItem, archiveItem } from '@/services/itemService';
 import { useRouter } from 'next/navigation';
 
 const ItemListTable = ({ items }) => {
@@ -31,13 +31,22 @@ const ItemListTable = ({ items }) => {
   };
 
   const statusTemplate = (rowData) => {
-    const severity = {
+    let value = rowData.status;
+    let severity = {
       available: 'success',
       swapped: 'warning',
       given: 'info',
-    }[rowData.status] || 'secondary';
+      processing: 'info',
+      archived: 'danger',
+    }[value] || 'secondary';
 
-    return <Tag value={rowData.status} severity={severity} />;
+    // If either is_archived is true or status is 'archived', show archived
+    if (rowData.is_archived || rowData.status === 'archived') {
+      value = 'archived';
+      severity = 'danger';
+    }
+
+    return <Tag value={value} severity={severity} />;
   };
 
   const conditionTemplate = (rowData) => (
@@ -87,12 +96,27 @@ const ItemListTable = ({ items }) => {
     }
   };
 
+  const handleArchive = async (item) => {
+    if (window.confirm(`Are you sure you want to archive "${item.title}"?`)) {
+      setLoadingId(item.id);
+      try {
+        await archiveItem(item.id);
+        window.location.reload(); // Or trigger a parent refresh for better UX
+      } catch (error) {
+        alert('Failed to archive item.');
+      } finally {
+        setLoadingId(null);
+      }
+    }
+  };
+
   const handleView = (item) => {
     router.push(`/items/${item.id}`);
   };
 
   const actionTemplate = (rowData) => {
-    if (rowData.is_archived) {
+    // If item is archived by status or flag, show only Renew and Permanently Delete
+    if (rowData.is_archived || rowData.status === 'archived') {
       return (
         <div className="flex gap-2">
           <Button
@@ -104,20 +128,23 @@ const ItemListTable = ({ items }) => {
             onClick={() => handleRenew(rowData)}
             loading={loadingId === rowData.id}
             rounded
+            tooltip="Make this item available again"
           />
           <Button
-            label="Give Away"
-            icon="pi pi-gift"
-            severity="info"
+            label="Delete"
+            icon="pi pi-trash"
+            severity="danger"
             size="small"
-            aria-label="Give Away"
-            onClick={() => handleGiveAway(rowData)}
+            aria-label="Delete"
+            onClick={() => handleDelete(rowData)}
             loading={loadingId === rowData.id}
             rounded
+            tooltip="Permanently delete this item"
           />
         </div>
       );
     }
+    // Otherwise, show all actions
     return (
       <div className="flex gap-2">
         <Button
@@ -127,6 +154,7 @@ const ItemListTable = ({ items }) => {
           aria-label="View"
           rounded
           onClick={() => handleView(rowData)}
+          tooltip="View item details"
         />
         <Button
           icon="pi pi-pencil"
@@ -136,6 +164,18 @@ const ItemListTable = ({ items }) => {
           aria-label="Edit"
           rounded
           onClick={() => handleEdit(rowData)}
+          tooltip="Edit this item"
+        />
+        <Button
+          icon="pi pi-box"
+          text
+          size="small"
+          severity="secondary"
+          aria-label="Archive"
+          rounded
+          loading={loadingId === rowData.id}
+          onClick={() => handleArchive(rowData)}
+          tooltip="Archive (soft delete) this item"
         />
         <Button
           icon="pi pi-trash"
@@ -146,6 +186,7 @@ const ItemListTable = ({ items }) => {
           rounded
           loading={loadingId === rowData.id}
           onClick={() => handleDelete(rowData)}
+          tooltip="Permanently delete this item"
         />
       </div>
     );

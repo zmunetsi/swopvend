@@ -30,7 +30,7 @@ const conditionStyles = {
   }
 };
 
-export default function ItemDetail({ item, showSwapButton = true }) {
+export default function ItemDetail({ item, showSwapButton = true, currentUserId }) {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedImageIndex1, setSelectedImageIndex1] = useState(0);
@@ -41,6 +41,25 @@ export default function ItemDetail({ item, showSwapButton = true }) {
     item.featured_image_public_id,
     ...(item.extra_images || [])
   ];
+
+  // Status-based wording
+  let statusMessage = '';
+  if (item.is_archived || item.status === 'archived') {
+    statusMessage = 'This item has been archived and is no longer available for swaps or giveaway.';
+  } else if (item.status === 'given') {
+    statusMessage = 'This item has been given away and is no longer available.';
+  } else if (item.status === 'processing') {
+    statusMessage = 'This item is currently involved in a swap and may not be available.';
+  } else if (item.status === 'available' && item.is_giveaway) {
+    statusMessage = 'This item is available for free giveaway!';
+  } else if (item.status === 'available') {
+    statusMessage = 'This item is available for swap.';
+  } else if (item.status === 'swapped') {
+    statusMessage = 'This item has already been swapped.';
+  }
+console.log( item)
+  // Prevent owner from making a swap
+  const isOwner = currentUserId && item.trader.id === currentUserId;
 
   return (
     <div className="surface-section">
@@ -90,7 +109,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
                   right: 0,
-                  bottom: 36,
+                  bottom: 75,
                   background: 'var(--primary-color, #4166A9)',
                   color: '#fff',
                   borderRadius: '1rem 0 0 0',
@@ -100,7 +119,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 }}
               >
                 <i className="pi pi-gift" style={{ color: '#fff', fontSize: '1rem' }} />
-                Given Away
+                Free
               </span>
             )}
             {item.status === 'processing' && (
@@ -108,7 +127,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
                   right: 0,
-                  bottom: 36,
+                  bottom: 75,
                   background: 'var(--primary-color, #4166A9)',
                   color: '#fff',
                   borderRadius: '1rem 0 0 0',
@@ -121,12 +140,12 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 Processing
               </span>
             )}
-            {item.status === 'available' && item.is_giveaway && (
+            {item.status === 'given' && (
               <span
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
                   right: 0,
-                  bottom: 36,
+                  bottom: 75,
                   background: 'var(--primary-color, #4166A9)',
                   color: '#fff',
                   borderRadius: '1rem 0 0 0',
@@ -171,7 +190,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
                   right: 0,
-                  bottom: 36,
+                  bottom: 75,
                   background: 'var(--primary-color, #4166A9)',
                   color: '#fff',
                   borderRadius: '1rem 0 0 0',
@@ -181,7 +200,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 }}
               >
                 <i className="pi pi-gift" style={{ color: '#fff', fontSize: '1rem' }} />
-                Given Away
+                Free
               </span>
             )}
             {item.status === 'processing' && (
@@ -189,7 +208,7 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
                   right: 0,
-                  bottom: 36,
+                  bottom: 75,
                   background: 'var(--primary-color, #4166A9)',
                   color: '#fff',
                   borderRadius: '1rem 0 0 0',
@@ -202,12 +221,12 @@ export default function ItemDetail({ item, showSwapButton = true }) {
                 Processing
               </span>
             )}
-            {item.status === 'available' && item.is_giveaway && (
+            {item.status === 'given' && (
               <span
                 className="absolute flex align-items-center gap-1 px-3 py-1"
                 style={{
                   right: 0,
-                  bottom: 36,
+                  bottom: 75,
                   background: 'var(--primary-color, #4166A9)',
                   color: '#fff',
                   borderRadius: '1rem 0 0 0',
@@ -257,6 +276,16 @@ export default function ItemDetail({ item, showSwapButton = true }) {
         <div className="col-12 lg:col-6 py-3 lg:pl-6 surface-ground p-4 border-round">
           <div className="font-medium text-3xl text-900 mb-3">{item.title}</div>
           <div className="text-500 mb-5">{item.description}</div>
+          <div className="mb-3">
+            <Tag value={item.status} severity={
+              item.is_archived || item.status === 'archived' ? 'danger' :
+              item.status === 'available' ? 'success' :
+              item.status === 'given' ? 'info' :
+              item.status === 'processing' ? 'warning' :
+              item.status === 'swapped' ? 'secondary' : 'secondary'
+            } />
+            <span className="ml-3 text-700">{statusMessage}</span>
+          </div>
           <ul className="list-none p-0 m-0 border-top-1 surface-border">
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Location</div>
@@ -283,15 +312,33 @@ export default function ItemDetail({ item, showSwapButton = true }) {
           </ul>
 
           <Link
-            href={`/account/swaps/propose/${item.id}?next=${encodeURIComponent(pathname)}`}
+            href={isOwner ? "/items" : `/account/swaps/propose/${item.id}?next=${encodeURIComponent(pathname)}`}
             className="block"
             tabIndex={-1}
           >
             <Button
-              icon="pi pi-spinner"
+              icon={
+                item.status === 'given'
+                  ? "pi pi-gift"
+                  : item.status === 'processing'
+                  ? "pi pi-spin pi-cog"
+                  : "pi pi-spinner"
+              }
               className="swop-button-primary w-full mb-5"
-              label="Propose a Swap"
-              disabled={!showSwapButton}
+              label={
+                isOwner
+                  ? "You cannot swap your own item"
+                  : item.status === 'given'
+                  ? "Express Interest (Free Item)"
+                  : item.status === 'processing'
+                  ? "Express Interest (Processing)"
+                  : "Propose a Swap"
+              }
+              disabled={
+                !showSwapButton ||
+                item.is_archived ||
+                item.status === 'archived'
+              }
             />
           </Link>
         </div>

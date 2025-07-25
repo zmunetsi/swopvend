@@ -8,15 +8,16 @@ import { Dropdown } from 'primereact/dropdown';
 import { CldImage } from 'next-cloudinary';
 
 const SwapActions = ({ swap, currentUser, onView, onApprove, onDecline }) => {
-  const isRequestingUser = swap.from_trader?.id === currentUser?.id;
+  const isReceivingUser = swap.to_trader?.id === currentUser?.id;
+  const isPending = swap.status === 'pending';
 
   return (
     <div className="flex gap-2">
-      <Button label="View" icon="pi pi-eye" className="p-button-text p-button-sm" onClick={() => onView(swap)} />
-      {isRequestingUser && (
+      <Button label="View" icon="pi pi-eye" className="p-button-text p-button-sm" onClick={() => onView(swap)} aria-label="View Swap" />
+      {isReceivingUser && isPending && (
         <>
-          <Button label="Approve" icon="pi pi-check" className="p-button-success p-button-sm" onClick={() => onApprove(swap.id)} />
-          <Button label="Decline" icon="pi pi-times" className="p-button-danger p-button-sm" onClick={() => onDecline(swap.id)} />
+          <Button label="Approve" icon="pi pi-check" className="p-button-success p-button-sm" onClick={() => onApprove(swap.id)} aria-label="Approve Swap" />
+          <Button label="Decline" icon="pi pi-times" className="p-button-danger p-button-sm" onClick={() => onDecline(swap.id)} aria-label="Decline Swap" />
         </>
       )}
     </div>

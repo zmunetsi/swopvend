@@ -94,3 +94,12 @@ export const giveAwayItem = async (id) => {
   }
 };
 
+export const archiveItem = async (id) => {
+  try {
+    const response = await api.post(`/items/${id}/archive/`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
