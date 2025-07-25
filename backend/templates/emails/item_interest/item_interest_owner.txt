@@ -1,0 +1,11 @@
+Hello {{ owner_name }},
+
+Someone has shown interest in your item: "{{ item_title }}".
+
+Interested user: {{ interested_user_name }} ({{ interested_user_email }})
+Note from user: {{ note }}
+
+You can view your item here: {{ item_url }}
+
+Thank you,
+SwopVend Team

@@ -1,0 +1,8 @@
+Hello {{ user_name }},
+
+The free item you showed interest in, "{{ item_title }}", has been archived and is no longer available.
+
+Thank you for using SwopVend! You can browse other available items on our platform.
+
+Best regards,
+SwopVend Team

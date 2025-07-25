@@ -1,0 +1,21 @@
+<html>
+  <body>
+    <p>Hello {{ user_name }},</p>
+    <p>
+      There has been an update regarding your interest in the item <strong>{{ item_title }}</strong>.
+    </p>
+    {% if swap_status == "declined" %}
+      <p>
+        <strong>Good news!</strong> The swap for this item was <span style="color: #d9534f;">declined</span>, and it is now available again for you to propose a swap or express interest.
+      </p>
+    {% elif swap_status == "accepted" %}
+      <p>
+        The swap for this item was <span style="color: #5cb85c;">accepted</span>, so your interest is no longer valid. Please check other available items on SwopVend.
+      </p>
+    {% endif %}
+    <p>
+      <a href="{{ item_url }}">View the item</a>
+    </p>
+    <p>Thank you,<br>SwopVend Team</p>
+  </body>
+</html>

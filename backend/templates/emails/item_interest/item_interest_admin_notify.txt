@@ -1,0 +1,14 @@
+Hello Admin,
+
+A new item interest has been registered on SwopVend.
+
+Item: {{ item_title }}
+Owner: {{ owner_name }} ({{ owner_email }})
+Interested User: {{ interested_user_name }} ({{ interested_user_email }})
+Interest Type: {{ interest_type }}
+Note: {{ note }}
+
+View Item: {{ item_url }}
+
+Best regards,
+SwopVend Team

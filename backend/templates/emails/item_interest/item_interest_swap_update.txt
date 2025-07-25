@@ -1,0 +1,14 @@
+Hello {{ user_name }},
+
+There has been an update regarding your interest in the item "{{ item_title }}".
+
+{% if swap_status == "declined" %}
+Good news! The swap for this item was declined, and it is now available again for you to propose a swap or express interest.
+{% elif swap_status == "accepted" %}
+The swap for this item was accepted, so your interest is no longer valid. Please check other available items on SwopVend.
+{% endif %}
+
+View the item: {{ item_url }}
+
+Thank you,
+SwopVend Team

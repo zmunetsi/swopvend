@@ -7,6 +7,8 @@ from .models import Item, ItemImage
 from .serializers import ItemSerializer
 from datetime import timedelta
 from django.utils import timezone
+from rest_framework.views import APIView
+from item_interest.tasks import notify_interested_users_item_archived
 
 class ItemImageViewSet(viewsets.ModelViewSet):
     queryset = ItemImage.objects.all()
@@ -16,8 +18,8 @@ class ItemImageViewSet(viewsets.ModelViewSet):
 
 
 class PublicItemListView(viewsets.ReadOnlyModelViewSet):
-    """List all available items (public)."""
-    queryset = Item.objects.filter(status="available").select_related('trader')
+    """List all available, given, and processing items (public)."""
+    queryset = Item.objects.filter(status__in=["available", "given", "processing"]).select_related('trader')
     serializer_class = ItemSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -59,10 +61,12 @@ class ItemViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         if item.trader != request.user:
             return Response({'detail': 'Not allowed.'}, status=status.HTTP_403_FORBIDDEN)
-        if not item.is_archived:
+        # Check for both is_archived and status
+        if not (item.is_archived or item.status == 'archived'):
             return Response({'detail': 'Item is not archived.'}, status=status.HTTP_400_BAD_REQUEST)
         item.expires_at = timezone.now() + timedelta(days=30)
         item.is_archived = False
+        item.status = 'available'  # Reset status to available
         item.save()
         return Response({'detail': 'Item renewed successfully.'})
 
@@ -77,3 +81,29 @@ class ItemViewSet(viewsets.ModelViewSet):
         item.expires_at = timezone.now() + timedelta(days=30)
         item.save()
         return Response({'detail': 'Item marked as given away and renewed for 30 days.'})
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def archive(self, request, pk=None):
+        """Archive (soft delete) an item."""
+        item = self.get_object()
+        if item.trader != request.user:
+            return Response({'detail': 'Not allowed.'}, status=status.HTTP_403_FORBIDDEN)
+        if item.is_archived or item.status == 'archived':
+            return Response({'detail': 'Item is already archived.'}, status=status.HTTP_400_BAD_REQUEST)
+        item.archive()
+        notify_interested_users_item_archived.delay(item.id)
+        return Response({'detail': 'Item archived and users notified.'}, status=status.HTTP_200_OK)
+
+class ItemArchiveView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            item = Item.objects.get(pk=pk)
+            if item.trader != request.user:
+                return Response({"detail": "Not allowed."}, status=status.HTTP_403_FORBIDDEN)
+            item.archive()
+            notify_interested_users_item_archived.delay(item.id)
+            return Response({"detail": "Item archived and users notified."}, status=status.HTTP_200_OK)
+        except Item.DoesNotExist:
+            return Response({"detail": "Item not found."}, status=status.HTTP_404_NOT_FOUND)

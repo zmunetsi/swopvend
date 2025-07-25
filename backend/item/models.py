@@ -12,7 +12,8 @@ class Item(models.Model):
         ('available', 'Available'),
         ('swapped',   'Swapped'),
         ('given',     'Given Away'),
-        ('processing', 'Processing'),  # <-- Add this line
+        ('processing', 'Processing'),
+        ('archived', 'Archived'),  # <-- Added archived status
     ]
 
     trader = models.ForeignKey(
@@ -45,6 +46,9 @@ class Item(models.Model):
         # Set expires_at if not set
         if not self.expires_at:
             self.expires_at = (self.created_at or timezone.now()) + timedelta(days=1)
+        # If archived, always set status to 'archived'
+        if self.is_archived:
+            self.status = 'archived'
         super().save(*args, **kwargs)
 
     def is_expired(self):
@@ -52,6 +56,7 @@ class Item(models.Model):
 
     def archive(self):
         self.is_archived = True
+        self.status = 'archived'  # <-- Ensure status is set
         self.save()
 
     def __str__(self):

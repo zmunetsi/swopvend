@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'trader',
     'swap',
     "contact_message",
+    "item_interest",
 ]
 SITE_ID = 1
 REST_FRAMEWORK = {
@@ -204,7 +205,10 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     # …
 }
-
+ADMIN_EMAILS = [
+    "zunguziramunetsi@gmail.com",
+]
+# mailgun
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 ANYMAIL = {
     'MAILGUN_API_KEY': env('MAILGUN_API_KEY'),  # or os.environ['MAILGUN_API_KEY']

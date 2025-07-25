@@ -1,7 +1,7 @@
 # app/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ItemViewSet, ItemImageViewSet, PublicItemListView
+from .views import ItemViewSet, ItemImageViewSet, PublicItemListView, ItemArchiveView
 
 router = DefaultRouter()
 # Endpoint for CRUD on items (requires authentication for create/update/delete)
@@ -14,4 +14,5 @@ router.register(r'public-items', PublicItemListView, basename='public-items')
 urlpatterns = [
     # Include all router-generated URLs under /api/
     path('', include(router.urls)),
+    path('items/<int:pk>/archive/', ItemArchiveView.as_view(), name='item-archive'),
 ]
