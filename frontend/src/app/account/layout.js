@@ -13,15 +13,14 @@ export default async function AccountLayout({ children }) {
   try {
     const res = await fetch(`${process.env.API_BASE_URL}/traders/me`, {
       cache: 'no-store',
-      headers: {
-        Cookie: cookieHeader,
-      },
+      headers: { Cookie: cookieHeader },
       credentials: 'include',
     });
     if (res.ok) {
       user = await res.json();
     }
   } catch (e) {}
+
   const currentPath = headers().get('x-pathname');
 
   if (!user || !user.id) {

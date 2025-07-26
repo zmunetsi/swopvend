@@ -7,6 +7,7 @@ import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Menu } from 'primereact/menu';
 import { CldImage } from 'next-cloudinary';
+import Link from "next/link";
 
 export default function AccountNavbar({ form, handleChange, user, onLogout }) {
   const btnRef22 = useRef(null);
@@ -34,6 +35,11 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
     }
   ];
 
+  // Get notifications from user object
+  const notifications = user?.notifications || [];
+  // Only count unread in-app notifications
+  const unreadCount = notifications.filter(n => !n.is_read && n.channel === 'inapp').length;
+
   return (
     <div className="flex justify-content-between align-items-center px-5 surface-section relative lg:static border-bottom-1 border-primary" style={{ height: '100px' }}>
       <div className="flex">
@@ -43,17 +49,7 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
             <Ripple />
           </a>
         </StyleClass>
-        {/* <span className="p-input-icon-left">
-          <i className="pi pi-search"></i>
-          <InputText
-            type="search"
-            className="border-none"
-            value={form?.searchQuery || ''}
-            onChange={handleChange}
-            placeholder="Search"
-            name="searchQuery"
-          />
-        </span> */}
+        {/* Search input can go here if needed */}
       </div>
       <StyleClass nodeRef={btnRef23} selector="@next" enterClassName="hidden" enterActiveClassName="fadein" leaveToClassName="hidden" leaveActiveClassName="fadeout" hideOnOutsideClick>
         <a ref={btnRef23} className="p-ripple cursor-pointer block lg:hidden text-700">
@@ -72,12 +68,14 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
           </a>
         </li>
         <li>
-          <a className="p-ripple flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
-            transition-duration-150 transition-colors">
-            <i className="pi pi-bell text-base lg:text-2xl mr-2 lg:mr-0 p-overlay-badge"><Badge severity="danger" /></i>
+          <Link href="/account/notifications" className="p-ripple flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-duration-150 transition-colors">
+            <span className="p-overlay-badge">
+              <i className="pi pi-bell text-base lg:text-2xl mr-2 lg:mr-0"></i>
+              {unreadCount > 0 && <Badge value={unreadCount} severity="danger" />}
+            </span>
             <span className="block lg:hidden font-medium">Notifications</span>
             <Ripple />
-          </a>
+          </Link>
         </li>
         <li className="border-top-1 surface-border lg:border-top-none">
           <div className="relative">
