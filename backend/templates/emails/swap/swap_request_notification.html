@@ -1,0 +1,15 @@
+<html>
+<body>
+  <p>Hello {{ recipient.get_full_name|default:recipient.username }},</p>
+  <p>
+    <strong>{{ from_trader.get_full_name|default:from_trader.username }}</strong> has proposed a swap for your item: <strong>{{ requested_item.title }}</strong>.
+  </p>
+  <p>
+    Offered item: <strong>{{ offered_item.title }}</strong>
+  </p>
+  <p>
+    <a href="{{ site_url }}/swaps/{{ swap_id }}/">View Swap Request Details</a>
+  </p>
+  <p>Thanks,<br/>The SwopVend Team</p>
+</body>
+</html>

@@ -11,6 +11,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+from rest_framework.permissions import IsAuthenticated
 
 class TokenObtainView(TokenObtainPairView):
     serializer_class = EmailOrUsernameTokenObtainPairSerializer
@@ -60,7 +61,7 @@ class TraderViewSet(viewsets.ModelViewSet):
     serializer_class = TraderSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
-    @action(detail=False, methods=['get', 'patch'], url_path='me')
+    @action(detail=False, methods=['get', 'patch'], url_path='me', permission_classes=[IsAuthenticated])
     def me(self, request):
         """
         GET  /traders/me/    → retrieve current user

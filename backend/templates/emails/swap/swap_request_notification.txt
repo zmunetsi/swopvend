@@ -1,0 +1,10 @@
+Hello {{ recipient.get_full_name|default:recipient.username }},
+
+{{ from_trader.get_full_name|default:from_trader.username }} has proposed a swap for your item: {{ requested_item.title }}.
+
+Offered item: {{ offered_item.title }}
+
+View details: {{ site_url }}/swaps/{{ swap_id }}/
+
+Thanks,
+The SwopVend Team

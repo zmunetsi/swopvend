@@ -11,6 +11,9 @@ from item_interest.tasks import (
     notify_interested_users_item_available_again,
     notify_interested_user_swap_update
 )
+from django.contrib.contenttypes.models import ContentType
+from notification.models import Notification
+from .tasks import send_swap_request_email
 
 
 class SwapRequestViewSet(viewsets.ModelViewSet):
@@ -50,6 +53,18 @@ class SwapRequestViewSet(viewsets.ModelViewSet):
             offered_item.save(update_fields=['status'])
             requested_item.status = 'processing'
             requested_item.save(update_fields=['status'])
+
+            Notification.objects.create(
+                recipient=to_trader,
+                channel='inapp',
+                verb='You received a swap request',
+                description=f"{from_trader.username} has proposed a swap for your item: {requested_item.title}.",
+                content_type=ContentType.objects.get_for_model(swap),
+                object_id=swap.id,
+            )
+
+            # Send email notification about the new swap request
+            send_swap_request_email.delay(swap.id)
 
         except Exception as e:
             raise serializers.ValidationError({"detail": f"Swap creation failed: {str(e)}"})
@@ -112,8 +127,17 @@ class SwapMessageViewSet(viewsets.ModelViewSet):
         # derive receiver: the other party in the swap
         other = swap.to_trader if user_trader == swap.from_trader else swap.from_trader
 
-        serializer.save(
+        msg = serializer.save(
             sender=user_trader,
             receiver=other,
             swap_request=swap
+        )
+
+        Notification.objects.create(
+            recipient=other,
+            channel='inapp',
+            verb='You received a swap message',
+            description=f"{user_trader.username} sent you a message on Swap #{swap.id}.",
+            content_type=ContentType.objects.get_for_model(swap),
+            object_id=swap.id,
         )

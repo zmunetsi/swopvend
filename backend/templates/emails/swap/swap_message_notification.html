@@ -1,0 +1,11 @@
+
+<!-- # swap_message_notification.html -->
+<html>
+<body>
+  <p>Hello {{ recipient }},</p>
+  <p>You have a new message from <strong>{{ sender.username }}</strong> on Swap #<a href="{{ site_url }}/swaps/{{ swap_id }}/">{{ swap_id }}</a>.</p>
+  <blockquote>{{ content }}</blockquote>
+  <p><a href="{{ site_url }}/swaps/{{ swap_id }}/">View Swap Details</a></p>
+  <p>Thanks,<br/>The SwopVend Team</p>
+</body>
+</html>

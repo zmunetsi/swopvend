@@ -46,10 +46,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django.contrib.sites',
+    'notifications',
     'item',
     'trader',
     'swap',
-    "contact_message",
+    'contact_message',
     "item_interest",
 ]
 SITE_ID = 1

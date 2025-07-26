@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Trader
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
+from notification.serializers import NotificationSerializer
 
 class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
     """
@@ -29,6 +30,7 @@ class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class TraderSerializer(serializers.ModelSerializer):
     profile_image_public_id = serializers.SerializerMethodField()
+    notifications = NotificationSerializer(many=True, read_only=True, source='notifications.all')
 
     class Meta:
         model = Trader
@@ -43,9 +45,10 @@ class TraderSerializer(serializers.ModelSerializer):
             'postcode',
             'country',
             'profile_image',
-            'profile_image_public_id',  # <-- add this
+            'profile_image_public_id',
             'is_email_verified',
             'date_signed_up',
+            'notifications',  # <-- add this
         ]
         read_only_fields = ['id', 'is_email_verified', 'date_signed_up']
 
