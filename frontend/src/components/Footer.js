@@ -102,7 +102,7 @@ export default function Footer() {
         <span>&copy; 2025 SwopVend</span>
         <div className="flex align-items-center justify-content-between">
           <a
-            href="https://www.facebook.com/groups/694401706750766"
+            href="https://www.facebook.com/profile.php?id=61578159959527"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"

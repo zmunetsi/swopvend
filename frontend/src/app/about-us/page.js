@@ -24,7 +24,7 @@ export default function AboutUsPage() {
             </p>
             <Button
               label="Start Swapping"
-              className="p-button-raised p-button-primary"
+              className="swop-button-primary p-button-raised p-button-primary"
               onClick={() => window.location.href = "/login?next=/account/items/upload"}
             />
           </div>
@@ -83,48 +83,46 @@ export default function AboutUsPage() {
         </section>
 
         {/* Community Testimonials Section */}
-        <section className="grid grid-nogutter md:grid-cols-3 gap-4" style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }}>
-          <div className="flex flex-column lg:flex-row">
-            <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-4">
-              <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>
-              <span className="mt-2 text-xl text-gray-600 line-height-3">People are sharing great stories about us. Join our social platforms.</span>
-              <div className="mt-5">
-                <Button
-                  label="Facebook"
-                  className="font-bold"
-                  onClick={() => window.open("https://facebook.com/yourpage", "_blank")}
-                />
+        <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-3 md:py-6 md:px-6 lg:px-8">
+        <div className="flex flex-column lg:flex-row">
+          <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-1">
+            <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>
+            <span className="mt-2 text-xl text-gray-600 line-height-3">People are sharing great stories about us. Join our social platforms.</span>
+            <div className="mt-5">
+              <Button 
+              label="Facebook" className="swop-button-primary font-bold" 
+               onClick={() => window.open('https://www.facebook.com/profile.php?id=61578159959527', '_blank')}
+              />
+            </div>
+          </div>
+          <div className="flex-1">
+            <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
+              <img src="/assets/images/home/daniel_avatar_round.png" className="w-5rem" alt="Jane Cooper" />
+              <div className="ml-4 mt-4 md:mt-0">
+                <p className="mt-0 mb-3 line-height-3">I got a laptop in exchange for my old monitor. Best decision ever!</p>
+                <div className="text-primary font-medium mb-1 text-right">Daniel</div>
+                <div className="text-600 text-sm text-right">SwopVend User from Leeds</div>
               </div>
             </div>
-            <div className="flex-1">
-              <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-                <img src="assets/images/home/avatar-f-1.png" className="w-5rem" alt="Jane Cooper" />
-                <div className="ml-4 mt-4 md:mt-0">
-                  <p className="mt-0 mb-3 line-height-3">No matter where you go, Blocks is the coolest, most happening thing around! We cant understand how we have been living without Blocks.</p>
-                  <div className="text-primary font-medium mb-1 text-right">Jane Cooper</div>
-                  <div className="text-600 text-sm text-right">Belton, Inc</div>
-                </div>
+            <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
+              <img src="/assets/images/home/lisa_avatar.png" className="w-5rem" alt="Floyd Miles" />
+              <div className="ml-4 mt-4 md:mt-0">
+                <p className="mt-0 mb-3 line-height-3">This is what I have been looking for all along. I am now able to get rid of junky inside my house while saving.</p>
+                <div className="text-primary font-medium mb-1 text-right">Lara</div>
+                <div className="text-600 text-sm text-right">SwopVend Manchester</div>
               </div>
-              <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
-                <img src="assets/images/home/avatar-m-5.png" className="w-5rem" alt="Floyd Miles" />
-                <div className="ml-4 mt-4 md:mt-0">
-                  <p className="mt-0 mb-3 line-height-3">We cant understand how we have been living without Blocks. Blocks impressed me on multiple levels. Its really wonderful.</p>
-                  <div className="text-primary font-medium mb-1 text-right">Floyd Miles</div>
-                  <div className="text-600 text-sm text-right">Belton, Inc</div>
-                </div>
-              </div>
-              <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start" style={{ borderRadius: '10px' }}>
-                <img src="assets/images/home/avatar-f-2.png" className="w-5rem" alt="Leslie Alexander" />
-                <div className="ml-4 mt-4 md:mt-0">
-                  <p className="mt-0 mb-3 line-height-3">Just what I was looking for. I would like to personally thank you for your outstanding product.</p>
-                  <div className="text-primary font-medium mb-1 text-right">Leslie Alexander</div>
-                  <div className="text-600 text-sm text-right">Alfred, Inc</div>
-                </div>
+            </div>
+            <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
+              <img src="/assets/images/home/peter_avatar.png" className="w-5rem" alt="Peter" />
+              <div className="ml-4 mt-4 md:mt-0">
+                <p className="mt-0 mb-3 line-height-3">Swapping feels good. Less waste, more joy.</p>
+                <div className="text-primary font-medium mb-1 text-right">Peter</div>
+                <div className="text-600 text-sm text-right">SwopVend User from Crewe</div>
               </div>
             </div>
           </div>
-        </section>
-
+        </div>
+      </section>
       </div>
     </LayoutWithNav>
   );

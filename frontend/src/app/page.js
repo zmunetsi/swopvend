@@ -86,7 +86,7 @@ export default function HomePage() {
             <div className="mt-5">
               <Button 
               label="Facebook" className="swop-button-primary font-bold" 
-               onClick={() => window.open('https://www.facebook.com/groups/694401706750766', '_blank')}
+               onClick={() => window.open('https://www.facebook.com/profile.php?id=61578159959527', '_blank')}
               />
             </div>
           </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
             <div className="surface-card shadow-2 p-4 flex flex-column align-items-center md:flex-row md:align-items-start mb-5" style={{ borderRadius: '10px' }}>
               <img src="assets/images/home/lisa_avatar.png" className="w-5rem" alt="Floyd Miles" />
               <div className="ml-4 mt-4 md:mt-0">
-                <p className="mt-0 mb-3 line-height-3">Swapping feels good. Less waste, more joy.</p>
+                <p className="mt-0 mb-3 line-height-3">This is what I have been looking for all along. I am now able to get rid of junky inside my house while saving.</p>
                 <div className="text-primary font-medium mb-1 text-right">Lara</div>
                 <div className="text-600 text-sm text-right">SwopVend Manchester</div>
               </div>

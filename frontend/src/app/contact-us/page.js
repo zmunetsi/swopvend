@@ -68,16 +68,16 @@ export default function ContactUsPage() {
               </div>
               <div className="text-gray-700">
                 <span className="font-semibold">Facebook:</span>{" "}
-                <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="text-primary underline">facebook.com/yourpage</a>
+                <a href="https://www.facebook.com/profile.php?id=61578159959527" target="_blank" rel="noopener noreferrer" className="text-primary underline">facebook.com/SwopVend</a>
               </div>
-              <div className="text-gray-700">
+              {/* <div className="text-gray-700">
                 <span className="font-semibold">Phone:</span>{" "}
                 <a href="tel:+1234567890" className="text-primary underline">+1 (234) 567-890</a>
-              </div>
-              <div className="text-gray-700">
+              </div> */}
+              {/* <div className="text-gray-700">
                 <span className="font-semibold">Live Chat:</span>{" "}
                 Click the chat icon at the bottom right of your screen to talk to us instantly during business hours.
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex-1 flex justify-center">
@@ -160,7 +160,7 @@ export default function ContactUsPage() {
                   <Button
                     label={loading ? "Sending..." : "Send Message"}
                     icon="pi pi-send"
-                    className="w-auto"
+                    className="swop-button-primary w-auto"
                     type="submit"
                     disabled={loading}
                   />
