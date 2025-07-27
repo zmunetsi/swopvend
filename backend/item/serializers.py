@@ -2,66 +2,43 @@
 from rest_framework import serializers
 from .models import Item, ItemImage
 from trader.serializers import TraderSerializer
+from location.serializers import CitySerializer
+from location.models import City
 
 class ItemImageSerializer(serializers.ModelSerializer):
-    
-    """
-    Serializer for individual item images, including Cloudinary public ID and URL.
-    """
-    image_public_id = serializers.CharField(
-        source='image.public_id',
-        read_only=True
-    )
-    image_url = serializers.CharField(
-        source='image.url',
-        read_only=True
-    )
-
     class Meta:
         model = ItemImage
-        fields = [
-            'id',
-            'image',
-            'image_public_id',
-            'image_url',
-        ]
-        read_only_fields = [
-            'id',
-            'image_public_id',
-            'image_url',
-        ]
+        fields = ['id', 'image']
 
 class ItemSerializer(serializers.ModelSerializer):
     extra_images = ItemImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(), write_only=True, required=False
+    city = serializers.PrimaryKeyRelatedField(
+        queryset=City.objects.all(),
+        write_only=True,
+        required=False,
+        allow_null=True
     )
-    featured_image_url       = serializers.CharField(source='featured_image.url',       read_only=True)
-    featured_image_public_id = serializers.CharField(source='featured_image.public_id', read_only=True)
-    trader = TraderSerializer(read_only=True)
+    city_detail = CitySerializer(source='city', read_only=True)
 
     class Meta:
         model = Item
         fields = [
-            'id', 'title', 'preferred_item', 'description',
-            'featured_image', 'featured_image_url',
-            'featured_image_public_id', 'category', 'condition', 'status', 'location', 'is_archived', 'extra_images',
-            'uploaded_images', 'trader',
-            'created_at',
-        ]
-        read_only_fields = [
             'id',
-            'trader',
-            'featured_image_public_id',
-            'featured_image_url',
-            'extra_images',
+            'title',
+            'status',
+            'description',
+            'featured_image',
+            'category',
+            'condition',
+            'location',
+            'preferred_item',
+            'city',         # for writing (ID)
+            'city_detail',  # for reading (nested)
             'created_at',
+            'updated_at',
+            'expires_at',
+            'is_archived',
+            'extra_images',
+            'trader',
         ]
-        
-
-    def create(self, validated_data):
-        uploaded_images = validated_data.pop('uploaded_images', [])
-        item = Item.objects.create(**validated_data)
-        for image in uploaded_images:
-            ItemImage.objects.create(item=item, image=image)
-        return item
+        read_only_fields = ['id', 'created_at', 'updated_at', 'expires_at', 'is_archived', 'extra_images', 'trader']

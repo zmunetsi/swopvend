@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'swap',
     'contact_message',
     "item_interest",
+    'location',
 ]
 SITE_ID = 1
 REST_FRAMEWORK = {

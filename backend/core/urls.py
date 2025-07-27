@@ -18,9 +18,10 @@ urlpatterns = [
     path('api/', include('contact_message.urls')),
     path('api/', include('item_interest.urls')),
     path('api/', include('notification.urls')),
+    path('api/', include('location.urls')),  # <-- Add this line
     path('auth/signup/', SignUpView.as_view(), name='auth-signup'),
     path('api/auth/', include('dj_rest_auth.urls')),
-        # OpenAPI schema
+    # OpenAPI schema
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
 
     # Swagger UI:
