@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
-import { DataView } from "primereact/dataview";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 import Image from "next/image";
@@ -14,7 +13,16 @@ import LayoutWithNav from "@/components/layoutWithNav";
 import ItemCard from "@/components/item/ItemCard";
 import { fetchAllItems } from "@/services/itemService";
 
-export default function ItemsPage() {
+// Wrap ItemsPage in Suspense to fix useSearchParams warning
+export default function ItemsPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ItemsPage />
+    </Suspense>
+  );
+}
+
+function ItemsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const cityParam = searchParams.get("city");
@@ -126,6 +134,7 @@ export default function ItemsPage() {
           </div>
         </div>
 
+        
         {/* 🔍 Filter Panel */}
         <div className="grid grid-nogutter align-items-center">
           <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
@@ -170,22 +179,21 @@ export default function ItemsPage() {
           </div>
         </div>
 
-        {/* Data View */}
+        {/* Responsive Grid for Items */}
         {loading ? (
           <div className="text-center text-gray-400 py-8">Loading...</div>
         ) : error ? (
           <div className="text-center text-red-500 py-8">{error}</div>
         ) : (
-          <DataView
-            value={filtered}
-            layout="grid"
-            itemTemplate={(item) => (
-              <ItemCard key={item.id} item={item} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+            {filtered.length === 0 ? (
+              <div className="col-span-full text-center text-gray-500 py-8">No items found.</div>
+            ) : (
+              filtered.map((item) => (
+                <ItemCard key={item.id} item={item} />
+              ))
             )}
-            paginator
-            rows={16}
-            emptyMessage="No items found."
-          />
+          </div>
         )}
       </section>
       {/* Testimonials Section */}
