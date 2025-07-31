@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from cloudinary.models import CloudinaryField
 from datetime import timedelta
 from django.utils import timezone
+from location.models import Country, City
 
 User = get_user_model()
 
@@ -13,7 +14,7 @@ class Item(models.Model):
         ('swapped',   'Swapped'),
         ('given',     'Given Away'),
         ('processing', 'Processing'),
-        ('archived', 'Archived'),  # <-- Added archived status
+        ('archived', 'Archived'),
     ]
 
     trader = models.ForeignKey(
@@ -35,8 +36,21 @@ class Item(models.Model):
     )
     category = models.CharField(max_length=100, default='General')
     condition = models.CharField(max_length=50, default='Good')
-    location = models.CharField(max_length=255, default='Unknown')
     preferred_item = models.CharField(max_length=100, blank=True, null=True)
+    country = models.ForeignKey(
+        Country,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='items'
+    )
+    city = models.ForeignKey(
+        City,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='items'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     expires_at = models.DateTimeField(null=True, blank=True)

@@ -38,7 +38,7 @@ class ItemSerializer(serializers.ModelSerializer):
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(), write_only=True, required=False
     )
-    featured_image_url       = serializers.CharField(source='featured_image.url',       read_only=True)
+    featured_image_url = serializers.CharField(source='featured_image.url', read_only=True)
     featured_image_public_id = serializers.CharField(source='featured_image.public_id', read_only=True)
     trader = TraderSerializer(read_only=True)
     city = serializers.PrimaryKeyRelatedField(
@@ -54,7 +54,7 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'preferred_item', 'description',
             'featured_image', 'featured_image_url',
-            'featured_image_public_id', 'category', 'condition', 'status', 'location', 'is_archived', 'extra_images',
+            'featured_image_public_id', 'category', 'condition', 'status', 'is_archived', 'extra_images',
             'uploaded_images', 'trader', 'city', 'city_detail',
             'created_at',
         ]
