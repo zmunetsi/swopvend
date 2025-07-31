@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
@@ -15,10 +16,13 @@ import { fetchAllItems } from "@/services/itemService";
 
 export default function ItemsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const cityParam = searchParams.get("city");
+
   const [items, setItems] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(cityParam || null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -40,18 +44,26 @@ export default function ItemsPage() {
     loadItems();
   }, []);
 
+  // Update selectedCity if cityParam changes
+  useEffect(() => {
+    if (cityParam) setSelectedCity(cityParam);
+  }, [cityParam]);
+
   useEffect(() => {
     let filteredItems = [...items];
 
     if (searchTerm) {
-      filteredItems = filteredItems.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const term = searchTerm.toLowerCase();
+      filteredItems = filteredItems.filter(
+        (item) =>
+          (item.title && item.title.toLowerCase().includes(term)) ||
+          (item.description && item.description.toLowerCase().includes(term))
       );
     }
 
-    if (selectedLocation) {
+    if (selectedCity) {
       filteredItems = filteredItems.filter(
-        (item) => item.location === selectedLocation
+        (item) => item.city === selectedCity || item.city_detail?.name === selectedCity
       );
     }
 
@@ -62,21 +74,30 @@ export default function ItemsPage() {
     }
 
     setFiltered(filteredItems);
-  }, [searchTerm, selectedLocation, selectedCategory, items]);
+  }, [searchTerm, selectedCity, selectedCategory, items]);
 
-  const locations = [...new Set(items.map((item) => item.location))].map((loc) => ({
-    label: loc,
-    value: loc,
+  // Get unique cities from items
+  const cities = [
+    ...new Set(
+      items
+        .map((item) => item.city_detail?.name || item.city)
+        .filter(Boolean)
+    ),
+  ].map((city) => ({
+    label: city,
+    value: city,
   }));
 
-  const categories = [...new Set(items.map((item) => item.category))].map((cat) => ({
+  const categories = [
+    ...new Set(items.map((item) => item.category).filter(Boolean)),
+  ].map((cat) => ({
     label: cat,
     value: cat,
   }));
 
   const clearFilters = () => {
     setSearchTerm("");
-    setSelectedLocation(null);
+    setSelectedCity(null);
     setSelectedCategory(null);
   };
 
@@ -88,7 +109,7 @@ export default function ItemsPage() {
       </Head>
       {/* Hero Section */}
       <section className="bg-gray-900 px-4 py-2 md:px-6 lg:px-8">
-        <Image
+        <img
           src="/assets/images/items/swopvend_items_banner.png"
           alt="SwopVend items banner"
           width={1200}
@@ -106,9 +127,8 @@ export default function ItemsPage() {
         </div>
 
         {/* 🔍 Filter Panel */}
-        <div className="flex flex-col md:flex-row md:items-end gap-3">
-          <span className="p-input-icon-left w-full md:w-1/3">
-            <i className="pi pi-search" />
+        <div className="grid grid-nogutter align-items-center">
+          <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
             <InputText
               placeholder="Search items..."
               value={searchTerm}
@@ -116,35 +136,38 @@ export default function ItemsPage() {
               className="w-full"
               aria-label="Search items"
             />
-          </span>
-
-          <Dropdown
-            value={selectedLocation}
-            options={locations}
-            onChange={(e) => setSelectedLocation(e.value)}
-            placeholder="Filter by location"
-            className="w-full md:w-1/3"
-            showClear
-            aria-label="Filter by location"
-          />
-
-          <Dropdown
-            value={selectedCategory}
-            options={categories}
-            onChange={(e) => setSelectedCategory(e.value)}
-            placeholder="Filter by category"
-            className="w-full md:w-1/3"
-            showClear
-            aria-label="Filter by category"
-          />
-
-          <Button
-            label="Clear Filters"
-            onClick={clearFilters}
-            outlined
-            className="w-full md:w-auto"
-            aria-label="Clear Filters"
-          />
+          </div>
+          <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+            <Dropdown
+              value={selectedCity}
+              options={cities}
+              onChange={(e) => setSelectedCity(e.value)}
+              placeholder="Filter by city"
+              className="w-full"
+              showClear
+              aria-label="Filter by city"
+            />
+          </div>
+          <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+            <Dropdown
+              value={selectedCategory}
+              options={categories}
+              onChange={(e) => setSelectedCategory(e.value)}
+              placeholder="Filter by category"
+              className="w-full"
+              showClear
+              aria-label="Filter by category"
+            />
+          </div>
+          <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900o">
+            <Button
+              label="Clear Filters"
+              onClick={clearFilters}
+              outlined
+              className="w-full md:w-auto"
+              aria-label="Clear Filters"
+            />
+          </div>
         </div>
 
         {/* Data View */}

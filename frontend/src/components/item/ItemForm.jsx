@@ -6,14 +6,15 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import { Dialog } from 'primereact/dialog';
 import { uploadItem, updateItem, fetchItemDetail } from '@/services/itemService';
 import { proposeSwap } from '@/services/swapService';
 import ItemCard from '@/components/item/ItemCard';
 import categories from '@/data/categories.json';
 import conditions from '@/data/conditions.json';
-import { useRouter } from 'next/navigation';
 import { CldImage } from 'next-cloudinary';
+import { fetchCountries, fetchCities } from '@/services/locationService';
 
 const ItemForm = ({ itemId, targetItemId, onClose }) => {
   const router = useRouter();
@@ -25,14 +26,19 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
     description: '',
     category: '',
     condition: '',
-    location: '',
+    city: '',
+    country: '',
     featured_image: null,
     extra_images: [],
+    featured_image_public_id: '',
   });
 
   const [loading, setLoading] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [uploadedItem, setUploadedItem] = useState(null);
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   // Fetch item details if editing
   useEffect(() => {
@@ -46,11 +52,13 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
             description: data.description || '',
             category: data.category || '',
             condition: data.condition || '',
-            location: data.location || '',
-            featured_image: null, // File input is always null for edit
+            city: data.city_detail?.id || '',
+            country: data.city_detail?.country.id || '',
+            featured_image: null,
             extra_images: [],
             featured_image_public_id: data.featured_image_public_id || '',
           });
+          setSelectedCountry(data.city_detail?.country.id || '');
         })
         .catch((err) => {
           console.error('Failed to fetch item details', err);
@@ -58,6 +66,24 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
         .finally(() => setLoading(false));
     }
   }, [isEdit, itemId]);
+
+  // Fetch countries and cities on mount
+  useEffect(() => {
+    fetchCountries().then(setCountries);
+    fetchCities().then(setCities);
+  }, []);
+
+  // Filter cities by selected country
+  const filteredCities = selectedCountry
+    ? cities.filter(city => city.country && city.country.id === selectedCountry)
+    : [];
+
+  // If editing, set selectedCountry from loaded item
+  useEffect(() => {
+    if (isEdit && form.country) {
+      setSelectedCountry(form.country);
+    }
+  }, [isEdit, form.country]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,7 +101,7 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
     const formData = new FormData();
     for (const key in form) {
       if (key === 'extra_images') {
-        form.extra_images.forEach((file, i) => {
+        form.extra_images.forEach((file) => {
           formData.append('uploaded_images', file);
         });
       } else if (form[key]) {
@@ -162,11 +188,25 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
           />
         </div>
         <div className="col-12">
-          <InputText
-            name="location"
-            value={form.location}
-            onChange={handleChange}
-            placeholder="Location"
+          <Dropdown
+            name="country"
+            value={selectedCountry}
+            options={countries.map(c => ({ label: c.name, value: c.id }))}
+            onChange={e => {
+              setSelectedCountry(e.value);
+              setForm({ ...form, country: e.value, city: '' }); // Reset city when country changes
+            }}
+            placeholder="Select Country"
+          />
+        </div>
+        <div className="col-12">
+          <Dropdown
+            name="city"
+            value={form.city}
+            options={filteredCities.map(city => ({ label: city.name, value: city.id }))}
+            onChange={e => setForm({ ...form, city: e.value })}
+            placeholder="Select City"
+            disabled={!selectedCountry}
           />
         </div>
         <div className="col-12">
@@ -210,29 +250,8 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
       >
         {uploadedItem &&
           (<div>
-            <Link href={`/items/${uploadedItem.id}`} className="block no-underline text-decoration-none">
-              <div className="p-2">
-                <div className="shadow-2 p-4 surface-card border-round">
-                  <div className="relative mb-3">
-                    <span className="surface-0 font-medium font-italic text-primary shadow-2 px-3 py-2 absolute" style={{ borderRadius: '1.5rem', left: '1rem', top: '1rem' }}>{uploadedItem.location || 'Location'}</span>
-                    <CldImage
-                      width={400}
-                      height={300}
-                      crop="fit"
-                      className="w-full h-full object-cover"
-                      src={uploadedItem.featured_image_public_id}
-                      alt={uploadedItem.title} />
-                  </div>
-                  <div className="flex justify-content-between align-items-center mb-3">
-                    <span className="text-700 text-primary font-medium text-xl no-underline">{uploadedItem.title || 'Item Title'}</span>
-                    <span>
-                      <i className="pi pi-star-fill text-yellow-500 mr-1"></i>
-                      <span className="font-medium">5.0</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            {/* Use ItemCard for preview */}
+            <ItemCard item={uploadedItem} />
           </div>)}
       </Dialog>
     </>

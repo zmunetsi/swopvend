@@ -112,7 +112,9 @@ const SwapRequestsTable = ({ swaps, currentUser, onView, onApprove, onDecline })
         />
       </div>
 
-      <DataTable value={filteredSwaps} dataKey="id" paginator rows={10}>
+      <DataTable value={filteredSwaps} dataKey="id" paginator rows={10}   scrollable
+  responsiveLayout="scroll"
+  breakpoint="960px">
         <Column header="Requested Item" body={(rowData) => rowData.requested_item?.title} />
         <Column header="Offered Item" body={(rowData) => rowData.offered_item?.title} />
         <Column header="Req. Image" body={(rowData) => ItemImageTemplate(rowData.requested_item)} />

@@ -1,9 +1,11 @@
 "use client";
 
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
 import LayoutWithNav from '@/components/layoutWithNav';
 import { Button } from 'primereact/button';
 import HomeListings from '@/components/HomeListings';
+import cities from '@/data/cities.json';
+import Link from 'next/link';
 
 export default function HomePage() {
   const router = useRouter();
@@ -21,19 +23,19 @@ export default function HomePage() {
             />
           </div>
           <div className="w-12 lg:w-6 text-center lg:text-right overflow-hidden">
-            
+
           </div>
         </div>
       </section>
-      <section id="home-recent-listings" className="px-3 md:py-6 md:px-6 lg:px-8">
+      <section id="city-listings" className="px-3 md:py-6 md:px-6 lg:px-8">
         <div className="mb-1 flex  justify-content-between align-items-center">
           <div>
             <h2 className="mb-2 text-2xl font-bold">Around your city</h2>
             <p className="mt-2 text-xl text-gray-600">Discover the latest items near you available for swapping.</p>
           </div>
           <div>
-            <Button 
-              label="Browse more"
+            <Button
+              label="More cities"
               icon="pi pi-chevron-right"
               iconPos="right"
               className="swop-button-primary font-light text-sm"
@@ -41,7 +43,25 @@ export default function HomePage() {
             />
           </div>
         </div>
-        <HomeListings />
+        <div className="flex flex-wrap gap-3 pt-3">
+          {cities.map(city => (
+            <Link
+              key={city.name}
+              href={city.url}
+              className="flex flex-column h-25rem flex-grow-1 no-underline"
+            >
+              <div
+                className="flex h-full bg-no-repeat bg-cover bg-center border-round shadow-2 lg:mx-0"
+                style={{
+                  background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%), url(${city.image})`,
+                  minWidth: '15rem'
+                }}
+              >
+                <p className="font-medium text-2xl text-white text-center w-full align-self-end">{city.name}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
       <section id="home-howit-works" className="px-3 md:py-2 md:px-6 lg:px-8">
         <div className="mb-1 px-1 flex  justify-content-between align-items-center">
@@ -77,16 +97,33 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
+      <section id="home-recent-listings" className="px-3 md:py-6 md:px-6 lg:px-8">
+        <div className="mb-1 flex  justify-content-between align-items-center">
+          <div>
+            <h2 className="mb-2 text-2xl font-bold">Just added</h2>
+            <p className="mt-2 text-xl text-gray-600">Discover the latest items near you available for swapping.</p>
+          </div>
+          <div>
+            <Button
+              label="Browse more"
+              icon="pi pi-chevron-right"
+              iconPos="right"
+              className="swop-button-primary font-light text-sm"
+              onClick={() => router.push('/items')}
+            />
+          </div>
+        </div>
+        <HomeListings />
+      </section>
       <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-3 md:py-6 md:px-6 lg:px-8">
         <div className="flex flex-column lg:flex-row">
           <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-1">
             <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>
             <span className="mt-2 text-xl text-gray-600 line-height-3">People are sharing great stories about us. Join our social platforms.</span>
             <div className="mt-5">
-              <Button 
-              label="Facebook" className="swop-button-primary font-bold" 
-               onClick={() => window.open('https://www.facebook.com/profile.php?id=61578159959527', '_blank')}
+              <Button
+                label="Facebook" className="swop-button-primary font-bold"
+                onClick={() => window.open('https://www.facebook.com/profile.php?id=61578159959527', '_blank')}
               />
             </div>
           </div>

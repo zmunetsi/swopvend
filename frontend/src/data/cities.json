@@ -1,0 +1,27 @@
+[
+  {
+    "name": "London",
+    "image": "/assets/images/cities/london_city_background.png",
+    "url": "/items?city=London"
+  },
+  {
+    "name": "Cape Town",
+    "image": "/assets/images/cities/cape_town_city_background.png",
+    "url": "/items?city=Cape%20Town"
+  },
+  {
+    "name": "Manchester",
+    "image": "/assets/images/cities/manchester_city_background.png",
+    "url": "/items?city=Manchester"
+  },
+  {
+    "name": "Johannesburg",
+    "image": "/assets/images/cities/johannesburg_city_background.png",
+    "url": "/items?city=Johannesburg"
+  },
+  {
+    "name": "Crewe",
+    "image": "/assets/images/cities/crewe_city_background.png",
+    "url": "/items?city=Crewe"
+  }
+]
