@@ -33,7 +33,7 @@ export default async function AccountLayout({ children }) {
         <AccountSidebar user={user} />
         <div className="min-h-screen flex flex-column relative flex-auto">
           <AccountNavbar user={user} />
-          <div className="p-5 flex flex-column flex-auto">
+          <div className="flex flex-column flex-auto">
             {children}
           </div>
         </div>

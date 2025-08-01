@@ -80,8 +80,8 @@ export default function SwapPage() {
 
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl mb-4">My Swap Requests</h2>
+    <div>
+      <h2 className="text-xl m-4">My Swap Requests</h2>
       <SwapRequestsTable swaps={swaps}
         loading={loading}
         currentUser={currentUser}

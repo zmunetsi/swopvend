@@ -5,6 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
 import { CldImage } from 'next-cloudinary';
 import { renewItem, giveAwayItem, deleteItem, archiveItem } from '@/services/itemService';
@@ -12,8 +13,42 @@ import { useRouter } from 'next/navigation';
 
 const ItemListTable = ({ items }) => {
   const [globalFilter, setGlobalFilter] = React.useState('');
+  const [statusFilter, setStatusFilter] = React.useState(null);
+  const [categoryFilter, setCategoryFilter] = React.useState(null);
   const [loadingId, setLoadingId] = React.useState(null);
   const router = useRouter();
+
+  // Get unique categories for dropdown
+  const categoryOptions = [
+    ...new Set(items.map((item) => item.category).filter(Boolean)),
+  ].map((cat) => ({
+    label: cat,
+    value: cat,
+  }));
+
+  // Get unique statuses for dropdown
+  const statusOptions = [
+    ...new Set(items.map((item) => item.status).filter(Boolean)),
+  ].map((status) => ({
+    label: status,
+    value: status,
+  }));
+
+  // Filter items based on search and dropdowns
+  const filteredItems = items.filter((item) => {
+    const matchesSearch =
+      globalFilter === '' ||
+      (item.title && item.title.toLowerCase().includes(globalFilter.toLowerCase())) ||
+      (item.description && item.description.toLowerCase().includes(globalFilter.toLowerCase()));
+
+    const matchesStatus =
+      !statusFilter || item.status === statusFilter;
+
+    const matchesCategory =
+      !categoryFilter || item.category === categoryFilter;
+
+    return matchesSearch && matchesStatus && matchesCategory;
+  });
 
   const imageTemplate = (rowData) => {
     const publicId = rowData.featured_image_public_id || 'swopvend_placeholder_avatar';
@@ -193,27 +228,50 @@ const ItemListTable = ({ items }) => {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex justify-end mb-3">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            placeholder="Search..."
+    <div className="card max-w-screen">
+      <div className="grid grid-nogutter align-items-center m-4">
+        <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+          <span className="w-full">
+            <InputText
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              placeholder="Search items..."
+              className="w-full"
+              aria-label="Search items"
+            />
+          </span>
+        </div>
+        <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+          <Dropdown
+            value={statusFilter}
+            options={statusOptions}
+            onChange={(e) => setStatusFilter(e.value)}
+            placeholder="Filter by Status"
+            className="w-full"
+            showClear
+            aria-label="Filter by Status"
           />
-        </span>
+        </div>
+        <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+          <Dropdown
+            value={categoryFilter}
+            options={categoryOptions}
+            onChange={(e) => setCategoryFilter(e.value)}
+            placeholder="Filter by Category"
+            className="w-full"
+            showClear
+            aria-label="Filter by Category"
+          />
+        </div>
       </div>
-
       <DataTable
-        value={items}
+        value={filteredItems}
         paginator
         rows={5}
         stripedRows
-        globalFilter={globalFilter}
-        className="w-full"
+        className="m-4"
         emptyMessage="No items found."
-        responsiveLayout="scroll"
+        scrollable
       >
         <Column body={imageTemplate} header="Image" style={{ width: '100px' }} />
         <Column field="title" header="Title" sortable />

@@ -27,24 +27,12 @@ export default function MyItemsPage() {
   }, []);
 
   return (
-    <div className="p-4">
-      <div className="flex justify-content-between items-center mb-4">
+    <div>
+      <div className="flex justify-content-between items-center m-4">
         <h2 className="text-xl font-semibold">My Items</h2>
-        <Button label="Add Item" icon="pi pi-plus" onClick={() => router.push('/account/items/upload')} />
+        <Button className="swop-button-primary" size="small" label="Add Item" icon="pi pi-plus" onClick={() => router.push('/account/items/upload')} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {loading ? (
-          <div className="col-span-full text-center text-gray-400">Loading...</div>
-        ) : error ? (
-          <div className="col-span-full text-center text-red-500">{error}</div>
-        ) : items.length > 0 ? (
-          <ItemListTable items={items} />
-        ) : (
-          <div className="col-span-full text-center text-gray-500">
-            No items found. Start adding some!
-          </div>
-        )}
-      </div>
+      <ItemListTable items={items} />
     </div>
   );
 }

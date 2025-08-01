@@ -88,33 +88,39 @@ const SwapRequestsTable = ({ swaps, currentUser, onView, onApprove, onDecline })
   }, [globalFilter, statusFilter, typeFilter, swaps]);
 
   return (
-    <div className="card">
-      <div className="flex flex-wrap gap-3 justify-between mb-3">
-        <InputText
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search swaps..."
-          className="w-full md:w-4"
-        />
-        <Dropdown
-          value={statusFilter}
-          options={statusOptions}
-          onChange={(e) => setStatusFilter(e.value)}
-          placeholder="Filter by Status"
-          className="w-full md:w-2"
-        />
-        <Dropdown
-          value={typeFilter}
-          options={typeOptions}
-          onChange={(e) => setTypeFilter(e.value)}
-          placeholder="Filter by Type"
-          className="w-full md:w-2"
-        />
+    <div className="card max-w-screen">
+      <div className="grid grid-nogutter align-items-center m-4">
+        <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+          <InputText
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Search swaps..."
+            className="w-full"
+          />
+        </div>
+        <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+          <Dropdown
+            value={statusFilter}
+            options={statusOptions}
+            onChange={(e) => setStatusFilter(e.value)}
+            placeholder="Filter by Status"
+            className="w-full"
+          />
+        </div>
+        <div className="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+          <Dropdown
+            value={typeFilter}
+            options={typeOptions}
+            onChange={(e) => setTypeFilter(e.value)}
+            placeholder="Filter by Type"
+            className="w-full"
+          />
+        </div>
       </div>
-
-      <DataTable value={filteredSwaps} dataKey="id" paginator rows={10}   scrollable
-  responsiveLayout="scroll"
-  breakpoint="960px">
+      <DataTable value={filteredSwaps} dataKey="id" paginator rows={10}
+        scrollable
+        className='m-4'
+      >
         <Column header="Requested Item" body={(rowData) => rowData.requested_item?.title} />
         <Column header="Offered Item" body={(rowData) => rowData.offered_item?.title} />
         <Column header="Req. Image" body={(rowData) => ItemImageTemplate(rowData.requested_item)} />

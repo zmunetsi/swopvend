@@ -61,3 +61,7 @@
   --p-gray-400: var(--gray-400);
   --p-gray-500: var(--gray-500);
 }
+
+body{
+  margin: 0;
+}
