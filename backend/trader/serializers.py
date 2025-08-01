@@ -3,6 +3,8 @@ from .models import Trader
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from notification.serializers import NotificationSerializer
+from location.models import City, Country
+from location.serializers import CitySerializer, CountrySerializer
 
 class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
     """
@@ -31,6 +33,20 @@ class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
 class TraderSerializer(serializers.ModelSerializer):
     profile_image_public_id = serializers.SerializerMethodField()
     notifications = NotificationSerializer(many=True, read_only=True, source='notifications.all')
+    city = serializers.PrimaryKeyRelatedField(
+        queryset=City.objects.all(),
+        write_only=True,
+        required=False,
+        allow_null=True
+    )
+    city_detail = CitySerializer(source='city', read_only=True)
+    country = serializers.PrimaryKeyRelatedField(
+        queryset=Country.objects.all(),
+        write_only=True,
+        required=False,
+        allow_null=True
+    )
+    country_detail = CountrySerializer(source='country', read_only=True)
 
     class Meta:
         model = Trader
@@ -41,16 +57,25 @@ class TraderSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
             'phone',
-            'city',
-            'postcode',
-            'country',
             'profile_image',
             'profile_image_public_id',
+            'country',
+            'country_detail',
+            'city',
+            'city_detail',
             'is_email_verified',
             'date_signed_up',
-            'notifications',  # <-- add this
+            'notifications',
         ]
-        read_only_fields = ['id', 'is_email_verified', 'date_signed_up']
+        read_only_fields = [
+            'id',
+            'is_email_verified',
+            'date_signed_up',
+            'profile_image_public_id',
+            'country_detail',
+            'city_detail',
+            'notifications',
+        ]
 
     def get_profile_image_public_id(self, obj):
         # Ensure obj is a Trader instance and not AnonymousUser
