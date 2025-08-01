@@ -36,74 +36,74 @@ export default function AccountSidebar({ user }) {
         <div className="mt-3">
           <ul className="list-none p-3 m-0">
             <li>
-              <a
+              <Link
                 href="/"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-home mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Home</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/account/profile"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-user mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Profile</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/account/items"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-list mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">My Listings</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/account/swaps"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-refresh mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">My Swap Requests</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/items"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-th-large mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Browse Items</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/account/security"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-shield mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Security</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/support"
                 className="no-underline p-ripple flex flex-row lg:flex-column align-items-center justify-content-center cursor-pointer p-3 lg:justify-content-center hover:bg-gray-800 border-round text-white hover:text-white transition-duration-150 transition-colors w-full"
               >
                 <i className="pi pi-question mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-lg"></i>
                 <span className="font-medium inline text-base lg:text-xs lg:block text-center w-full">Support</span>
                 <Ripple />
-              </a>
+              </Link>
             </li>
             <li>
               <button
