@@ -289,19 +289,23 @@ console.log( item)
           <ul className="list-none p-0 m-0 border-top-1 surface-border">
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Location</div>
-              <div className="text-900 w-full md:w-8">{ item.location }</div>
+              <div className="text-900 w-full md:w-8">
+                {item.city_detail?.name && item.city_detail?.country?.name
+                  ? `${item.city_detail.name}, ${item.city_detail.country.name}`
+                  : item.location || "—"}
+              </div>
             </li>
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Preferred item to swap</div>
-              <div className="text-900 w-full md:w-8">{ item.preferred_item }</div>
+              <div className="text-900 w-full md:w-8">{item.preferred_item}</div>
             </li>
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Condition</div>
-              <div className="text-900 w-full md:w-8">{ item.condition }</div>
+              <div className="text-900 w-full md:w-8">{item.condition}</div>
             </li>
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Category</div>
-              <div className="text-900 w-full md:w-8">{ item.category }</div>
+              <div className="text-900 w-full md:w-8">{item.category}</div>
             </li>
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Posted date</div>
@@ -312,7 +316,11 @@ console.log( item)
           </ul>
 
           <Link
-            href={isOwner ? "/items" : `/account/swaps/propose/${item.id}?next=${encodeURIComponent(pathname)}`}
+            href={
+              isOwner
+                ? "/items"
+                : `/account/swaps/propose/${item.slug || item.id}?next=${encodeURIComponent(pathname)}`
+            }
             className="block"
             tabIndex={-1}
           >

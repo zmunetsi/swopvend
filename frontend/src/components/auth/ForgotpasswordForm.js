@@ -47,7 +47,7 @@ export default function ForgotpasswordForm() {
 
   return (
     <div className="surface-ground px-4 py-8 md:px-6 lg:px-8">
-      <div className="flex flex-wrap shadow-2">
+      <div className="flex align-items-center flex-wrap shadow-2">
         <div className="w-full lg:w-6 px-0 py-4 lg:p-7">
           <Link href="/" className="flex align-items-center mb-6">
             <img src="/assets/images/auth/swopvend_concept_logo_top_white_640x740.webp" alt="Image" className="w-full" />

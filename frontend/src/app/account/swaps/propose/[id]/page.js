@@ -35,7 +35,7 @@ export default function ProposeSwapPage() {
   if (!targetItem) return <p>Item hj not found</p>;
 
   return (
-    <div className="container">
+    <div className="container m-4">
       <h1 className="text-2xl font-bold mb-4">Propose a Swap</h1>
       <p className="mb-4">You are proposing a swap for: <strong>{targetItem.title}</strong></p>
       <SwapForm targetItem={targetItem} userItems={userItems} />

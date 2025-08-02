@@ -113,7 +113,7 @@ const ItemListTable = ({ items }) => {
   };
 
   const handleEdit = (item) => {
-    router.push(`/account/items/edit/${item.id}`);
+    router.push(`/account/items/edit/${item.slug || item.id}`);
   };
 
   const handleDelete = async (item) => {
@@ -146,7 +146,7 @@ const ItemListTable = ({ items }) => {
   };
 
   const handleView = (item) => {
-    router.push(`/items/${item.id}`);
+    router.push(`/items/${item.slug || item.id}`);
   };
 
   const actionTemplate = (rowData) => {

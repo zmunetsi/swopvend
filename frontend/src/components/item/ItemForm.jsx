@@ -11,6 +11,7 @@ import { Dialog } from 'primereact/dialog';
 import { uploadItem, updateItem, fetchItemDetail } from '@/services/itemService';
 import { proposeSwap } from '@/services/swapService';
 import ItemCard from '@/components/item/ItemCard';
+import DialogItemCard from '@/components/item/DialogItemCard';
 import categories from '@/data/categories.json';
 import conditions from '@/data/conditions.json';
 import { CldImage } from 'next-cloudinary';
@@ -52,8 +53,8 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
             description: data.description || '',
             category: data.category || '',
             condition: data.condition || '',
-            city: data.city_detail?.id || '',
-            country: data.city_detail?.country.id || '',
+            
+            
             featured_image: null,
             extra_images: [],
             featured_image_public_id: data.featured_image_public_id || '',
@@ -251,7 +252,7 @@ const ItemForm = ({ itemId, targetItemId, onClose }) => {
         {uploadedItem &&
           (<div>
             {/* Use ItemCard for preview */}
-            <ItemCard item={uploadedItem} />
+            <DialogItemCard item={uploadedItem} />
           </div>)}
       </Dialog>
     </>

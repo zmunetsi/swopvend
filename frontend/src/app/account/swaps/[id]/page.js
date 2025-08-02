@@ -62,8 +62,13 @@ export default function SwapDetailPage() {
   const { from_trader, to_trader, requested_item, offered_item, messages = [] } = swap;
   const otherTrader = from_trader.id === currentUser.id ? to_trader : from_trader;
 
-  return (
+  // Only show action buttons if swap is pending AND the current user is the owner of the requested item
+  const canRespond =
+    swap.status === 'pending' &&
+    currentUser &&
+    requested_item.trader?.id === currentUser.id;
 
+  return (
     <Card className="p-4 border-round-md shadow-2">
       <div className="text-2xl font-bold mb-3">Swap Request</div>
 
@@ -114,8 +119,9 @@ export default function SwapDetailPage() {
             height={300}
             crop="fit"
             className="object-cover border-round"
-            publicId={offered_item.featured_image_public_id}
-            alt={offered_item.title} />
+            src={offered_item.featured_image_public_id}
+            alt={offered_item.title}
+          />
         </div>
         <div className="col md:col-6">
           <div className="font-medium mb-2">Requested Item</div>
@@ -130,11 +136,20 @@ export default function SwapDetailPage() {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-content-between gap-3">
-        <Button label="Accept" className="w-full p-button-primary" onClick={() => handleStatusUpdate('accepted')} />
-        <Button label="Decline" className="w-full p-button-outlined" onClick={() => handleStatusUpdate('declined')} />
-      </div>
+      {canRespond && (
+        <div className="flex justify-content-between gap-3">
+          <Button
+            label="Accept"
+            className="w-full p-button-primary"
+            onClick={() => handleStatusUpdate('accepted')}
+          />
+          <Button
+            label="Decline"
+            className="w-full p-button-outlined"
+            onClick={() => handleStatusUpdate('declined')}
+          />
+        </div>
+      )}
     </Card>
-
   );
 }

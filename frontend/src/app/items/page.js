@@ -190,7 +190,11 @@ function ItemsPage() {
               <div className="col-span-full text-center text-gray-500 py-8">No items found.</div>
             ) : (
               filtered.map((item) => (
-                <ItemCard key={item.id} item={item} />
+                <ItemCard
+                  key={item.slug || item.id}
+                  item={item}
+                  onClick={() => router.push(`/items/${item.slug || item.id}`)}
+                />
               ))
             )}
           </div>

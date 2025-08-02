@@ -8,7 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
-export default function ItemCard({ item }) {
+export default function DialogItemCard({ item }) {
   const conditionColors = {
     New: 'bg-green-100 text-green-900',
     Used: 'bg-blue-100 text-blue-900',
@@ -19,7 +19,7 @@ export default function ItemCard({ item }) {
   const conditionClass = conditionColors[condition] || 'bg-gray-100 text-gray-800';
 
   return (
-    <div className="col-12 md:col-3 lg:col-2">
+    <div className="w-full">
       <Link
         href={`/items/${item.slug || item.id}`}
         className="block no-underline text-decoration-none"
