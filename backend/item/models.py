@@ -5,6 +5,8 @@ from cloudinary.models import CloudinaryField
 from datetime import timedelta
 from django.utils import timezone
 from location.models import Country, City
+from django.utils.text import slugify
+import uuid
 
 User = get_user_model()
 
@@ -55,8 +57,18 @@ class Item(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     expires_at = models.DateTimeField(null=True, blank=True)
     is_archived = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
+        # Generate slug if not set or if title changed
+        if not self.slug or slugify(self.title) not in self.slug:
+            base_slug = slugify(self.title)
+            unique_slug = base_slug
+            num = 1
+            while Item.objects.filter(slug=unique_slug).exclude(pk=self.pk).exists():
+                unique_slug = f"{base_slug}-{uuid.uuid4().hex[:6]}"
+                num += 1
+            self.slug = unique_slug
         # Set expires_at if not set
         if not self.expires_at:
             self.expires_at = (self.created_at or timezone.now()) + timedelta(days=1)

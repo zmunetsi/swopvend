@@ -9,6 +9,7 @@ from datetime import timedelta
 from django.utils import timezone
 from rest_framework.views import APIView
 from item_interest.tasks import notify_interested_users_item_archived
+from django.shortcuts import get_object_or_404
 
 class ItemImageViewSet(viewsets.ModelViewSet):
     queryset = ItemImage.objects.all()
@@ -23,12 +24,46 @@ class PublicItemListView(viewsets.ReadOnlyModelViewSet):
     serializer_class = ItemSerializer
     permission_classes = [permissions.AllowAny]
 
+    def get_object(self):
+        """
+        Allow lookup by slug or id for public detail.
+        """
+        lookup_value = self.kwargs.get(self.lookup_field or 'pk')
+        queryset = self.get_queryset()
+        # Try slug first
+        obj = queryset.filter(slug=lookup_value).first()
+        if obj:
+            return obj
+        # Fallback to id
+        obj = queryset.filter(pk=lookup_value).first()
+        if obj:
+            return obj
+        raise get_object_or_404(queryset, pk=lookup_value)
+
 class ItemViewSet(viewsets.ModelViewSet):
     """CRUD for items, with Cloudinary-backed image uploads."""
     queryset = Item.objects.all().select_related('trader')
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]  # handle multipart uploads
+
+    def get_object(self):
+        """
+        Allow lookup by slug or id for private detail.
+        """
+        lookup_value = self.kwargs.get(self.lookup_field or 'pk')
+        queryset = self.get_queryset()
+        # Try slug first
+        obj = queryset.filter(slug=lookup_value).first()
+        if obj:
+            self.check_object_permissions(self.request, obj)
+            return obj
+        # Fallback to id
+        obj = queryset.filter(pk=lookup_value).first()
+        if obj:
+            self.check_object_permissions(self.request, obj)
+            return obj
+        raise get_object_or_404(queryset, pk=lookup_value)
 
     def perform_create(self, serializer):
         # Associate the item with the logged-in user
@@ -45,12 +80,10 @@ class ItemViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(items, many=True)
         return Response(serializer.data)
 
-    # Optional: detail route for retrieving a single item by ID with public access
-
     @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny], url_path='public')
     def retrieve_public(self, request, pk=None):
-        """Retrieve single item by ID (public).
-        Example URL: /api/items/{pk}/public/"""
+        """Retrieve single item by slug or ID (public).
+        Example URL: /api/items/{slug-or-id}/public/"""
         item = self.get_object()
         serializer = self.get_serializer(item)
         return Response(serializer.data)
@@ -61,7 +94,6 @@ class ItemViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         if item.trader != request.user:
             return Response({'detail': 'Not allowed.'}, status=status.HTTP_403_FORBIDDEN)
-        # Check for both is_archived and status
         if not (item.is_archived or item.status == 'archived'):
             return Response({'detail': 'Item is not archived.'}, status=status.HTTP_400_BAD_REQUEST)
         item.expires_at = timezone.now() + timedelta(days=30)
