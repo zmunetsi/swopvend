@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import HomeListings from '@/components/HomeListings';
 import cities from '@/data/cities.json';
 import Link from 'next/link';
+import FooterCTA from '@/components/FooterCTA';
 
 export default function HomePage() {
   const router = useRouter();
@@ -115,7 +116,7 @@ export default function HomePage() {
         </div>
         <HomeListings />
       </section>
-      <section style={{ background: 'url("assets/images/home/testimonials-4.png") no-repeat', backgroundSize: 'cover' }} className="p-3 md:py-6 md:px-6 lg:px-8">
+      <section className="p-3 md:py-6 md:px-6 lg:px-8">
         <div className="flex flex-column lg:flex-row">
           <div className="flex-1 pr-0 lg:pr-6 pb-6 lg:pb-0 px-1">
             <h2 className="mb-2 text-2xl font-bold">Join the swapping community.</h2>
@@ -155,6 +156,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <section >
+        <FooterCTA />
+      </section>
+      
     </LayoutWithNav>
   );
 }

@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Head from "next/head";
 import LayoutWithNav from "@/components/layoutWithNav";
-import { useState } from "react";
+import FooterCTA from "@/components/FooterCTA";
 
 const faqs = [
   {
@@ -49,7 +50,7 @@ export default function FAQPage() {
         <meta name="description" content="Frequently asked questions about SwopVend. Learn how swapping works, safety tips, and more." />
       </Head>
       <div className="flex flex-column gap-6 px-4 py-6 lg:px-8 max-w-3xl mx-auto">
-        <section className="mb-8">
+        <section className="mb-4">
           <h1 className="text-4xl font-bold mb-3">Frequently Asked Questions</h1>
           <p className="text-lg text-gray-700 mb-6">
             Find answers to the most common questions about SwopVend. If you cant find what you are looking for, please <a href="/contact-us" className="text-primary underline">contact us</a>.
@@ -79,6 +80,9 @@ export default function FAQPage() {
           </div>
         </section>
       </div>
+      <section >
+        <FooterCTA />
+      </section>
     </LayoutWithNav>
   );
 }

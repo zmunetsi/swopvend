@@ -50,11 +50,29 @@ export default function SignupForm() {
 
   const validate = () => {
     const missing = [];
+    const errors = {};
+
     if (!form.username) missing.push('username');
-    if (!form.email) missing.push('email');
-    if (!form.password) missing.push('password');
-    if (!form.confirm_password) missing.push('confirm_password');
-    return missing;
+    if (!form.email) {
+      missing.push('email');
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errors.email = 'Invalid email address';
+    }
+
+    if (!form.password) {
+      missing.push('password');
+      errors.password = 'Password is required';
+    } else if (form.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+
+    if (!form.confirm_password) {
+      missing.push('confirm_password');
+      errors.confirm_password = 'Please confirm your password';
+    }
+
+    return { missing, errors };
   };
 
   const handleSubmit = async (e) => {
@@ -62,8 +80,8 @@ export default function SignupForm() {
     setError('');
     setMessage('');
 
-    const missing = validate();
-    if (missing.length > 0) {
+    const { missing, errors } = validate();
+    if (missing.length > 0 || Object.keys(errors).length > 0) {
       setTouched((t) => ({
         ...t,
         username: true,
@@ -71,7 +89,12 @@ export default function SignupForm() {
         password: true,
         confirm_password: true,
       }));
-      setError('Please fill in all required fields.');
+      setError(
+        errors.email ||
+        errors.password ||
+        errors.confirm_password ||
+        'Please fill in all required fields.'
+      );
       return;
     }
 
@@ -92,6 +115,8 @@ export default function SignupForm() {
         window.location.href = next;
       }
     } catch (err) {
+      console.log(err)
+
       setError(
         err?.response?.data?.confirm_password ||
         err?.response?.data?.detail ||

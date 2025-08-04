@@ -14,7 +14,7 @@ export default function AccountNavbar({ form, handleChange, user, onLogout }) {
   const btnRef23 = useRef(null);
   const menuRef = useRef(null);
 
-  const profileImage = user?.profile_image_public_id || 'swopvend_placeholder_avatar';
+  const profileImage = user?.profile_image_public_id || 'swopvend_placeholder_avatar_ntjphs';
 
   const menuItems = [
     {

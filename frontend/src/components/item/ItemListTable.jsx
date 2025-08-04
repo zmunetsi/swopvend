@@ -113,7 +113,8 @@ const ItemListTable = ({ items }) => {
   };
 
   const handleEdit = (item) => {
-    router.push(`/account/items/edit/${item.slug || item.id}`);
+    // Use the new upload page with ?edit=ITEM_ID for editing
+    router.push(`/account/items/upload?edit=${item.id}`);
   };
 
   const handleDelete = async (item) => {

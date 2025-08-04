@@ -176,7 +176,7 @@ export default function ProfilePage() {
     }
   };
 
-  const profileImagePublicId = user?.profile_image_public_id || 'swopvend_placeholder_avatar';
+  const profileImagePublicId = user?.profile_image_public_id || 'swopvend_placeholder_avatar_ntjphs';
 
   if (!user || (!user.id && !user.username)) {
     return <div className="text-center p-8">Loading profile…</div>;

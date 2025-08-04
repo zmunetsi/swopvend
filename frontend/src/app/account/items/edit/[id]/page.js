@@ -15,7 +15,6 @@ export default function ItemEditPage() {
       <div className="flex flex-column flex-auto">
         <div>
           <div className="text-900 font-medium text-xl mb-3">Edit Item</div>
-          <UserGreeting user={user} />
           <ItemForm itemId={id} />
         </div>
       </div>

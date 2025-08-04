@@ -24,7 +24,7 @@ export default function AccountSidebar({ user }) {
     window.location.href = `/login?next=${encodeURIComponent(currentPath)}`;
   };
 
-  const profileImage = user?.profile_image_public_id || 'swopvend_placeholder_avatar';
+  const profileImage = user?.profile_image_public_id || 'swopvend_placeholder_avatar_ntjphs';
   const displayName = user?.first_name || user?.username || 'User';
 
   return (
