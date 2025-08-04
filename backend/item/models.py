@@ -24,33 +24,34 @@ class Item(models.Model):
         on_delete=models.CASCADE,
         related_name='items'
     )
-    title = models.CharField(max_length=255, default='Untitled Item')
+    title = models.CharField(max_length=255, blank=False, null=False)  # <-- Required
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
         default='available'
     )
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     featured_image = CloudinaryField(
         'image',
         folder='swopvend/items',
-        blank=True, null=True
+        blank=False,  # <-- Required
+        null=False    # <-- Required
     )
-    category = models.CharField(max_length=100, default='General')
-    condition = models.CharField(max_length=50, default='Good')
+    category = models.CharField(max_length=100, default='General', blank=False, null=False)  # <-- Required
+    condition = models.CharField(max_length=50, default='Good', blank=False, null=False)     # <-- Required
     preferred_item = models.CharField(max_length=100, blank=True, null=True)
     country = models.ForeignKey(
         Country,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
         related_name='items'
     )
     city = models.ForeignKey(
         City,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
         related_name='items'
     )
     created_at = models.DateTimeField(auto_now_add=True)
