@@ -263,3 +263,6 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=0, minute=0),  # every day at midnight
     },
 }
+
+# Add ReCAPTCHA secret key from environment variables
+RECAPTCHA_SECRET_KEY = env("RECAPTCHA_SECRET_KEY", default="")
