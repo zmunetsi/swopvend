@@ -9,6 +9,15 @@ import { CldImage } from 'next-cloudinary';
 import Link from "next/link";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+} from "react-share";
+
 dayjs.extend(relativeTime);
 
 const conditionStyles = {
@@ -57,9 +66,13 @@ export default function ItemDetail({ item, showSwapButton = true, currentUserId 
   } else if (item.status === 'swapped') {
     statusMessage = 'This item has already been swapped.';
   }
-console.log( item)
+
   // Prevent owner from making a swap
   const isOwner = currentUserId && item.trader.id === currentUserId;
+
+  // Social share URL and message
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/items/${item.slug || item.id}`;
+  const shareMessage = `Check out this item on SwopVend: ${item.title}`;
 
   return (
     <div className="surface-section">
@@ -286,6 +299,20 @@ console.log( item)
             } />
             <span className="ml-3 text-700">{statusMessage}</span>
           </div>
+
+          {/* Social Share Buttons */}
+          <div className="flex align-items-center gap-3 mb-4">
+            <FacebookShareButton url={shareUrl} quote={shareMessage}>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+            <TwitterShareButton url={shareUrl} title={shareMessage}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+            <WhatsappShareButton url={shareUrl} title={shareMessage}>
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+          </div>
+
           <ul className="list-none p-0 m-0 border-top-1 surface-border">
             <li className="flex align-items-center py-3 px-2 flex-wrap surface-ground">
               <div className="text-500 w-full md:w-4 font-medium">Location</div>
